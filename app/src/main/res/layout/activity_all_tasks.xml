@@ -23,17 +23,13 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="320dp"
-        android:layout_height="420dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="52dp"
+        android:layout_width="305dp"
+        android:layout_height="275dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32999998"
         app:srcCompat="@drawable/notepad"
         tools:srcCompat="@drawable/notepad" />
 </androidx.constraintlayout.widget.ConstraintLayout>

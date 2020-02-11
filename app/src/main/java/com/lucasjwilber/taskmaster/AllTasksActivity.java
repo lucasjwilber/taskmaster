@@ -1,4 +1,4 @@
-package com.example.taskmaster;
+package com.lucasjwilber.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
 
