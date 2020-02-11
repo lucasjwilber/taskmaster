@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Toast;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -15,19 +18,14 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
     }
-    //thanks to https://developer.android.com/training/animation/reveal-or-hide-view
+    //thanks to https://developer.android.com/guide/topics/ui/notifiers/toasts
     public void addTaskButtonClicked(View v) {
-        final View submitMessage = findViewById(R.id.submitMessage);
-        submitMessage.setVisibility(View.VISIBLE);
-        submitMessage.animate()
-                .alpha(0.0f)
-                .setDuration(1000)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        submitMessage.setVisibility(View.INVISIBLE);
-                        submitMessage.setAlpha(1.0f);
-                    }
-                });
+        Context context = getApplicationContext();
+        CharSequence text = "Submitted!";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.setGravity(Gravity.CENTER, 0, -150);
+        toast.show();
     }
+
 }
