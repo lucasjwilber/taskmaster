@@ -21,4 +21,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToAllTasksActivity(View v) {
+        Intent intent = new Intent(this, AllTasksActivity.class);
+        startActivity(intent);
+    }
+
 }
