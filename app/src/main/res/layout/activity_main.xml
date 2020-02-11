@@ -28,10 +28,11 @@
         android:contentDescription="stock planning image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher_round"
-        tools:srcCompat="@tools:sample/backgrounds/scenic[3]" />
+        app:srcCompat="@drawable/notepad"
+        tools:srcCompat="@drawable/notepad" />
 
     <Button
         android:id="@+id/button_addTask"
