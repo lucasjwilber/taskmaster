@@ -1,4 +1,4 @@
-package com.example.taskmaster;
+package com.lucasjwilber.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,7 +24,7 @@ public class AddTaskActivity extends AppCompatActivity {
         CharSequence text = "Submitted!";
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, text, duration);
-        toast.setGravity(Gravity.CENTER, 0, -150);
+        toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
 
