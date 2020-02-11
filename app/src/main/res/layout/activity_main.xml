@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFDFC1"
     tools:context=".MainActivity">
 
     <TextView
@@ -11,11 +12,13 @@
         android:layout_height="0dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="40dp"
-        android:text="My Tasks"
+        android:text="@string/my_tasks"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#844000"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="My Tasks" />
+        tools:text="@string/my_tasks" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -36,9 +39,10 @@
         android:layout_height="60dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="50dp"
-        android:backgroundTint="#FF9800"
+        android:backgroundTint="#844000"
         android:onClick="goToAddTasksActivity"
-        android:text="Add Task"
+        android:text="@string/add_task"
+        android:textColor="#FFDFC1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
         tools:text="Add Task" />
@@ -49,13 +53,14 @@
         android:layout_height="60dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="52dp"
-        android:backgroundTint="#FF9800"
+        android:backgroundTint="#844000"
         android:onClick="goToAllTasksActivity"
-        android:text="All Tasks"
+        android:text="@string/all_tasks"
+        android:textColor="#FFDFC1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
         app:layout_constraintVertical_bias="0.017"
-        tools:text="All Tasks" />
+        tools:text="@string/all_tasks" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

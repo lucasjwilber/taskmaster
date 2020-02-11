@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFDFC1"
     tools:context=".AddTaskActivity">
 
     <TextView
@@ -12,11 +13,13 @@
         android:layout_height="41dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="40dp"
-        android:text="Add Task"
+        android:text="@string/add_task"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#844000"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Add Task" />
+        tools:text="@string/add_task" />
 
     <EditText
         android:id="@+id/editText"
@@ -40,7 +43,6 @@
         android:layout_marginBottom="308dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
@@ -52,11 +54,13 @@
         android:layout_height="50dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="45dp"
-        android:backgroundTint="#FF9800"
+        android:backgroundTint="#844000"
         android:onClick="addTaskButtonClicked"
-        android:text="Add Task"
+        android:text="@string/add_task"
+        android:textColor="#FFDFC1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        tools:text="@string/add_task" />
 
     <TextView
         android:id="@+id/textView2"
@@ -100,20 +104,4 @@
         app:layout_constraintTop_toBottomOf="@+id/button_submitTask"
         tools:text="0" />
 
-    <TextView
-        android:id="@+id/submitMessage"
-        android:layout_width="220dp"
-        android:layout_height="70dp"
-        android:background="#FF5722"
-        android:backgroundTint="#FF5722"
-        android:text="Submitted!"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35"
-        tools:text="Submitted!" />
 </androidx.constraintlayout.widget.ConstraintLayout>

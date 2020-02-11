@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFDFC1"
     tools:context=".AllTasksActivity">
 
     <TextView
@@ -12,11 +13,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:layout_marginTop="40dp"
-        android:text="All Tasks"
+        android:text="@string/all_tasks"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#844000"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="All Tasks" />
+        tools:text="@string/all_tasks" />
 
     <ImageView
         android:id="@+id/imageView"
