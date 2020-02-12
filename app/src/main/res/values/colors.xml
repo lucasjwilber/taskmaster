@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--    coffee colors (from lightest to darkest):-->
-<!--    #FFDFC1-->
-<!--    #FBB675-->
-<!--    #DB893A-->
-<!--    #B36112-->
-<!--    #844000-->
-
 <resources>
     <color name="colorPrimary">#DB893A</color>
     <color name="colorPrimaryDark">#844000</color>
     <color name="colorAccent">#D8831B</color>
+
+<!--    coffee palette-->
+    <color name="coffeeLightest">#FFDFC1</color>
+    <color name="coffeeLight">#FBB675</color>
+    <color name="coffeeMedium">#DB893A</color>
+    <color name="coffeeDark">#B36112</color>
+    <color name="coffeeDarkest">#844000</color>
 </resources>

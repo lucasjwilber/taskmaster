@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFDFC1"
+    android:background="@color/coffeeLightest"
     tools:context=".AddTaskActivity">
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_marginTop="40dp"
         android:text="@string/add_task"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="#844000"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
