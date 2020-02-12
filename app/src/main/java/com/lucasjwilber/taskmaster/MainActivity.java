@@ -57,4 +57,21 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToTaskDetailsActivity(View v) {
+        Intent intent = new Intent(this, TaskDetailsActivity.class);
+
+        switch (v.getId()) {
+            case R.id.task1button:
+                intent.putExtra("taskName", "Shopping");
+                break;
+            case R.id.task2button:
+                intent.putExtra("taskName", "Cleaning");
+                break;
+            case R.id.task3button:
+                intent.putExtra("taskName", "Studying");
+                break;
+        }
+        startActivity(intent);
+    }
+
 }
