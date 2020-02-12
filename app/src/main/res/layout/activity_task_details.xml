@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/coffeeLightest"
+    tools:context=".TaskDetailsActivity">
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/task_details"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/task_details" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="265dp"
+        android:layout_height="234dp"
+        android:text="lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

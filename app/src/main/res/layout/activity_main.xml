@@ -2,16 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settingsGear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/coffeeLightest"
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/titleMain"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="52dp"
+        android:layout_marginStart="102dp"
         android:layout_marginTop="20dp"
         android:text="@string/my_tasks"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -22,16 +23,14 @@
         tools:text="@string/my_tasks" />
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="305dp"
-        android:layout_height="275dp"
+        android:id="@+id/logoMain"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:background="#00FF0000"
-        android:contentDescription="stock planning image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/titleMain"
+        app:layout_constraintEnd_toStartOf="@+id/titleMain"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.32999998"
+        app:layout_constraintTop_toTopOf="@+id/titleMain"
         app:srcCompat="@drawable/notepad"
         tools:srcCompat="@drawable/notepad" />
 
@@ -66,5 +65,53 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.8"
         tools:text="@string/all_tasks" />
+
+    <ImageView
+        android:id="@+id/settingsgear"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="30dp"
+        android:onClick="goToSettingsActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/titleMain"
+        app:srcCompat="@drawable/settingsgear" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:text="@string/faketask1"
+        android:textColor="@color/coffeeLightest"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:text="@string/faketask2"
+        android:textColor="@color/coffeeLightest"
+        app:layout_constraintEnd_toEndOf="@+id/button"
+        app:layout_constraintStart_toStartOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:text="Button"
+        android:textColor="@color/coffeeLightest"
+        app:layout_constraintEnd_toEndOf="@+id/button2"
+        app:layout_constraintStart_toStartOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/button2"
+        tools:text="@string/faketask3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
