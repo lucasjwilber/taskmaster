@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addTaskActBg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/coffeeLightest"
     tools:context=".AddTaskActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/addTaskActTitle"
         android:layout_width="115dp"
         android:layout_height="41dp"
         android:layout_marginStart="52dp"
@@ -22,13 +23,13 @@
         tools:text="@string/add_task" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/addTask_taskNameInput"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_marginBottom="30dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/editText2"
+        app:layout_constraintBottom_toTopOf="@+id/addTask_taskDescInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +37,7 @@
         app:layout_constraintVertical_bias="0.801" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/addTask_taskDescInput"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:ems="10"
@@ -48,7 +49,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_submitTask"
+        android:id="@+id/submitTaskButton"
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:layout_marginTop="25dp"
@@ -58,11 +59,11 @@
         android:textColor="@color/coffeeLightest"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        app:layout_constraintTop_toBottomOf="@+id/addTask_taskDescInput"
         tools:text="@string/add_task" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/addTaskAct_totalLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
@@ -70,34 +71,34 @@
         android:text="Total tasks: "
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_submitTask"
+        app:layout_constraintTop_toBottomOf="@+id/submitTaskButton"
         tools:text="Total tasks: " />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/addTask_taskNameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Task Title"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
-        app:layout_constraintStart_toStartOf="@+id/editText"
+        app:layout_constraintBottom_toTopOf="@+id/addTask_taskNameInput"
+        app:layout_constraintStart_toStartOf="@+id/addTask_taskNameInput"
         tools:text="Task Title" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/addTask_taskDescLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Task Description"
-        app:layout_constraintBottom_toTopOf="@+id/editText2"
-        app:layout_constraintStart_toStartOf="@+id/editText2"
+        app:layout_constraintBottom_toTopOf="@+id/addTask_taskDescInput"
+        app:layout_constraintStart_toStartOf="@+id/addTask_taskDescInput"
         tools:text="Task Description" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/addTaskAct_totalCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="@+id/textView2"
+        app:layout_constraintStart_toEndOf="@+id/addTaskAct_totalLabel"
+        app:layout_constraintTop_toTopOf="@+id/addTaskAct_totalLabel"
         tools:text="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

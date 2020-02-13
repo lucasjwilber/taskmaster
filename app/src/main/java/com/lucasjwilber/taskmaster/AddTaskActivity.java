@@ -1,15 +1,23 @@
 package com.lucasjwilber.taskmaster;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +28,52 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setContentView(R.layout.activity_add_task);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String theme = prefs.getString("theme", "Cafe");
+        applyTheme(theme);
+    }
+
+    public void applyTheme(String theme) {
+        TextView title = findViewById(R.id.addTaskActTitle);
+        View background = findViewById(R.id.addTaskActBg);
+        TextView nameLabel = findViewById(R.id.addTask_taskNameLabel);
+        TextView nameInput = findViewById(R.id.addTask_taskNameInput);
+        TextView descLabel = findViewById(R.id.addTask_taskDescLabel);
+        TextView descInput = findViewById(R.id.addTask_taskDescInput);
+        Button taskSubmitBtn = findViewById(R.id.submitTaskButton);
+        Window window = getWindow();
+        ActionBar actionBar = getSupportActionBar();
+
+        switch (theme) {
+            case "City":
+                int lightGreen = getResources().getColor(R.color.cityLightGreen);
+                int darkGreen = getResources().getColor(R.color.cityDarkGreen);
+                int lightGray = getResources().getColor(R.color.cityLightGray);
+                int mediumGray = getResources().getColor(R.color.cityMediumGray);
+                int darkGray = getResources().getColor(R.color.cityDarkGray);
+
+                title.setTextColor(darkGray);
+                background.setBackgroundColor(lightGray);
+                nameLabel.setTextColor(darkGray);
+                descLabel.setTextColor(darkGray);
+                taskSubmitBtn.setBackgroundTintList(ColorStateList.valueOf(darkGreen));
+                taskSubmitBtn.setTextColor(lightGray);
+                window.setStatusBarColor(darkGray);
+                if (actionBar != null) {
+                    actionBar.setBackgroundDrawable(new ColorDrawable(mediumGray));
+                }
+                break;
+            case "Cafe":
+//                everything's already hardcoded for this theme!
+                break;
+        }
+    }
+
     //thanks to https://developer.android.com/guide/topics/ui/notifiers/toasts
     public void addTaskButtonClicked(View v) {
         Context context = getApplicationContext();
