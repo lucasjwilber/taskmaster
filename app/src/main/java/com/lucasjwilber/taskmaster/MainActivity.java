@@ -2,6 +2,8 @@ package com.lucasjwilber.taskmaster;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,12 +17,32 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+
+    public RecyclerView recyclerView;
+    public RecyclerView.Adapter rvAdapter;
+    public RecyclerView.LayoutManager rvLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        recyclerView = findViewById(R.id.tasksRecyclerView);
+        //layout manager
+        rvLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(rvLayoutManager);
+
+        List<Task> allTasks = new ArrayList<>();
+        allTasks.add(new Task("go shopping", "buy food"));
+        allTasks.add(new Task("cook food", "curry again?"));
+
+        //adapter
+        rvAdapter = new RecyclerViewAdapter(allTasks);
+        recyclerView.setAdapter(rvAdapter);
     }
 
     @Override
