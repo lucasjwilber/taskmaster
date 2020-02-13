@@ -1,12 +1,18 @@
 package com.lucasjwilber.taskmaster;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,23 +21,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//
-//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        String username = sharedPref.getString("username", "My ");
-//        TextView titleView = findViewById(R.id.titleMain);
-//        String titleText = username + "Tasksss";
-//        titleView.setText(titleText);
     }
 
     @Override
     public void onResume(){
         super.onResume();
         setContentView(R.layout.activity_main);
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         String username = prefs.getString("username", "My ");
-        TextView titleView = findViewById(R.id.titleMain);
+        applyUsername(username);
+
+        String theme = prefs.getString("theme", "Cafe");
+        applyTheme(theme);
+    }
+
+    public void applyUsername(String username) {
+        TextView titleView = findViewById(R.id.mainActTitle);
 
         String titleText;
         if (username.lastIndexOf("s") == username.length() - 1) {
@@ -40,6 +46,53 @@ public class MainActivity extends AppCompatActivity {
             titleText = username + "'s Tasks";
         }
         titleView.setText(titleText);
+    }
+
+    public void applyTheme(String theme) {
+        ImageView logo = findViewById(R.id.mainActLogo);
+        TextView title = findViewById(R.id.mainActTitle);
+        ImageView settingsImage = findViewById(R.id.settingsgear);
+        View background = findViewById(R.id.mainActBG);
+        Button task1button = findViewById(R.id.task1button);
+        Button task2button = findViewById(R.id.task2button);
+        Button task3button = findViewById(R.id.task3button);
+        Button addTask = findViewById(R.id.button_addTask);
+        Button allTasks = findViewById(R.id.button_allTasks);
+        Window window = getWindow();
+        ActionBar actionBar = getSupportActionBar();
+
+        switch (theme) {
+            case "City":
+                int lightGreen = getResources().getColor(R.color.cityLightGreen);
+                int darkGreen = getResources().getColor(R.color.cityDarkGreen);
+                int lightGray = getResources().getColor(R.color.cityLightGray);
+                int mediumGray = getResources().getColor(R.color.cityMediumGray);
+                int darkGray = getResources().getColor(R.color.cityDarkGray);
+
+                logo.setImageResource(R.drawable.notepadlogocity);
+                title.setTextColor(darkGray);
+                settingsImage.setImageResource(R.drawable.settingsgearcity);
+                background.setBackgroundColor(lightGray);
+                task1button.setTextColor(darkGreen);
+                task2button.setTextColor(darkGreen);
+                task3button.setTextColor(darkGreen);
+                task1button.setBackgroundTintList(ColorStateList.valueOf(mediumGray));
+                task2button.setBackgroundTintList(ColorStateList.valueOf(mediumGray));
+                task3button.setBackgroundTintList(ColorStateList.valueOf(mediumGray));
+                addTask.setTextColor(lightGreen);
+                allTasks.setTextColor(lightGreen);
+                addTask.setBackgroundTintList(ColorStateList.valueOf(darkGray));
+                allTasks.setBackgroundTintList(ColorStateList.valueOf(darkGray));
+                window.setStatusBarColor(darkGray);
+                if (actionBar != null) {
+                    actionBar.setBackgroundDrawable(new ColorDrawable(mediumGray));
+                }
+
+                break;
+            case "Cafe":
+//                everything's already hardcoded for this theme!
+                break;
+        }
     }
 
     public void goToAddTasksActivity(View v) {
