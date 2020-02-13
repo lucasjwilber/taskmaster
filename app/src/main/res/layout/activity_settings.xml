@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settingsActBg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/coffeeLightest"
     tools:context=".SettingsActivity">
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/usernameInputLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/username"
@@ -18,7 +19,7 @@
         tools:text="@string/username" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/settingsActTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
@@ -47,12 +48,54 @@
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="48dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:onClick="saveSettingsClicked"
         android:text="@string/save"
         android:textColor="@color/coffeeLightest"
         app:layout_constraintStart_toStartOf="@+id/usernameInput"
-        app:layout_constraintTop_toBottomOf="@+id/usernameInput"
+        app:layout_constraintTop_toBottomOf="@+id/colorThemeRadioGroup"
         tools:text="@string/save" />
+
+    <RadioGroup
+        android:id="@+id/colorThemeRadioGroup"
+        android:layout_width="63dp"
+        android:layout_height="112dp"
+        android:layout_marginTop="56dp"
+        android:checkedButton="@+id/radioButtonCafe"
+        app:layout_constraintStart_toStartOf="@+id/usernameInput"
+        app:layout_constraintTop_toBottomOf="@+id/usernameInput">
+
+        <RadioButton
+            android:id="@+id/radioButtonCafe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/cafe"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="@+id/usernameInput"
+            app:layout_constraintTop_toTopOf="@+id/colorThemeRadioGroup" />
+
+        <RadioButton
+            android:id="@+id/radioButtonCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/city"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorLink="@color/colorAccent"
+            app:layout_constraintStart_toEndOf="@+id/radioButtonCafe"
+            app:layout_constraintTop_toTopOf="@+id/colorThemeRadioGroup" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/themeRadioGroupTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/theme"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/colorThemeRadioGroup"
+        app:layout_constraintStart_toStartOf="@+id/colorThemeRadioGroup" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

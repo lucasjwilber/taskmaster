@@ -2,14 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/settingsGear"
+    android:id="@+id/mainActBG"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/coffeeLightest"
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/titleMain"
+        android:id="@+id/mainActTitle"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="102dp"
@@ -23,14 +23,14 @@
         tools:text="@string/my_tasks" />
 
     <ImageView
-        android:id="@+id/logoMain"
+        android:id="@+id/mainActLogo"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="#00FF0000"
-        app:layout_constraintBottom_toBottomOf="@+id/titleMain"
-        app:layout_constraintEnd_toStartOf="@+id/titleMain"
+        app:layout_constraintBottom_toBottomOf="@+id/mainActTitle"
+        app:layout_constraintEnd_toStartOf="@+id/mainActTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/titleMain"
+        app:layout_constraintTop_toTopOf="@+id/mainActTitle"
         app:srcCompat="@drawable/notepad"
         tools:srcCompat="@drawable/notepad" />
 
@@ -73,7 +73,7 @@
         android:layout_marginEnd="30dp"
         android:onClick="goToSettingsActivity"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/titleMain"
+        app:layout_constraintTop_toTopOf="@+id/mainActTitle"
         app:srcCompat="@drawable/settingsgear" />
 
     <Button
