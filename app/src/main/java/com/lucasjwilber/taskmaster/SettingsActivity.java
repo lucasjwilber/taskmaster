@@ -31,7 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        setContentView(R.layout.activity_settings);
+//        setContentView(R.layout.activity_settings);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String username = prefs.getString("username", "");
         TextView usernameInput = findViewById(R.id.usernameInput);

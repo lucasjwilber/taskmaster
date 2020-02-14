@@ -76,45 +76,45 @@
         app:layout_constraintTop_toTopOf="@+id/mainActTitle"
         app:srcCompat="@drawable/settingsgear" />
 
-    <Button
-        android:id="@+id/task1button"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
-        android:onClick="goToTaskDetailsActivity"
-        android:text="@string/faketask1"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.554"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.55" />
+<!--    <Button-->
+<!--        android:id="@+id/task1button"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:backgroundTint="@color/colorPrimary"-->
+<!--        android:onClick="goToTaskDetailsActivity"-->
+<!--        android:text="@string/faketask1"-->
+<!--        android:textColor="@color/colorPrimaryDark"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.554"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.55" />-->
 
-    <Button
-        android:id="@+id/task2button"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
-        android:onClick="goToTaskDetailsActivity"
-        android:text="@string/faketask2"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="@+id/task1button"
-        app:layout_constraintStart_toStartOf="@+id/task1button"
-        app:layout_constraintTop_toBottomOf="@+id/task1button" />
+<!--    <Button-->
+<!--        android:id="@+id/task2button"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:backgroundTint="@color/colorPrimary"-->
+<!--        android:onClick="goToTaskDetailsActivity"-->
+<!--        android:text="@string/faketask2"-->
+<!--        android:textColor="@color/colorPrimaryDark"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/task1button"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/task1button"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/task1button" />-->
 
-    <Button
-        android:id="@+id/task3button"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
-        android:onClick="goToTaskDetailsActivity"
-        android:text="@string/faketask3"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="@+id/task2button"
-        app:layout_constraintStart_toStartOf="@+id/task2button"
-        app:layout_constraintTop_toBottomOf="@+id/task2button"
-        tools:text="@string/faketask3" />
+<!--    <Button-->
+<!--        android:id="@+id/task3button"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:backgroundTint="@color/colorPrimary"-->
+<!--        android:onClick="goToTaskDetailsActivity"-->
+<!--        android:text="@string/faketask3"-->
+<!--        android:textColor="@color/colorPrimaryDark"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/task2button"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/task2button"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/task2button"-->
+<!--        tools:text="@string/faketask3" />-->
 
     <fragment
         android:id="@+id/taskFragment1"

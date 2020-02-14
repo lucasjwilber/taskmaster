@@ -1,6 +1,7 @@
 package com.lucasjwilber.taskmaster;
 
 public class Task {
+
     public String title;
     public String body;
     public String state = "new";
@@ -9,7 +10,6 @@ public class Task {
         this.title = title;
         this.body = body;
     }
-
 
 
     public String getTitle() {
