@@ -74,33 +74,8 @@ public class TaskFragment extends Fragment {
             List<Task> allTasks = new ArrayList<>();
 
                 allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy stuff"));
+                allTasks.add(new Task("Shopping", "buy this stuff"));
+                allTasks.add(new Task("Shopping", "buy that stuff"));
 
             recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(allTasks, mListener));
 
