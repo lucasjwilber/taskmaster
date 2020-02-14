@@ -2,6 +2,7 @@ package com.lucasjwilber.taskmaster;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,16 +18,20 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    public RecyclerView recyclerView;
+    public RecyclerView.Adapter rvAdapter;
+    public RecyclerView.LayoutManager rvLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        setContentView(R.layout.activity_main);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         String username = prefs.getString("username", "My ");
@@ -53,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
         TextView title = findViewById(R.id.mainActTitle);
         ImageView settingsImage = findViewById(R.id.settingsgear);
         View background = findViewById(R.id.mainActBG);
-        Button task1button = findViewById(R.id.task1button);
-        Button task2button = findViewById(R.id.task2button);
-        Button task3button = findViewById(R.id.task3button);
+//        Button task1button = findViewById(R.id.task1button);
+//        Button task2button = findViewById(R.id.task2button);
+//        Button task3button = findViewById(R.id.task3button);
         Button addTask = findViewById(R.id.button_addTask);
         Button allTasks = findViewById(R.id.button_allTasks);
         Window window = getWindow();
@@ -73,12 +78,12 @@ public class MainActivity extends AppCompatActivity {
                 title.setTextColor(darkGray);
                 settingsImage.setImageResource(R.drawable.settingsgearcity);
                 background.setBackgroundColor(lightGray);
-                task1button.setTextColor(darkGreen);
-                task2button.setTextColor(darkGreen);
-                task3button.setTextColor(darkGreen);
-                task1button.setBackgroundTintList(ColorStateList.valueOf(mediumGray));
-                task2button.setBackgroundTintList(ColorStateList.valueOf(mediumGray));
-                task3button.setBackgroundTintList(ColorStateList.valueOf(mediumGray));
+//                task1button.setTextColor(darkGreen);
+//                task2button.setTextColor(darkGreen);
+//                task3button.setTextColor(darkGreen);
+//                task1button.setBackgroundTintList(ColorStateList.valueOf(mediumGray));
+//                task2button.setBackgroundTintList(ColorStateList.valueOf(mediumGray));
+//                task3button.setBackgroundTintList(ColorStateList.valueOf(mediumGray));
                 addTask.setTextColor(lightGreen);
                 allTasks.setTextColor(lightGreen);
                 addTask.setBackgroundTintList(ColorStateList.valueOf(darkGray));
@@ -113,17 +118,17 @@ public class MainActivity extends AppCompatActivity {
     public void goToTaskDetailsActivity(View v) {
         Intent intent = new Intent(this, TaskDetailsActivity.class);
 
-        switch (v.getId()) {
-            case R.id.task1button:
-                intent.putExtra("taskName", "Shopping");
-                break;
-            case R.id.task2button:
-                intent.putExtra("taskName", "Cleaning");
-                break;
-            case R.id.task3button:
-                intent.putExtra("taskName", "Studying");
-                break;
-        }
+//        switch (v.getId()) {
+//            case R.id.task1button:
+//                intent.putExtra("taskName", "Shopping");
+//                break;
+//            case R.id.task2button:
+//                intent.putExtra("taskName", "Cleaning");
+//                break;
+//            case R.id.task3button:
+//                intent.putExtra("taskName", "Studying");
+//                break;
+//        }
         startActivity(intent);
     }
 

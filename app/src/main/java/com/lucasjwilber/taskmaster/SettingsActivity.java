@@ -10,6 +10,7 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -29,8 +31,12 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        setContentView(R.layout.activity_settings);
+//        setContentView(R.layout.activity_settings);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String username = prefs.getString("username", "");
+        TextView usernameInput = findViewById(R.id.usernameInput);
+        usernameInput.setText(username);
+
         String theme = prefs.getString("theme", "Cafe");
         applyTheme(theme);
     }
@@ -58,7 +64,7 @@ public class SettingsActivity extends AppCompatActivity {
                 title.setTextColor(darkGray);
                 background.setBackgroundColor(lightGray);
                 usernameInput.setLinkTextColor(lightGreen);
-                usernameInputLabel.setTextColor(lightGray);
+                usernameInputLabel.setTextColor(darkGray);
                 window.setStatusBarColor(darkGray);
                 themeLabel.setTextColor(darkGray);
                 cafeButton.setTextColor(darkGray);
@@ -84,17 +90,35 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPref.edit();
         TextView usernameInput = findViewById(R.id.usernameInput);
-        editor.putString("username", usernameInput.getText().toString());
+        String username = usernameInput.getText().toString();
+        if (username.equals("")) {
+            Context context = getApplicationContext();
+            CharSequence text = "Please set your Username.";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
 
-        //get and save selected theme
-        RadioGroup colorThemeRG = findViewById(R.id.colorThemeRadioGroup);
-        int selectedId = colorThemeRG.getCheckedRadioButtonId();
-        RadioButton radioButton = findViewById(selectedId);
-        String theme = radioButton.getText().toString();
-        editor.putString("theme", theme);
+            //thanks to https://stackoverflow.com/questions/11288475/custom-toast-on-android-a-simple-example
+            View toastView = toast.getView();
+            TextView toastMessage = toastView.findViewById(android.R.id.message);
+            toastMessage.setTextSize(30);
+            toastMessage.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            toastView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 
-        editor.apply();
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+            toast.setGravity(Gravity.CENTER, 0, -40);
+            toast.show();
+        } else {
+            editor.putString("username", usernameInput.getText().toString());
+
+            //get and save selected theme
+            RadioGroup colorThemeRG = findViewById(R.id.colorThemeRadioGroup);
+            int selectedId = colorThemeRG.getCheckedRadioButtonId();
+            RadioButton radioButton = findViewById(selectedId);
+            String theme = radioButton.getText().toString();
+            editor.putString("theme", theme);
+
+            editor.apply();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 }

@@ -32,7 +32,7 @@ public class AddTaskActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        setContentView(R.layout.activity_add_task);
+//        setContentView(R.layout.activity_add_task);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String theme = prefs.getString("theme", "Cafe");
         applyTheme(theme);
