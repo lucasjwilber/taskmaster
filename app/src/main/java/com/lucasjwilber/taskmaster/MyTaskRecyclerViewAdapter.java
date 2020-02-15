@@ -2,12 +2,17 @@ package com.lucasjwilber.taskmaster;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.lucasjwilber.taskmaster.TaskFragment.OnListFragmentInteractionListener;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,14 +40,17 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mTitleView.setText(mValues.get(position).getTitle());
-        holder.mBodyView.setText(mValues.get(position).getBody());
-        holder.mStateView.setText(mValues.get(position).getState());
+        holder.taskTitleView.setText(mValues.get(position).getTitle());
+        holder.taskBodyView.setText(mValues.get(position).getBody());
+        holder.taskStateView.setText(mValues.get(position).getState());
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder.taskView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.setBackgroundColor(Color.rgb(244,0,0));
+                Intent intent = new Intent(v.getContext(), TaskDetailsActivity.class);
+                intent.putExtra("taskTitle", holder.taskTitleView.getText().toString());
+                intent.putExtra("taskBody", holder.taskBodyView.getText().toString());
+                v.getContext().startActivity(intent);
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
@@ -58,23 +66,18 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mTitleView;
-        public final TextView mBodyView;
-        public final TextView mStateView;
+        public final View taskView;
+        public final TextView taskTitleView;
+        public final TextView taskBodyView;
+        public final TextView taskStateView;
         public Task mItem;
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
-            mTitleView = (TextView) view.findViewById(R.id.taskTitle);
-            mBodyView = (TextView) view.findViewById(R.id.taskBody);
-            mStateView = (TextView) view.findViewById(R.id.taskState);
+            taskView = view;
+            taskTitleView = view.findViewById(R.id.taskTitle);
+            taskBodyView = view.findViewById(R.id.taskBody);
+            taskStateView = view.findViewById(R.id.taskState);
         }
-
-//        @Override
-//        public String toString() {
-//            return super.toString() + " '" + mContentView.getText() + "'";
-//        }
     }
 }
