@@ -1,10 +1,17 @@
 package com.lucasjwilber.taskmaster;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "tasks")
 public class Task {
+
+    @PrimaryKey(autoGenerate = true)
+    public int id;
 
     public String title;
     public String body;
-    public String state = "new";
+    public String state = "NEW";
 
     public Task(String title, String body){
         this.title = title;
