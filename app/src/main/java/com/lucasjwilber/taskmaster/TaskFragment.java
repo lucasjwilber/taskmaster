@@ -71,11 +71,27 @@ public class TaskFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
+            //TODO: make this data come from the db
             List<Task> allTasks = new ArrayList<>();
 
-                allTasks.add(new Task("Shopping", "buy stuff"));
-                allTasks.add(new Task("Shopping", "buy this stuff"));
-                allTasks.add(new Task("Shopping", "buy that stuff"));
+                allTasks.add(new Task("Shopping", "Buy bread, rice, chicken, vegetables, olive oil."));
+                allTasks.add(new Task("Clean", "Take out the trash, vacuum, wash the dishes."));
+                allTasks.add(new Task("Finish the theme", "Add theme updates to the rest of the activities."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
+                allTasks.add(new Task("Shop", "Buy stuff."));
 
             recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(allTasks, mListener));
 

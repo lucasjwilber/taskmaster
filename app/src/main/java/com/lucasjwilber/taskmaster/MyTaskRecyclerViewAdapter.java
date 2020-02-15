@@ -2,6 +2,7 @@ package com.lucasjwilber.taskmaster;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
@@ -44,15 +45,12 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         holder.taskStateView.setText(mValues.get(position).getState());
 
         holder.taskView.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                v.setBackgroundColor(Color.rgb(244,0,0));
-                Log.i("click", holder.taskTitleView.getText().toString());
-//                Intent intent = new Intent(this, TaskDetailsActivity.class);
-//                intent.putExtra("taskTitle", holder.taskTitleView.getText().toString());
-//                startActivity(intent);
-
+                Intent intent = new Intent(v.getContext(), TaskDetailsActivity.class);
+                intent.putExtra("taskTitle", holder.taskTitleView.getText().toString());
+                intent.putExtra("taskBody", holder.taskBodyView.getText().toString());
+                v.getContext().startActivity(intent);
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
@@ -77,14 +75,9 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         public ViewHolder(View view) {
             super(view);
             taskView = view;
-            taskTitleView = (TextView) view.findViewById(R.id.taskTitle);
-            taskBodyView = (TextView) view.findViewById(R.id.taskBody);
-            taskStateView = (TextView) view.findViewById(R.id.taskState);
+            taskTitleView = view.findViewById(R.id.taskTitle);
+            taskBodyView = view.findViewById(R.id.taskBody);
+            taskStateView = view.findViewById(R.id.taskState);
         }
-
-//        @Override
-//        public String toString() {
-//            return super.toString() + " '" + mContentView.getText() + "'";
-//        }
     }
 }

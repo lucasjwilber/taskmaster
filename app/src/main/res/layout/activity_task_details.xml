@@ -22,7 +22,7 @@
         tools:text="@string/task_details" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/taskDetailsBody"
         android:layout_width="265dp"
         android:layout_height="234dp"
         android:text="lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola "
