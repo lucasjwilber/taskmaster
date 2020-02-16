@@ -8,4 +8,32 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CafeTheme">
+        <item name="android:navigationBarColor">@color/coffeeMedium</item>
+        <item name="android:windowBackground">@color/coffeeLightest</item>
+        <item name="android:textColor">@color/coffeeDarkest</item>
+        <item name="android:buttonStyle">@style/CafeButton</item>
+    </style>
+        <style name="CafeButton" parent="android:Widget.Material.Light.Button">
+            <item name="android:background">@color/coffeeDarkest</item>
+            <item name="android:textColor">@color/coffeeLightest</item>
+        </style>
+
+    <style name="CityTheme">
+        <item name="android:statusBarColor">@color/cityDarkGray</item>
+        <item name="android:navigationBarColor">@color/cityDarkGray</item>
+        <item name="android:windowBackground">@color/cityLightGray</item>
+        <item name="android:textColor">@color/cityDarkGray</item>
+
+        <item name="android:buttonStyle">@style/CityButton</item>
+        <item name="android:actionBarStyle">@style/CityActionBar</item>
+    </style>
+        <style name="CityButton" parent="android:Widget.Material.Light.Button">
+            <item name="android:background">@color/cityDarkGreen</item>
+            <item name="android:textColor">@color/cityLightGray</item>
+        </style>
+        <style name="CityActionBar" parent="android:Widget.ActionBar">
+            <item name="android:background">@color/cityDarkGreen</item>
+        </style>
+
 </resources>

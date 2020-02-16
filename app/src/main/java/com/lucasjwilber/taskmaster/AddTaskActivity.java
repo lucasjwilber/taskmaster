@@ -46,38 +46,24 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     public void applyTheme(String theme) {
-        TextView title = findViewById(R.id.addTaskActTitle);
-        View background = findViewById(R.id.addTaskActBg);
-        TextView nameLabel = findViewById(R.id.addTask_taskNameLabel);
-        TextView nameInput = findViewById(R.id.addTask_taskNameInput);
-        TextView descLabel = findViewById(R.id.addTask_taskDescLabel);
-        TextView descInput = findViewById(R.id.addTask_taskDescInput);
-        Button taskSubmitBtn = findViewById(R.id.submitTaskButton);
         Window window = getWindow();
         ActionBar actionBar = getSupportActionBar();
 
         switch (theme) {
             case "City":
-                int lightGreen = getResources().getColor(R.color.cityLightGreen);
-                int darkGreen = getResources().getColor(R.color.cityDarkGreen);
-                int lightGray = getResources().getColor(R.color.cityLightGray);
-                int mediumGray = getResources().getColor(R.color.cityMediumGray);
-                int darkGray = getResources().getColor(R.color.cityDarkGray);
-
-                title.setTextColor(darkGray);
-                background.setBackgroundColor(lightGray);
-                nameLabel.setTextColor(darkGray);
-                descLabel.setTextColor(darkGray);
-                taskSubmitBtn.setBackgroundTintList(ColorStateList.valueOf(darkGreen));
-                taskSubmitBtn.setTextColor(lightGray);
-                window.setStatusBarColor(darkGray);
-                window.setNavigationBarColor(darkGray);
+                setTheme(R.style.CityTheme);
+                setContentView(R.layout.activity_add_task);
+                //TODO: change these three widgets in the themes in styles.xml
+                window.setStatusBarColor(getResources().getColor(R.color.cityDarkGray));
+                window.setNavigationBarColor(getResources().getColor(R.color.cityDarkGray));
                 if (actionBar != null) {
-                    actionBar.setBackgroundDrawable(new ColorDrawable(mediumGray));
+                    actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.cityMediumGray)));
                 }
                 break;
             case "Cafe":
-                window.setNavigationBarColor(getResources().getColor(R.color.coffeeMedium));
+//                window.setNavigationBarColor(getResources().getColor(R.color.coffeeMedium));
+                setTheme(R.style.CafeTheme);
+                setContentView(R.layout.activity_add_task);
                 break;
         }
     }
