@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/allTasksActBg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/coffeeLightest"
     tools:context=".AllTasksActivity">
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/allTasksActTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
@@ -22,7 +23,7 @@
         tools:text="@string/all_tasks" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/allTasksActLogo"
         android:layout_width="305dp"
         android:layout_height="275dp"
         app:layout_constraintBottom_toBottomOf="parent"

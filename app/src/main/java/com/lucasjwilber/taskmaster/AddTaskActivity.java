@@ -71,12 +71,13 @@ public class AddTaskActivity extends AppCompatActivity {
                 taskSubmitBtn.setBackgroundTintList(ColorStateList.valueOf(darkGreen));
                 taskSubmitBtn.setTextColor(lightGray);
                 window.setStatusBarColor(darkGray);
+                window.setNavigationBarColor(darkGray);
                 if (actionBar != null) {
                     actionBar.setBackgroundDrawable(new ColorDrawable(mediumGray));
                 }
                 break;
             case "Cafe":
-//                everything's already hardcoded for this theme!
+                window.setNavigationBarColor(getResources().getColor(R.color.coffeeMedium));
                 break;
         }
     }

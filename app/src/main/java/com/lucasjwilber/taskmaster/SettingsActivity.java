@@ -38,6 +38,17 @@ public class SettingsActivity extends AppCompatActivity {
 
         String theme = prefs.getString("theme", "Cafe");
         applyTheme(theme);
+        RadioButton radioButton_city = findViewById(R.id.radioButtonCity);
+        RadioButton radioButton_cafe = findViewById(R.id.radioButtonCafe);
+
+        //check the button for the current theme
+        //TODO: this doesn't work correctly
+        switch (theme) {
+            case "City":
+                radioButton_city.toggle();
+            case "Cafe":
+                radioButton_cafe.toggle();
+        }
     }
 
     public void applyTheme(String theme) {
@@ -72,12 +83,13 @@ public class SettingsActivity extends AppCompatActivity {
                 cityButton.setLinkTextColor(lightGreen);
                 saveButton.setBackgroundTintList(ColorStateList.valueOf(darkGray));
                 saveButton.setTextColor(lightGray);
+                window.setNavigationBarColor(darkGray);
                 if (actionBar != null) {
                     actionBar.setBackgroundDrawable(new ColorDrawable(mediumGray));
                 }
                 break;
             case "Cafe":
-//                everything's already hardcoded for this theme!
+                window.setNavigationBarColor(getResources().getColor(R.color.coffeeMedium));
                 break;
         }
     }

@@ -75,18 +75,19 @@ public class MainActivity extends AppCompatActivity {
                 title.setTextColor(darkGray);
                 settingsImage.setImageResource(R.drawable.settingsgearcity);
                 background.setBackgroundColor(lightGray);
-                addTask.setTextColor(lightGreen);
-                allTasks.setTextColor(lightGreen);
-                addTask.setBackgroundTintList(ColorStateList.valueOf(darkGray));
-                allTasks.setBackgroundTintList(ColorStateList.valueOf(darkGray));
+                addTask.setTextColor(lightGray);
+                allTasks.setTextColor(lightGray);
+                addTask.setBackgroundTintList(ColorStateList.valueOf(darkGreen));
+                allTasks.setBackgroundTintList(ColorStateList.valueOf(darkGreen));
                 window.setStatusBarColor(darkGray);
+                window.setNavigationBarColor(darkGray);
                 if (actionBar != null) {
                     actionBar.setBackgroundDrawable(new ColorDrawable(mediumGray));
                 }
 
                 break;
             case "Cafe":
-//                everything's already hardcoded for this theme!
+                window.setNavigationBarColor(getResources().getColor(R.color.coffeeMedium));
                 break;
         }
     }

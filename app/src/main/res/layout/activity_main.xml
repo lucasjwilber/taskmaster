@@ -43,11 +43,9 @@
         android:text="@string/add_task"
         android:textColor="@color/coffeeLightest"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintStart_toStartOf="@+id/taskFragment1"
+        app:layout_constraintTop_toBottomOf="@+id/taskFragment1"
+        app:layout_constraintVertical_bias="0.35000002"
         tools:text="Add Task" />
 
     <Button
@@ -59,11 +57,9 @@
         android:text="@string/all_tasks"
         android:textColor="@color/coffeeLightest"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintEnd_toEndOf="@+id/taskFragment1"
+        app:layout_constraintTop_toBottomOf="@+id/taskFragment1"
+        app:layout_constraintVertical_bias="0.35000002"
         tools:text="@string/all_tasks" />
 
     <ImageView
@@ -119,11 +115,10 @@
     <fragment
         android:id="@+id/taskFragment1"
         android:name="com.lucasjwilber.taskmaster.TaskFragment"
-        android:layout_width="290dp"
-        android:layout_height="280dp"
+        android:layout_width="287dp"
+        android:layout_height="384dp"
         android:layout_marginTop="96dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.537"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
