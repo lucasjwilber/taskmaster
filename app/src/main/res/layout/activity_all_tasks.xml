@@ -31,6 +31,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.32999998"
-        app:srcCompat="@drawable/notepad"
-        tools:srcCompat="@drawable/notepad" />
+        app:srcCompat="@drawable/notepadlogocafe"
+        tools:srcCompat="@drawable/notepadlogocafe" />
 </androidx.constraintlayout.widget.ConstraintLayout>

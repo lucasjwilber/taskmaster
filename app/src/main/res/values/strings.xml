@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Task Master</string>
-    <string name="add_task">Add Task</string>
-    <string name="all_tasks">All Tasks</string>
+    <string name="add_task">ADD TASK</string>
+    <string name="all_tasks">ALL TASKS</string>
     <string name="my_tasks">My Tasks</string>
     <string name="task_details">Task Details</string>
     <string name="settings">Settings</string>

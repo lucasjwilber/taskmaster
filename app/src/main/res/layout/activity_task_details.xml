@@ -5,7 +5,6 @@
     android:id="@+id/taskDetailsActBg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/coffeeLightest"
     tools:context=".TaskDetailsActivity">
 
     <TextView
@@ -16,7 +15,6 @@
         android:layout_marginTop="20dp"
         android:text="@string/task_details"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,7 +24,6 @@
         android:id="@+id/taskDetailsBody"
         android:layout_width="265dp"
         android:layout_height="234dp"
-        android:text="lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola lorem ipsum dolor viva la mexicocacola "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

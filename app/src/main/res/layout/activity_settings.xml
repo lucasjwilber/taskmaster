@@ -5,7 +5,6 @@
     android:id="@+id/settingsActBg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/coffeeLightest"
     tools:context=".SettingsActivity">
 
     <TextView
@@ -13,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/username"
-        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@+id/usernameInput"
         app:layout_constraintStart_toStartOf="@+id/usernameInput"
         tools:text="@string/username" />
@@ -26,7 +24,6 @@
         android:layout_marginTop="20dp"
         android:text="@string/settings"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -49,10 +46,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:backgroundTint="@color/colorPrimaryDark"
         android:onClick="saveSettingsClicked"
         android:text="@string/save"
-        android:textColor="@color/coffeeLightest"
         app:layout_constraintStart_toStartOf="@+id/usernameInput"
         app:layout_constraintTop_toBottomOf="@+id/colorThemeRadioGroup"
         tools:text="@string/save" />
@@ -94,7 +89,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/theme"
-        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@+id/colorThemeRadioGroup"
         app:layout_constraintStart_toStartOf="@+id/colorThemeRadioGroup" />
 
