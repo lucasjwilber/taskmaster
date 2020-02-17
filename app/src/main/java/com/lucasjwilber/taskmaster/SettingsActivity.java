@@ -1,19 +1,14 @@
 package com.lucasjwilber.taskmaster;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -24,75 +19,28 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String theme = prefs.getString("theme", "Cafe");
+        switch (theme) {
+            case "Cafe":
+                setTheme(R.style.CafeTheme);
+                break;
+            case "City":
+                setTheme(R.style.CityTheme);
+                break;
+        }
         setContentView(R.layout.activity_settings);
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
-//        setContentView(R.layout.activity_settings);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String username = prefs.getString("username", "");
-        TextView usernameInput = findViewById(R.id.usernameInput);
+        String username = prefs.getString("username", "My");
+        EditText usernameInput = findViewById(R.id.usernameInput);
         usernameInput.setText(username);
-
-        String theme = prefs.getString("theme", "Cafe");
-        applyTheme(theme);
-        RadioButton radioButton_city = findViewById(R.id.radioButtonCity);
-        RadioButton radioButton_cafe = findViewById(R.id.radioButtonCafe);
-
-        //check the button for the current theme
-        //TODO: this doesn't work correctly
-        switch (theme) {
-            case "City":
-                radioButton_city.toggle();
-            case "Cafe":
-                radioButton_cafe.toggle();
-        }
     }
 
-    public void applyTheme(String theme) {
-        TextView title = findViewById(R.id.settingsActTitle);
-        View background = findViewById(R.id.settingsActBg);
-        TextView usernameInput = findViewById(R.id.usernameInput);
-        TextView usernameInputLabel = findViewById(R.id.usernameInputLabel);
-        TextView themeLabel = findViewById(R.id.themeRadioGroupTitle);
-        RadioButton cafeButton = findViewById(R.id.radioButtonCafe);
-        RadioButton cityButton = findViewById(R.id.radioButtonCity);
-        Button saveButton = findViewById(R.id.saveButton);
-        Window window = getWindow();
-        ActionBar actionBar = getSupportActionBar();
-
-        switch (theme) {
-            case "City":
-                int lightGreen = getResources().getColor(R.color.cityLightGreen);
-                int darkGreen = getResources().getColor(R.color.cityDarkGreen);
-                int lightGray = getResources().getColor(R.color.cityLightGray);
-                int mediumGray = getResources().getColor(R.color.cityMediumGray);
-                int darkGray = getResources().getColor(R.color.cityDarkGray);
-
-                title.setTextColor(darkGray);
-                background.setBackgroundColor(lightGray);
-                usernameInput.setLinkTextColor(lightGreen);
-                usernameInputLabel.setTextColor(darkGray);
-                window.setStatusBarColor(darkGray);
-                themeLabel.setTextColor(darkGray);
-                cafeButton.setTextColor(darkGray);
-                cafeButton.setLinkTextColor(lightGreen);
-                cityButton.setTextColor(darkGray);
-                cityButton.setLinkTextColor(lightGreen);
-                saveButton.setBackgroundTintList(ColorStateList.valueOf(darkGray));
-                saveButton.setTextColor(lightGray);
-                window.setNavigationBarColor(darkGray);
-                if (actionBar != null) {
-                    actionBar.setBackgroundDrawable(new ColorDrawable(mediumGray));
-                }
-                break;
-            case "Cafe":
-                window.setNavigationBarColor(getResources().getColor(R.color.coffeeMedium));
-                break;
-        }
-    }
 
     //thanks to https://developer.android.com/training/data-storage/shared-preferences
     //and https://stackoverflow.com/questions/18179124/android-getting-value-from-selected-radiobutton
@@ -102,19 +50,30 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
         TextView usernameInput = findViewById(R.id.usernameInput);
         String username = usernameInput.getText().toString();
+
         if (username.equals("")) {
             Context context = getApplicationContext();
             CharSequence text = "Please set your Username.";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
 
+            //custom toast
             //thanks to https://stackoverflow.com/questions/11288475/custom-toast-on-android-a-simple-example
             View toastView = toast.getView();
             TextView toastMessage = toastView.findViewById(android.R.id.message);
             toastMessage.setTextSize(30);
-            toastMessage.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-            toastView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            String theme = prefs.getString("theme", "Cafe");
+            switch (theme) {
+                case "Cafe":
+                    toastMessage.setTextColor(getResources().getColor(R.color.coffeeDarkest));
+                    toastView.setBackgroundColor(getResources().getColor(R.color.coffeeLight));
+                    break;
+                case "City":
+                    toastMessage.setTextColor(getResources().getColor(R.color.cityLightGray));
+                    toastView.setBackgroundColor(getResources().getColor(R.color.cityMediumGray));
+                    break;
+            }
             toast.setGravity(Gravity.CENTER, 0, -40);
             toast.show();
         } else {
@@ -126,8 +85,8 @@ public class SettingsActivity extends AppCompatActivity {
             RadioButton radioButton = findViewById(selectedId);
             String theme = radioButton.getText().toString();
             editor.putString("theme", theme);
-
             editor.apply();
+
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }

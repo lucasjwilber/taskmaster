@@ -1,44 +1,62 @@
 package com.lucasjwilber.taskmaster;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    public RecyclerView recyclerView;
-    public RecyclerView.Adapter rvAdapter;
-    public RecyclerView.LayoutManager rvLayoutManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String theme = prefs.getString("theme", "Cafe");
+        switch (theme) {
+            case "Cafe":
+                setTheme(R.style.CafeTheme);
+                break;
+            case "City":
+                setTheme(R.style.CityTheme);
+                break;
+        }
         setContentView(R.layout.activity_main);
-
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String username = prefs.getString("username", "My ");
         applyUsername(username);
 
+        //these need to be manually redrawn until I figure out how to
+        // recreate() when the theme changes without causing a recreate loop
         String theme = prefs.getString("theme", "Cafe");
-        applyTheme(theme);
+        ImageView logo = findViewById(R.id.mainActLogo);
+        ImageView settingsImage = findViewById(R.id.settingsgear);
+        Window window = getWindow();
+        switch (theme) {
+            case "Cafe":
+                logo.setImageResource(R.drawable.notepadlogocafe);
+                settingsImage.setImageResource(R.drawable.settingsgear);
+                window.setStatusBarColor(getResources().getColor(R.color.coffeeDarkest));
+                window.setNavigationBarColor(getResources().getColor(R.color.coffeeMedium));
+                break;
+            case "City":
+                logo.setImageResource(R.drawable.notepadlogocity);
+                settingsImage.setImageResource(R.drawable.settingsgearcity);
+                window.setStatusBarColor(getResources().getColor(R.color.cityDarkGray));
+                window.setNavigationBarColor(getResources().getColor(R.color.cityDarkGray));
+                break;
+        }
+
     }
 
     public void applyUsername(String username) {
@@ -51,45 +69,6 @@ public class MainActivity extends AppCompatActivity {
             titleText = username + "'s Tasks";
         }
         titleView.setText(titleText);
-    }
-
-    public void applyTheme(String theme) {
-        ImageView logo = findViewById(R.id.mainActLogo);
-        TextView title = findViewById(R.id.mainActTitle);
-        ImageView settingsImage = findViewById(R.id.settingsgear);
-        View background = findViewById(R.id.mainActBG);
-        Button addTask = findViewById(R.id.button_addTask);
-        Button allTasks = findViewById(R.id.button_allTasks);
-        Window window = getWindow();
-        ActionBar actionBar = getSupportActionBar();
-
-        switch (theme) {
-            case "City":
-                int lightGreen = getResources().getColor(R.color.cityLightGreen);
-                int darkGreen = getResources().getColor(R.color.cityDarkGreen);
-                int lightGray = getResources().getColor(R.color.cityLightGray);
-                int mediumGray = getResources().getColor(R.color.cityMediumGray);
-                int darkGray = getResources().getColor(R.color.cityDarkGray);
-
-                logo.setImageResource(R.drawable.notepadlogocity);
-                title.setTextColor(darkGray);
-                settingsImage.setImageResource(R.drawable.settingsgearcity);
-                background.setBackgroundColor(lightGray);
-                addTask.setTextColor(lightGray);
-                allTasks.setTextColor(lightGray);
-                addTask.setBackgroundTintList(ColorStateList.valueOf(darkGreen));
-                allTasks.setBackgroundTintList(ColorStateList.valueOf(darkGreen));
-                window.setStatusBarColor(darkGray);
-                window.setNavigationBarColor(darkGray);
-                if (actionBar != null) {
-                    actionBar.setBackgroundDrawable(new ColorDrawable(mediumGray));
-                }
-
-                break;
-            case "Cafe":
-                window.setNavigationBarColor(getResources().getColor(R.color.coffeeMedium));
-                break;
-        }
     }
 
     public void goToAddTasksActivity(View v) {
