@@ -29,6 +29,9 @@ public class TaskDetailsActivity extends AppCompatActivity {
             case "City":
                 setTheme(R.style.CityTheme);
                 break;
+            case "Night":
+                setTheme(R.style.NightTheme);
+                break;
         }
         setContentView(R.layout.activity_task_details);
     }

@@ -24,6 +24,9 @@ public class AddTaskActivity extends AppCompatActivity {
             case "City":
                 setTheme(R.style.CityTheme);
                 break;
+            case "Night":
+                setTheme(R.style.NightTheme);
+                break;
         }
         setContentView(R.layout.activity_add_task);
     }
@@ -63,6 +66,10 @@ public class AddTaskActivity extends AppCompatActivity {
             case "City":
                 toastMessage.setTextColor(getResources().getColor(R.color.cityLightGray));
                 toastView.setBackgroundColor(getResources().getColor(R.color.cityMediumGray));
+                break;
+            case "Night":
+                toastMessage.setTextColor(getResources().getColor(R.color.nightLightGray));
+                toastView.setBackgroundColor(getResources().getColor(R.color.nightWhite));
                 break;
         }
         toast.setGravity(Gravity.CENTER, 0, -40);

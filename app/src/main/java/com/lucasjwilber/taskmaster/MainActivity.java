@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
             case "City":
                 setTheme(R.style.CityTheme);
                 break;
+            case "Night":
+                setTheme(R.style.NightTheme);
+                break;
         }
         setContentView(R.layout.activity_main);
     }
@@ -54,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
                 settingsImage.setImageResource(R.drawable.settingsgearcity);
                 window.setStatusBarColor(getResources().getColor(R.color.cityDarkGray));
                 window.setNavigationBarColor(getResources().getColor(R.color.cityDarkGray));
+                break;
+            case "Night":
+                logo.setImageResource(R.drawable.notepadlogocity);
+                settingsImage.setImageResource(R.drawable.settingsgearcity);
+                window.setStatusBarColor(getResources().getColor(R.color.nightBlue));
+                window.setNavigationBarColor(getResources().getColor(R.color.nightBlue));
                 break;
         }
 
