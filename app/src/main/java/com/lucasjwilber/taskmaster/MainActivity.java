@@ -1,6 +1,8 @@
 package com.lucasjwilber.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 setTheme(R.style.NightTheme);
                 break;
         }
+
         setContentView(R.layout.activity_main);
     }
 
@@ -36,12 +39,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String theme = prefs.getString("theme", "Cafe");
         String username = prefs.getString("username", "My ");
         applyUsername(username);
 
         //these need to be manually redrawn until I figure out how to
         // recreate() when the theme changes without causing a recreate loop
-        String theme = prefs.getString("theme", "Cafe");
         ImageView logo = findViewById(R.id.mainActLogo);
         ImageView settingsImage = findViewById(R.id.settingsgear);
         Window window = getWindow();
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 window.setNavigationBarColor(getResources().getColor(R.color.cityDarkGray));
                 break;
             case "Night":
+//                TODO: add city themed images
                 logo.setImageResource(R.drawable.notepadlogocity);
                 settingsImage.setImageResource(R.drawable.settingsgearcity);
                 window.setStatusBarColor(getResources().getColor(R.color.nightBlue));

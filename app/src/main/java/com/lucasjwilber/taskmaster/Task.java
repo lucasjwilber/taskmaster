@@ -16,6 +16,7 @@ public class Task {
     public Task(String title, String body){
         this.title = title;
         this.body = body;
+        this.state = "NEW";
     }
 
 

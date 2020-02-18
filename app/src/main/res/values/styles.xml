@@ -8,6 +8,8 @@
     </style>
 
 <!--    TODO: re-add action bar and style it-->
+<!--    TODO: add corner radius to buttons-->
+<!--    TODO: set text color for night theme-->
 
     <style name="CafeTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@color/coffeeDarkest</item>

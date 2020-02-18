@@ -34,5 +34,5 @@ public class AllTasksActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_all_tasks);
     }
-    
+
 }
