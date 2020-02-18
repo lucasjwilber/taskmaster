@@ -1,6 +1,9 @@
 package com.lucasjwilber.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class AddTaskActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +28,11 @@ public class AddTaskActivity extends AppCompatActivity {
             case "City":
                 setTheme(R.style.CityTheme);
                 break;
+            case "Night":
+                setTheme(R.style.NightTheme);
+                break;
         }
+
         setContentView(R.layout.activity_add_task);
     }
 
@@ -40,11 +48,8 @@ public class AddTaskActivity extends AppCompatActivity {
         String title = titleInput.getText().toString();
         TextView bodyInput = findViewById(R.id.addTask_taskDescInput);
         String body = bodyInput.getText().toString();
-
-//        TasksDatabase db = Room.databaseBuilder(getApplicationContext(),
-//                TasksDatabase.class, "database-name").build();
-//
-//        db.userDao().insert(new Task(title, body));
+        TasksDatabase db = TasksDatabase.getTasksDatabase(getApplicationContext());
+        db.userDao().insert(new Task(title, body));
 
 
         //display custom toast:
@@ -64,9 +69,15 @@ public class AddTaskActivity extends AppCompatActivity {
                 toastMessage.setTextColor(getResources().getColor(R.color.cityLightGray));
                 toastView.setBackgroundColor(getResources().getColor(R.color.cityMediumGray));
                 break;
+            case "Night":
+                toastMessage.setTextColor(getResources().getColor(R.color.nightLightGray));
+                toastView.setBackgroundColor(getResources().getColor(R.color.nightWhite));
+                break;
         }
         toast.setGravity(Gravity.CENTER, 0, -40);
         toast.show();
     }
+
+
 
 }

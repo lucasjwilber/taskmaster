@@ -8,6 +8,8 @@
     </style>
 
 <!--    TODO: re-add action bar and style it-->
+<!--    TODO: add corner radius to buttons-->
+<!--    TODO: set text color for night theme-->
 
     <style name="CafeTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@color/coffeeDarkest</item>
@@ -25,7 +27,6 @@
         </style>
 
 
-
     <style name="CityTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:colorPrimaryDark">@color/cityDarkGray</item>
         <item name="colorAccent">@color/cityDarkGreen</item>
@@ -39,6 +40,22 @@
     <style name="CityButton" parent="android:Widget.Material.Light.Button">
         <item name="android:background">@color/cityDarkGreen</item>
         <item name="android:textColor">@color/cityLightGray</item>
+    </style>
+
+
+    <style name="NightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorPrimaryDark">@color/nightBlack</item>
+        <item name="colorAccent">@color/nightBlue</item>
+        <item name="colorPrimary">@color/nightDarkGray</item>
+        <item name="android:statusBarColor">@color/nightBlue</item>
+        <item name="android:navigationBarColor">@color/nightBlue</item>
+        <item name="android:background">@color/nightDarkGray</item>
+        <item name="android:textColor">@color/nightWhite</item>
+        <item name="android:buttonStyle">@style/NightButton</item>
+    </style>
+    <style name="NightButton" parent="android:Widget.Material.Light.Button">
+        <item name="android:background">@color/nightLightGray</item>
+        <item name="android:textColor">@color/nightBlack</item>
     </style>
 
 </resources>

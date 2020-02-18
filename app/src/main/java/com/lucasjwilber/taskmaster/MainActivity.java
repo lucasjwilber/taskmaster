@@ -1,6 +1,7 @@
 package com.lucasjwilber.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,7 +25,11 @@ public class MainActivity extends AppCompatActivity {
             case "City":
                 setTheme(R.style.CityTheme);
                 break;
+            case "Night":
+                setTheme(R.style.NightTheme);
+                break;
         }
+
         setContentView(R.layout.activity_main);
     }
 
@@ -33,12 +38,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String theme = prefs.getString("theme", "Cafe");
         String username = prefs.getString("username", "My ");
         applyUsername(username);
 
         //these need to be manually redrawn until I figure out how to
         // recreate() when the theme changes without causing a recreate loop
-        String theme = prefs.getString("theme", "Cafe");
         ImageView logo = findViewById(R.id.mainActLogo);
         ImageView settingsImage = findViewById(R.id.settingsgear);
         Window window = getWindow();
@@ -54,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
                 settingsImage.setImageResource(R.drawable.settingsgearcity);
                 window.setStatusBarColor(getResources().getColor(R.color.cityDarkGray));
                 window.setNavigationBarColor(getResources().getColor(R.color.cityDarkGray));
+                break;
+            case "Night":
+//                TODO: add city themed images
+                logo.setImageResource(R.drawable.notepadlogocity);
+                settingsImage.setImageResource(R.drawable.settingsgearcity);
+                window.setStatusBarColor(getResources().getColor(R.color.nightBlue));
+                window.setNavigationBarColor(getResources().getColor(R.color.nightBlue));
                 break;
         }
 
