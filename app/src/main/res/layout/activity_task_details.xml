@@ -32,9 +32,11 @@
         app:layout_constraintVertical_bias="0.56" />
 
     <RadioGroup
+        android:id="@+id/taskStateRadioGroup"
         android:layout_width="144dp"
         android:layout_height="130dp"
         android:layout_marginTop="40dp"
+        android:onClick="stateRadioButtonChanged"
         app:layout_constraintStart_toStartOf="@+id/taskDetailsTitle"
         app:layout_constraintTop_toBottomOf="@+id/taskDetailsTitle">
 

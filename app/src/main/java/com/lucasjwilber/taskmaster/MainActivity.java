@@ -1,7 +1,6 @@
 package com.lucasjwilber.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

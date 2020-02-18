@@ -48,9 +48,7 @@ public class AddTaskActivity extends AppCompatActivity {
         String title = titleInput.getText().toString();
         TextView bodyInput = findViewById(R.id.addTask_taskDescInput);
         String body = bodyInput.getText().toString();
-//
         TasksDatabase db = TasksDatabase.getTasksDatabase(getApplicationContext());
-
         db.userDao().insert(new Task(title, body));
 
 
