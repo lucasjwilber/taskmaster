@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -60,23 +61,20 @@ public class TaskDetailsActivity extends AppCompatActivity {
         body.setText(taskBody);
     }
 
-    //TODO: this isn't working, fix it
     public void stateRadioButtonChanged(View v) {
+        //get selected state
         RadioGroup stateRg = findViewById(R.id.taskStateRadioGroup);
         RadioButton stateRb = findViewById(stateRg.getCheckedRadioButtonId());
         String state = stateRb.getText().toString();
 
         TasksDatabase db = TasksDatabase.getTasksDatabase(getApplicationContext());
 
+        //update task in db with new state
         TextView title = findViewById(R.id.taskDetailsTitle);
         String taskTitle = title.getText().toString();
         Task task = db.userDao().findByName(taskTitle);
-        Task updatedTask = new Task(task.title, task.body);
-        updatedTask.setState(state);
-
-        //replace old task with new one
-        db.userDao().delete(task);
-        db.userDao().insert(updatedTask);
+        task.setState(state);
+        db.userDao().update(task);
     }
 
 }
