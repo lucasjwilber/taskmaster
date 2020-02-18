@@ -35,9 +35,14 @@ public class TaskDetailsActivity extends AppCompatActivity {
         super.onResume();
         //this intent comes from onBindViewHolder() in MyTaskRecyclerViewAdapter
         Intent intent = getIntent();
+
+        //get this task's info from db
+        TasksDatabase db = TasksDatabase.getTasksDatabase(getApplicationContext());
+        Task selectedTask = db.userDao().findByName(intent.getStringExtra("taskTitle"));
         String taskTitle = intent.getStringExtra("taskTitle");
-        String taskBody = intent.getStringExtra("taskBody");
-        String state = intent.getStringExtra("taskState");
+        String taskBody = selectedTask.body;
+        String state = selectedTask.state;
+
         TextView title = findViewById(R.id.taskDetailsTitle);
         TextView body = findViewById(R.id.taskDetailsBody);
         RadioButton rb;

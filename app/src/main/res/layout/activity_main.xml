@@ -41,7 +41,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tasksFragment"
         app:layout_constraintTop_toBottomOf="@+id/tasksFragment"
-        app:layout_constraintVertical_bias="0.35000002"
         tools:text="Add Task" />
 
     <Button
@@ -53,7 +52,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/tasksFragment"
         app:layout_constraintTop_toBottomOf="@+id/tasksFragment"
-        app:layout_constraintVertical_bias="0.35000002"
         tools:text="@string/all_tasks" />
 
     <ImageView
@@ -109,11 +107,13 @@
     <fragment
         android:id="@+id/tasksFragment"
         android:name="com.lucasjwilber.taskmaster.TaskFragment"
-        android:layout_width="287dp"
-        android:layout_height="384dp"
-        android:layout_marginTop="96dp"
+        android:layout_width="338dp"
+        android:layout_height="435dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/mainActTitle"
+        app:layout_constraintVertical_bias="0.110000014" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

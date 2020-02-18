@@ -36,16 +36,15 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.taskTitleView.setText(mValues.get(position).getTitle());
-        holder.taskBodyView.setText(mValues.get(position).getBody());
+        //removed task body from recyclerview
+//        holder.taskBodyView.setText(mValues.get(position).getBody());
         holder.taskStateView.setText(mValues.get(position).getState());
 
         holder.taskView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), TaskDetailsActivity.class);
-                intent.putExtra("taskState", holder.taskStateView.getText().toString());
                 intent.putExtra("taskTitle", holder.taskTitleView.getText().toString());
-                intent.putExtra("taskBody", holder.taskBodyView.getText().toString());
                 v.getContext().startActivity(intent);
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
@@ -64,7 +63,8 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View taskView;
         public final TextView taskTitleView;
-        public final TextView taskBodyView;
+        //removed task body from recyclerview
+        // public final TextView taskBodyView;
         public final TextView taskStateView;
         public Task mItem;
 
@@ -72,7 +72,8 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
             super(view);
             taskView = view;
             taskTitleView = view.findViewById(R.id.taskTitle);
-            taskBodyView = view.findViewById(R.id.taskBody);
+            //removed task body from recyclerview
+            //taskBodyView = view.findViewById(R.id.taskBody);
             taskStateView = view.findViewById(R.id.taskState);
         }
     }
