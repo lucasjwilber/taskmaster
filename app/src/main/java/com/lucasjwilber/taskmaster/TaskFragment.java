@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,11 @@ public class TaskFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,22 +76,21 @@ public class TaskFragment extends Fragment {
 
         // Set the adapter
         if (view instanceof RecyclerView) {
-        Context context = view.getContext();
-        RecyclerView recyclerView = (RecyclerView) view;
+            Context context = view.getContext();
+            RecyclerView recyclerView = (RecyclerView) view;
 
-        if (mColumnCount <= 1) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-        }
+            if (mColumnCount <= 1) {
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            } else {
+                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+            }
 
-        //fetch tasks from db
-        //TODO: need to recreate Main after doing this, or change it to use LiveData
-        TasksDatabase db = TasksDatabase.getTasksDatabase(inflater.getContext());
-        List<Task> allTasks = db.userDao().getAllTasks();
+            //fetch tasks from db
+            //TODO: need to recreate Main after doing this, or change it to use LiveData
+            TasksDatabase db = TasksDatabase.getTasksDatabase(inflater.getContext());
+            List<Task> allTasks = db.userDao().getAllTasks();
 
-        recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(allTasks, mListener));
-
+            recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(allTasks, mListener));
         }
         return view;
     }
