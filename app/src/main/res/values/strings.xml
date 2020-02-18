@@ -14,4 +14,8 @@
     <string name="city">City</string>
     <string name="cafe">Cafe</string>
     <string name="night">Night</string>
+    <string name="stateNew">NEW</string>
+    <string name="stateAssigned">ASSIGNED</string>
+    <string name="stateInProgress">IN PROGRESS</string>
+    <string name="stateComplete">COMPLETE</string>
 </resources>

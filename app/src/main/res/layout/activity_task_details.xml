@@ -22,10 +22,52 @@
 
     <TextView
         android:id="@+id/taskDetailsBody"
-        android:layout_width="265dp"
-        android:layout_height="234dp"
+        android:layout_width="268dp"
+        android:layout_height="167dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.56" />
+
+    <RadioGroup
+        android:layout_width="144dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="@+id/taskDetailsTitle"
+        app:layout_constraintTop_toBottomOf="@+id/taskDetailsTitle">
+
+        <!--        <TableRow>-->
+
+        <RadioButton
+            android:id="@+id/state_rb_new"
+            android:layout_width="136dp"
+            android:layout_height="wrap_content"
+            android:text="@string/stateNew" />
+
+        <RadioButton
+            android:id="@+id/state_rb_assigned"
+            android:layout_width="136dp"
+            android:layout_height="wrap_content"
+            android:text="@string/stateAssigned" />
+        <!--        </TableRow>-->
+
+        <!--        <TableRow>-->
+
+        <RadioButton
+            android:id="@+id/state_rb_inProgress"
+            android:layout_width="136dp"
+            android:layout_height="wrap_content"
+            android:text="@string/stateInProgress" />
+
+        <RadioButton
+            android:id="@+id/state_rb_complete"
+            android:layout_width="136dp"
+            android:layout_height="wrap_content"
+            android:text="@string/stateComplete" />
+        <!--        </TableRow>-->
+
+    </RadioGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

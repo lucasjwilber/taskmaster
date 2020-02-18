@@ -79,20 +79,10 @@ public class TaskFragment extends Fragment {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
 
-
+        //fetch tasks from db
+        //TODO: need to recreate Main after doing this, or change it to use LiveData
         TasksDatabase db = TasksDatabase.getTasksDatabase(inflater.getContext());
         List<Task> allTasks = db.userDao().getAllTasks();
-
-
-
-
-        //TODO: make this data come from the db
-//        List<Task> allTasks = new ArrayList<>();
-//
-//        allTasks.add(new Task("Shopping", "Buy bread, rice, chicken, vegetables, olive oil."));
-//        allTasks.add(new Task("Clean", "Take out the trash, vacuum, wash the dishes."));
-//        allTasks.add(new Task("Finish the theme", "Add theme updates to the rest of the activities."));
-
 
         recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(allTasks, mListener));
 
@@ -106,8 +96,6 @@ public class TaskFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnListFragmentInteractionListener) {
             mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            //
         }
     }
 

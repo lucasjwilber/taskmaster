@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -37,14 +38,38 @@ public class TaskDetailsActivity extends AppCompatActivity {
     }
     protected void onResume() {
         super.onResume();
-        //render task details
+        //this intent comes from onBindViewHolder() in MyTaskRecyclerViewAdapter
         Intent intent = getIntent();
         String taskTitle = intent.getStringExtra("taskTitle");
         String taskBody = intent.getStringExtra("taskBody");
+        String state = intent.getStringExtra("taskState");
         TextView title = findViewById(R.id.taskDetailsTitle);
         TextView body = findViewById(R.id.taskDetailsBody);
+        RadioButton rb;
+        switch (state) {
+            case "ASSIGNED":
+                rb = findViewById(R.id.state_rb_assigned);
+                break;
+            case "IN PROGRESS":
+                rb = findViewById(R.id.state_rb_inProgress);
+                break;
+            case "COMPLETE":
+                rb = findViewById(R.id.state_rb_complete);
+                break;
+            case "NEW":
+            default:
+                rb = findViewById(R.id.state_rb_new);
+                break;
+        }
+        rb.toggle();
         title.setText(taskTitle);
         body.setText(taskBody);
+    }
+
+    protected void radioButtonChanged(View v) {
+        //get id of current task
+        //get selected state
+        //put/update given task in db with new Task(...task, selected state
     }
 
 }

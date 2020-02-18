@@ -1,18 +1,13 @@
 package com.lucasjwilber.taskmaster;
 
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.lucasjwilber.taskmaster.TaskFragment.OnListFragmentInteractionListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,6 +43,7 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), TaskDetailsActivity.class);
+                intent.putExtra("taskState", holder.taskStateView.getText().toString());
                 intent.putExtra("taskTitle", holder.taskTitleView.getText().toString());
                 intent.putExtra("taskBody", holder.taskBodyView.getText().toString());
                 v.getContext().startActivity(intent);
