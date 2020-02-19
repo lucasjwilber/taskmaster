@@ -39,9 +39,25 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        //set username to current username
         String username = prefs.getString("username", "My");
         EditText usernameInput = findViewById(R.id.usernameInput);
         usernameInput.setText(username);
+        //set theme radio button to current theme
+        String theme = prefs.getString("theme", "Cafe");
+        RadioGroup themeRg = findViewById(R.id.colorThemeRadioGroup);
+        switch (theme) {
+            case "City":
+                themeRg.check(R.id.radioButtonCity);
+                break;
+            case "Night":
+                themeRg.check(R.id.radioButtonNight);
+                break;
+            case "Cafe":
+            default:
+                themeRg.check(R.id.radioButtonCafe);
+                break;
+        }
     }
 
 

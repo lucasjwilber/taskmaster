@@ -45,17 +45,24 @@
 
     <style name="NightTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:colorPrimaryDark">@color/nightBlack</item>
-        <item name="colorAccent">@color/nightBlue</item>
+        <item name="colorAccent">@color/nightWhite</item>
         <item name="colorPrimary">@color/nightDarkGray</item>
+        <item name="android:textColor">@color/nightWhite</item>
+        <item name="android:editTextColor">@color/nightWhite</item>
         <item name="android:statusBarColor">@color/nightBlue</item>
         <item name="android:navigationBarColor">@color/nightBlue</item>
         <item name="android:background">@color/nightDarkGray</item>
-        <item name="android:textColor">@color/nightWhite</item>
         <item name="android:buttonStyle">@style/NightButton</item>
+        <item name="radioButtonStyle">@style/NightRadioButton</item>
+
     </style>
     <style name="NightButton" parent="android:Widget.Material.Light.Button">
         <item name="android:background">@color/nightLightGray</item>
         <item name="android:textColor">@color/nightBlack</item>
+    </style>
+    <style name="NightRadioButton" parent="android:Widget.Material.Light.CompoundButton.RadioButton">
+        <item name="android:textColor">@color/nightWhite</item>
+        <item name="android:buttonTint">#FFFFA7</item>
     </style>
 
 </resources>

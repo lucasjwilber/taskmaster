@@ -1,10 +1,8 @@
 package com.lucasjwilber.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
-
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -50,6 +48,8 @@ public class AddTaskActivity extends AppCompatActivity {
         String body = bodyInput.getText().toString();
         TasksDatabase db = TasksDatabase.getTasksDatabase(getApplicationContext());
         db.userDao().insert(new Task(title, body));
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
 
 
         //display custom toast:
