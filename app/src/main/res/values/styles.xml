@@ -52,6 +52,7 @@
         <item name="android:statusBarColor">@color/nightBlue</item>
         <item name="android:navigationBarColor">@color/nightBlue</item>
         <item name="android:background">@color/nightDarkGray</item>
+        <item name="android:editTextStyle">@style/NightEditText</item>
         <item name="android:buttonStyle">@style/NightButton</item>
         <item name="radioButtonStyle">@style/NightRadioButton</item>
 
@@ -63,6 +64,14 @@
     <style name="NightRadioButton" parent="android:Widget.Material.Light.CompoundButton.RadioButton">
         <item name="android:textColor">@color/nightWhite</item>
         <item name="android:buttonTint">#FFFFA7</item>
+    </style>
+    <style name="NightEditText" parent="android:Widget.Material.Light.EditText">
+<!--        still can't seem to target the actual text in the edittext-->
+        <item name="android:editTextColor">@color/nightWhite</item>
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="colorControlActivated">#FFFFFF</item>
+        <item name="colorControlHighlight">#FFFFFF</item>
+
     </style>
 
 </resources>

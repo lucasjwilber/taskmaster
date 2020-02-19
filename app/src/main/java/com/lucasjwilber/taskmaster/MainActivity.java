@@ -62,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "Night":
 //                TODO: add city themed images
-                logo.setImageResource(R.drawable.notepadlogocity);
-                settingsImage.setImageResource(R.drawable.settingsgearcity);
+                logo.setImageResource(R.drawable.notepadlogonight);
+                settingsImage.setImageResource(R.drawable.settingsgearnight);
                 window.setStatusBarColor(getResources().getColor(R.color.nightBlue));
                 window.setNavigationBarColor(getResources().getColor(R.color.nightBlue));
                 break;
