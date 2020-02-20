@@ -6,13 +6,25 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.amazonaws.amplify.generated.graphql.CreateTaskMutation;
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.apollographql.apollo.GraphQLCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+
+import javax.annotation.Nonnull;
+
+import type.CreateTaskInput;
 
 public class AddTaskActivity extends AppCompatActivity {
 
+    private AWSAppSyncClient mAWSAppSyncClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +44,11 @@ public class AddTaskActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_add_task);
+
+        mAWSAppSyncClient = AWSAppSyncClient.builder()
+                .context(getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+                .build();
     }
 
     //thanks to https://developer.android.com/guide/topics/ui/notifiers/toasts
@@ -41,16 +58,22 @@ public class AddTaskActivity extends AppCompatActivity {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, text, duration);
 
-        //save to db:
+        //get edittext fields
         TextView titleInput = findViewById(R.id.addTask_taskNameInput);
         String title = titleInput.getText().toString();
         TextView bodyInput = findViewById(R.id.addTask_taskDescInput);
         String body = bodyInput.getText().toString();
-        TasksDatabase db = TasksDatabase.getTasksDatabase(getApplicationContext());
-        db.userDao().insert(new Task(title, body));
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        //create the mutation
+        CreateTaskInput input = CreateTaskInput.builder()
+                .title(title)
+                .body(body)
+                .build();
+        //enqueue the mutation
+        mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(input).build())
+                .enqueue(mutationCallback);
 
+        finish();
+        //RIP for now, custom toast
 
         //display custom toast:
         //thanks to https://stackoverflow.com/questions/11288475/custom-toast-on-android-a-simple-example
@@ -78,6 +101,16 @@ public class AddTaskActivity extends AppCompatActivity {
         toast.show();
     }
 
-
+    private GraphQLCall.Callback<CreateTaskMutation.Data> mutationCallback = new GraphQLCall.Callback<CreateTaskMutation.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
+            Log.i("amplify", "Added Task");
+            Log.i("amplify", response.toString());
+        }
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e("amplify", e.toString());
+        }
+    };
 
 }

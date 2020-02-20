@@ -13,3 +13,7 @@ This Android app helps users create and keep track of tasks they need to do!
 - 2/15/2020: Refactored the theme code. Added XML styles for each theme and removed (most) of the manual view color changes. Removed the action bar.
 
 - 2/18/2020: Implemented a Room database to store Tasks. The RecyclerView on the Main activity now shows all stored tasks, and the Add Task activity can be used to add new Tasks.
+
+- 2/19/2020: Added the Night theme. The recycler view on the Main activity now only shows task state and title, the task body is visible on the Task Details activity.
+
+- 2/20/2020: Refactored app to use AWS Amplify instead of Room for task storage.

@@ -6,20 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
 import com.lucasjwilber.taskmaster.TaskFragment.OnListFragmentInteractionListener;
-
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link Task} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- */
 public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Task> mValues;
+    private final List<ListTasksQuery.Item> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyTaskRecyclerViewAdapter(List<Task> items, OnListFragmentInteractionListener listener) {
+    public MyTaskRecyclerViewAdapter(List<ListTasksQuery.Item> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -35,10 +31,8 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.taskTitleView.setText(mValues.get(position).getTitle());
-        //removed task body from recyclerview
-//        holder.taskBodyView.setText(mValues.get(position).getBody());
-        holder.taskStateView.setText(mValues.get(position).getState());
+        holder.taskTitleView.setText(mValues.get(position).title());
+        holder.taskStateView.setText(mValues.get(position).state());
 
         holder.taskView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,17 +57,13 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View taskView;
         public final TextView taskTitleView;
-        //removed task body from recyclerview
-        // public final TextView taskBodyView;
         public final TextView taskStateView;
-        public Task mItem;
+        public ListTasksQuery.Item mItem;
 
         public ViewHolder(View view) {
             super(view);
             taskView = view;
             taskTitleView = view.findViewById(R.id.taskTitle);
-            //removed task body from recyclerview
-            //taskBodyView = view.findViewById(R.id.taskBody);
             taskStateView = view.findViewById(R.id.taskState);
         }
     }

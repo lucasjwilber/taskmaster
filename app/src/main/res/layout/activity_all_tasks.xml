@@ -33,4 +33,15 @@
         app:layout_constraintVertical_bias="0.32999998"
         app:srcCompat="@drawable/notepadlogocafe"
         tools:srcCompat="@drawable/notepadlogocafe" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="What a useless page."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/allTasksActLogo"
+        tools:text="What a useless page." />
 </androidx.constraintlayout.widget.ConstraintLayout>

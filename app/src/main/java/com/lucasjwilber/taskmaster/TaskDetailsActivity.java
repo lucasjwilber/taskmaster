@@ -37,32 +37,32 @@ public class TaskDetailsActivity extends AppCompatActivity {
 
         //get this task's info from db
         TasksDatabase db = TasksDatabase.getTasksDatabase(getApplicationContext());
-        Task selectedTask = db.userDao().findByName(intent.getStringExtra("taskTitle"));
+//        Task selectedTask = db.userDao().findByName(intent.getStringExtra("taskTitle"));
         String taskTitle = intent.getStringExtra("taskTitle");
-        String taskBody = selectedTask.body;
-        String state = selectedTask.state;
+//        String taskBody = selectedTask.body;
+//        String state = selectedTask.state;
 
         TextView title = findViewById(R.id.taskDetailsTitle);
         TextView body = findViewById(R.id.taskDetailsBody);
         RadioButton rb;
-        switch (state) {
-            case "ASSIGNED":
-                rb = findViewById(R.id.state_rb_assigned);
-                break;
-            case "IN PROGRESS":
-                rb = findViewById(R.id.state_rb_inProgress);
-                break;
-            case "COMPLETE":
-                rb = findViewById(R.id.state_rb_complete);
-                break;
-            case "NEW":
-            default:
-                rb = findViewById(R.id.state_rb_new);
-                break;
-        }
-        rb.toggle();
-        title.setText(taskTitle);
-        body.setText(taskBody);
+//        switch (state) {
+//            case "ASSIGNED":
+//                rb = findViewById(R.id.state_rb_assigned);
+//                break;
+//            case "IN PROGRESS":
+//                rb = findViewById(R.id.state_rb_inProgress);
+//                break;
+//            case "COMPLETE":
+//                rb = findViewById(R.id.state_rb_complete);
+//                break;
+//            case "NEW":
+//            default:
+//                rb = findViewById(R.id.state_rb_new);
+//                break;
+//        }
+//        rb.toggle();
+//        title.setText(taskTitle);
+//        body.setText(taskBody);
     }
 
     public void stateRadioButtonChanged(View v) {
@@ -76,9 +76,9 @@ public class TaskDetailsActivity extends AppCompatActivity {
         //update task in db with new state
         TextView title = findViewById(R.id.taskDetailsTitle);
         String taskTitle = title.getText().toString();
-        Task task = db.userDao().findByName(taskTitle);
-        task.setState(state);
-        db.userDao().update(task);
+//        Task task = db.userDao().findByName(taskTitle);
+//        task.setState(state);
+//        db.userDao().update(task);
     }
 
 }

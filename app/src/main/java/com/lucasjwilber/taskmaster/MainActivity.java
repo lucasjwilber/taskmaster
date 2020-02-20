@@ -42,8 +42,7 @@ public class MainActivity extends AppCompatActivity {
         String username = prefs.getString("username", "My ");
         applyUsername(username);
 
-        //these need to be manually redrawn until I figure out how to
-        // recreate() when the theme changes without causing a recreate loop
+        //apply theme changes that I couldn't set in <style>s
         ImageView logo = findViewById(R.id.mainActLogo);
         ImageView settingsImage = findViewById(R.id.settingsgear);
         Window window = getWindow();
@@ -61,13 +60,14 @@ public class MainActivity extends AppCompatActivity {
                 window.setNavigationBarColor(getResources().getColor(R.color.cityDarkGray));
                 break;
             case "Night":
-//                TODO: add city themed images
                 logo.setImageResource(R.drawable.notepadlogonight);
                 settingsImage.setImageResource(R.drawable.settingsgearnight);
                 window.setStatusBarColor(getResources().getColor(R.color.nightBlue));
                 window.setNavigationBarColor(getResources().getColor(R.color.nightBlue));
                 break;
         }
+
+
 
     }
 
