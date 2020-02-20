@@ -6,10 +6,29 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
+import com.amazonaws.amplify.generated.graphql.OnCreateTaskSubscription;
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.amazonaws.mobileconnectors.appsync.AppSyncSubscriptionCall;
+import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
+import com.apollographql.apollo.GraphQLCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 /**
  * A fragment representing a list of Items.
@@ -19,12 +38,16 @@ import java.util.List;
  */
 public class TaskFragment extends Fragment {
 
+    //this is what actually handles the connections to aws
+    private AWSAppSyncClient mAWSAppSyncClient;
+
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private RecyclerView recyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -55,6 +78,29 @@ public class TaskFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        List<Task> allTasks = new ArrayList<>();
+        mAWSAppSyncClient.query(ListTasksQuery.builder().build())
+                .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
+                .enqueue(new GraphQLCall.Callback<ListTasksQuery.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull final Response<ListTasksQuery.Data> response) {
+
+                        Handler handler = new Handler(Looper.getMainLooper()){
+                            @Override
+                            public void handleMessage(Message input) {
+                                recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(response.data().listTasks().items(), null));
+                            }
+                        };
+                        handler.obtainMessage().sendToTarget();
+
+                        //returns a list of task items (not a Task.class list)
+                    }
+
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+
+                    }
+                });
     }
 
 
@@ -67,7 +113,7 @@ public class TaskFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView = (RecyclerView) view;
 
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -77,10 +123,17 @@ public class TaskFragment extends Fragment {
 
             //fetch tasks from db
             //TODO: need to recreate Main after doing this, or change it to use LiveData
-            TasksDatabase db = TasksDatabase.getTasksDatabase(inflater.getContext());
-            List<Task> allTasks = db.userDao().getAllTasks();
+//            TasksDatabase db = TasksDatabase.getTasksDatabase(inflater.getContext());
+            List<Task> allTasks = new ArrayList<>();
+            Task task = new Task("hardcoded task", "bleh");
+            allTasks.add(task);
 
-            recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(allTasks, mListener));
+//            recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(allTasks, mListener));
+
+            mAWSAppSyncClient = AWSAppSyncClient.builder()
+                    .context(view.getContext().getApplicationContext())
+                    .awsConfiguration(new AWSConfiguration(view.getContext().getApplicationContext()))
+                    .build();
         }
         return view;
     }
@@ -112,6 +165,19 @@ public class TaskFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(Task item);
+        void onListFragmentInteraction(ListTasksQuery.Item item);
     }
+
+//    private GraphQLCall.Callback<ListTasksQuery.Data> tasksCallback = new GraphQLCall.Callback<ListTasksQuery.Data>() {
+//        @Override
+//        public void onResponse(@Nonnull Response<ListTasksQuery.Data> response) {
+//            Log.i("amplify", response.data().listTasks().items().toString());
+//        }
+//
+//        @Override
+//        public void onFailure(@Nonnull ApolloException e) {
+//            Log.e("amplify", e.toString());
+//        }
+//    };
+
 }

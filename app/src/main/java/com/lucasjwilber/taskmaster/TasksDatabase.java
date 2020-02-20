@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 
 @Database(entities = {Task.class}, version = 1, exportSchema = false)
 public abstract class TasksDatabase extends RoomDatabase {
-    public abstract TaskDao userDao();
+//    public abstract TaskDao userDao();
 
     //thanks to https://medium.com/@ajaysaini.official/building-database-with-room-persistence-library-ecf7d0b8f3e9
     private static TasksDatabase INSTANCE;
