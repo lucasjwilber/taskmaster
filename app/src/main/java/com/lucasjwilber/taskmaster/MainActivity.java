@@ -1,29 +1,15 @@
 package com.lucasjwilber.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.amazonaws.amplify.generated.graphql.CreateTaskMutation;
-import com.amazonaws.amplify.generated.graphql.CreateTeamMutation;
-import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
-import com.apollographql.apollo.GraphQLCall;
-import com.apollographql.apollo.api.Response;
-import com.apollographql.apollo.exception.ApolloException;
-
-import javax.annotation.Nonnull;
-
-import type.CreateTaskInput;
-import type.CreateTeamInput;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,18 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        //delete the following:
-//        mAWSAppSyncClient = AWSAppSyncClient.builder()
-//                .context(getApplicationContext())
-//                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
-//                .build();
-//
-//        final CreateTeamInput opsTeam = CreateTeamInput.builder()
-//                .name("Operations")
-//                .build();
-//        final CreateTeamInput engTeam = CreateTeamInput.builder()
-//                .name("Engineering")
-//                .build();
+
 //        final CreateTeamInput installTeam = CreateTeamInput.builder()
 //                .name("Install")
 //                .build();
@@ -76,30 +51,7 @@ public class MainActivity extends AppCompatActivity {
 //                        Log.i("ljw", "failed adding team" + opsTeam.name());
 //                    }
 //                });
-//        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(engTeam).build())
-//                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
-//                    @Override
-//                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
-//                        Log.i("ljw", response.data().createTeam().toString());
-//                    }
 //
-//                    @Override
-//                    public void onFailure(@Nonnull ApolloException e) {
-//                        Log.i("ljw", "failed adding team" + engTeam.name());
-//                    }
-//                });
-//        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(installTeam).build())
-//                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
-//                    @Override
-//                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
-//                        Log.i("ljw", response.data().createTeam().toString());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(@Nonnull ApolloException e) {
-//                        Log.i("ljw", "failed adding team" + installTeam.name());
-//                    }
-//                });
 
         //delete the preceding:^
     }
@@ -137,8 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 window.setNavigationBarColor(getResources().getColor(R.color.nightBlue));
                 break;
         }
-
-
 
     }
 

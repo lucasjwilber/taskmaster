@@ -11,7 +11,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,14 +33,13 @@ import type.CreateTaskInput;
 
 public class AddTaskActivity extends AppCompatActivity {
 
-
     private AWSAppSyncClient mAWSAppSyncClient;
-    private Spinner teamSpinner;
-    private TeamSpinnerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_task);
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String theme = prefs.getString("theme", "Cafe");
         switch (theme) {
@@ -55,8 +54,6 @@ public class AddTaskActivity extends AppCompatActivity {
                 break;
         }
 
-        setContentView(R.layout.activity_add_task);
-
         mAWSAppSyncClient = AWSAppSyncClient.builder()
                 .context(getApplicationContext())
                 .awsConfiguration(new AWSConfiguration(getApplicationContext()))
@@ -67,46 +64,35 @@ public class AddTaskActivity extends AppCompatActivity {
                 .enqueue(new GraphQLCall.Callback<ListTeamsQuery.Data>() {
                     @Override
                     public void onResponse(@Nonnull final Response<ListTeamsQuery.Data> response) {
+
+                        //thanks to https://stackoverflow.com/questions/1625249/android-how-to-bind-spinner-to-custom-object-list
+                        List<ListTeamsQuery.Item> teams = response.data().listTeams().items();
+                        List<String> teamsList = new ArrayList<>();
+                        for (int i = 0; i < teams.size(); i++) {
+                            String newTeam = teams.get(i).name();
+                            teamsList.add(newTeam);
+                        }
+
+                        //thanks to 'Simplest Solution' @ https://stackoverflow.com/questions/1625249/android-how-to-bind-spinner-to-custom-object-list
+                        final ArrayAdapter teamSpinnerAdapter = new ArrayAdapter(getApplicationContext(),
+                                android.R.layout.simple_spinner_item,
+                                teamsList);
+                        final Spinner teamSpinner = findViewById(R.id.addTaskTeamSpinner);
+
+                        //update UI on main thread
                         Handler handler = new Handler(Looper.getMainLooper()){
                             @Override
                             public void handleMessage(Message input) {
-                                //thanks to https://stackoverflow.com/questions/1625249/android-how-to-bind-spinner-to-custom-object-list
-                                List<ListTeamsQuery.Item> teams = new ArrayList<>();
-                                for (ListTeamsQuery.Item team : response.data().listTeams().items()) {
-                                    teams.add(team);
-                                }
-//                                teams.addAll(response.data().listTeams().items());
-
-                                adapter = new TeamSpinnerAdapter(getApplicationContext(),
-                                        android.R.layout.simple_spinner_item,
-                                        teams);
-                                teamSpinner = findViewById(R.id.addTaskTeamSpinner);
-                                teamSpinner.setAdapter(adapter);
-                                teamSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> adapterView, View view,
-                                                               int position, long id) {
-                                        // Here you get the current item (a Team object) that is selected by its position
-                                        Team team = adapter.getItem(position);
-                                        // Here you can do the action you want to...
-                                        Toast.makeText(getApplicationContext(), "ID: " + team.getId() + "\nName: " + team.getName(),
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> adapter) {  }
-                                });
-
-                                Log.i("ljw", response.data().listTeams().toString());
-                            }
+                                teamSpinner.setAdapter(teamSpinnerAdapter);                            }
                         };
                         handler.obtainMessage().sendToTarget();
+
                     }
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {
                         Log.i("ljw", "failed querying teams list");
                     }
                 });
-
 
     }
 
