@@ -67,6 +67,7 @@ public class AddTaskActivity extends AppCompatActivity {
         CreateTaskInput input = CreateTaskInput.builder()
                 .title(title)
                 .body(body)
+                .state("NEW") //default/initial state is "NEW"
                 .build();
         //enqueue the mutation
         mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(input).build())

@@ -10,7 +10,31 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.amazonaws.amplify.generated.graphql.CreateTaskMutation;
+import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
+import com.apollographql.apollo.GraphQLCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+
+import org.w3c.dom.Text;
+
+import java.util.List;
+import javax.annotation.Nonnull;
+
+import type.CreateTaskInput;
+
+
 public class TaskDetailsActivity extends AppCompatActivity {
+
+
+    private String taskId;
+    private String sentTitle;
+    private String sentBody;
+    private String sentState;
+    private AWSAppSyncClient mAWSAppSyncClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,56 +53,71 @@ public class TaskDetailsActivity extends AppCompatActivity {
                 break;
         }
         setContentView(R.layout.activity_task_details);
+
+        //this intent comes from onBindViewHolder() in MyTaskRecyclerViewAdapter
+        Intent intent = getIntent();
+        taskId = intent.getStringExtra("taskId");
+        sentTitle = intent.getStringExtra("taskTitle");
+        sentBody = intent.getStringExtra("taskBody");
+        sentState = intent.getStringExtra("taskState");
+
+        mAWSAppSyncClient = AWSAppSyncClient.builder()
+                .context(getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+                .build();
     }
     protected void onResume() {
         super.onResume();
-        //this intent comes from onBindViewHolder() in MyTaskRecyclerViewAdapter
-        Intent intent = getIntent();
 
-        //get this task's info from db
-        TasksDatabase db = TasksDatabase.getTasksDatabase(getApplicationContext());
-//        Task selectedTask = db.userDao().findByName(intent.getStringExtra("taskTitle"));
-        String taskTitle = intent.getStringExtra("taskTitle");
-//        String taskBody = selectedTask.body;
-//        String state = selectedTask.state;
-
-        TextView title = findViewById(R.id.taskDetailsTitle);
-        TextView body = findViewById(R.id.taskDetailsBody);
+        TextView titleView = findViewById(R.id.taskDetailsTitle);
+        TextView bodyView = findViewById(R.id.taskDetailsBody);
         RadioButton rb;
-//        switch (state) {
-//            case "ASSIGNED":
-//                rb = findViewById(R.id.state_rb_assigned);
-//                break;
-//            case "IN PROGRESS":
-//                rb = findViewById(R.id.state_rb_inProgress);
-//                break;
-//            case "COMPLETE":
-//                rb = findViewById(R.id.state_rb_complete);
-//                break;
-//            case "NEW":
-//            default:
-//                rb = findViewById(R.id.state_rb_new);
-//                break;
-//        }
-//        rb.toggle();
-//        title.setText(taskTitle);
-//        body.setText(taskBody);
+
+        switch (sentState) {
+            case "ASSIGNED":
+                rb = findViewById(R.id.state_rb_assigned);
+                break;
+            case "IN PROGRESS":
+                rb = findViewById(R.id.state_rb_inProgress);
+                break;
+            case "COMPLETE":
+                rb = findViewById(R.id.state_rb_complete);
+                break;
+            case "NEW":
+            default:
+                rb = findViewById(R.id.state_rb_new);
+                break;
+        }
+        rb.toggle();
+        titleView.setText(sentTitle);
+        bodyView.setText(sentBody);
     }
 
     public void stateRadioButtonChanged(View v) {
         //get selected state
+        //TODO: could maybe just use v.getText().toString();
         RadioGroup stateRg = findViewById(R.id.taskStateRadioGroup);
         RadioButton stateRb = findViewById(stateRg.getCheckedRadioButtonId());
         String state = stateRb.getText().toString();
 
-        TasksDatabase db = TasksDatabase.getTasksDatabase(getApplicationContext());
+//        CreateTaskInput input = CreateTaskInput.builder()
+//                .title(title)
+//                .body(body)
+//                .state("NEW") //default/initial state is "NEW"
+//                .build();
+//        //enqueue the mutation
+//        mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(input).build())
+//                .enqueue(mutationCallback);
+    }
 
-        //update task in db with new state
-        TextView title = findViewById(R.id.taskDetailsTitle);
-        String taskTitle = title.getText().toString();
-//        Task task = db.userDao().findByName(taskTitle);
-//        task.setState(state);
-//        db.userDao().update(task);
+    public void deleteTaskButtonClicked(View v) {
+//        TextView titleView = findViewById(R.id.taskDetailsTitle);
+//        String taskTitle = titleView.getText().toString();
+//
+//        CreateTaskInput input = CreateTaskInput.builder()
+//                .title(title)
+//                .body(body)
+//                .build();
     }
 
 }
