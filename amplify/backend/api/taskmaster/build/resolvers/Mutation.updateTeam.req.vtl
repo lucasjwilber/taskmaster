@@ -1,23 +1,3 @@
-## [Start] Validate update mutation for @key 'byTeam'. **
-#set( $hasSeenSomeKeyArg = false )
-#set( $keyFieldNames = ["title", "body", "state"] )
-#foreach( $keyFieldName in $keyFieldNames )
-#if( $ctx.args.input.containsKey("$keyFieldName") ) #set( $hasSeenSomeKeyArg = true ) #end
-#end
-#foreach( $keyFieldName in $keyFieldNames )
-  #if( $hasSeenSomeKeyArg && !$ctx.args.input.containsKey("$keyFieldName") )
-    $util.error("When updating any part of the composite sort key for @key 'byTeam', you must provide all fields for the key. Missing key: '$keyFieldName'.")
-  #end
-#end
-## [End] Validate update mutation for @key 'byTeam'. **
-#if( $util.isNull($dynamodbNameOverrideMap) )
-  #set( $dynamodbNameOverrideMap = {
-  "title#body#state": "titleBodyState"
-} )
-#else
-  $util.qr($dynamodbNameOverrideMap.put("title#body#state", "titleBodyState"))
-#end
-$util.qr($ctx.args.input.put("title#body#state","${ctx.args.input.title}#${ctx.args.input.body}#${ctx.args.input.state}"))
 #if( $authCondition && $authCondition.expression != "" )
   #set( $condition = $authCondition )
   #if( $modelObjectKey )
@@ -56,7 +36,7 @@ $util.qr($ctx.args.input.put("title#body#state","${ctx.args.input.title}#${ctx.a
 #end
 ## Automatically set the updatedAt timestamp. **
 $util.qr($context.args.input.put("updatedAt", $util.defaultIfNull($ctx.args.input.updatedAt, $util.time.nowISO8601())))
-$util.qr($context.args.input.put("__typename", "Task"))
+$util.qr($context.args.input.put("__typename", "Team"))
 ## Update condition if type is @versioned **
 #if( $versionedCondition )
   $util.qr($condition.put("expression", "($condition.expression) AND $versionedCondition.expression"))

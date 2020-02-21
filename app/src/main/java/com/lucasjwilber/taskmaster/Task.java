@@ -9,13 +9,15 @@ public class Task {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
+    public String team;
     public String title;
     public String body;
-    public String state = "NEW";
+    public String state;
 
-    public Task(String title, String body){
+    public Task(String title, String body, String team){
         this.title = title;
         this.body = body;
+        this.team = team;
         this.state = "NEW";
     }
 

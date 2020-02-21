@@ -1,15 +1,7 @@
-#if( $util.isNull($dynamodbNameOverrideMap) )
-  #set( $dynamodbNameOverrideMap = {
-  "title#body#state": "titleBodyState"
-} )
-#else
-  $util.qr($dynamodbNameOverrideMap.put("title#body#state", "titleBodyState"))
-#end
-$util.qr($ctx.args.input.put("title#body#state","${ctx.args.input.title}#${ctx.args.input.body}#${ctx.args.input.state}"))
 ## [Start] Prepare DynamoDB PutItem Request. **
 $util.qr($context.args.input.put("createdAt", $util.defaultIfNull($ctx.args.input.createdAt, $util.time.nowISO8601())))
 $util.qr($context.args.input.put("updatedAt", $util.defaultIfNull($ctx.args.input.updatedAt, $util.time.nowISO8601())))
-$util.qr($context.args.input.put("__typename", "Task"))
+$util.qr($context.args.input.put("__typename", "Team"))
 #set( $condition = {
   "expression": "attribute_not_exists(#id)",
   "expressionNames": {

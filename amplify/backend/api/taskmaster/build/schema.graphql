@@ -1,5 +1,12 @@
+type Team {
+  id: ID!
+  name: String!
+  tasks(titleBodyState: ModelTaskByTeamCompositeKeyConditionInput, filter: ModelTaskFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaskConnection
+}
+
 type Task {
   id: ID!
+  teamID: ID!
   title: String!
   body: String
   state: String
@@ -10,8 +17,8 @@ enum ModelSortDirection {
   DESC
 }
 
-type ModelTaskConnection {
-  items: [Task]
+type ModelTeamConnection {
+  items: [Team]
   nextToken: String
 }
 
@@ -88,52 +95,49 @@ input ModelSizeInput {
   between: [Int]
 }
 
-input ModelTaskFilterInput {
+input ModelTeamFilterInput {
   id: ModelIDInput
-  title: ModelStringInput
-  body: ModelStringInput
-  state: ModelStringInput
-  and: [ModelTaskFilterInput]
-  or: [ModelTaskFilterInput]
-  not: ModelTaskFilterInput
+  name: ModelStringInput
+  and: [ModelTeamFilterInput]
+  or: [ModelTeamFilterInput]
+  not: ModelTeamFilterInput
 }
 
 type Query {
+  getTeam(id: ID!): Team
+  listTeams(filter: ModelTeamFilterInput, limit: Int, nextToken: String): ModelTeamConnection
   getTask(id: ID!): Task
   listTasks(filter: ModelTaskFilterInput, limit: Int, nextToken: String): ModelTaskConnection
 }
 
-input CreateTaskInput {
+input CreateTeamInput {
   id: ID
-  title: String!
-  body: String
-  state: String
+  name: String!
 }
 
-input UpdateTaskInput {
+input UpdateTeamInput {
   id: ID!
-  title: String
-  body: String
-  state: String
+  name: String
 }
 
-input DeleteTaskInput {
+input DeleteTeamInput {
   id: ID
 }
 
 type Mutation {
+  createTeam(input: CreateTeamInput!, condition: ModelTeamConditionInput): Team
+  updateTeam(input: UpdateTeamInput!, condition: ModelTeamConditionInput): Team
+  deleteTeam(input: DeleteTeamInput!, condition: ModelTeamConditionInput): Team
   createTask(input: CreateTaskInput!, condition: ModelTaskConditionInput): Task
   updateTask(input: UpdateTaskInput!, condition: ModelTaskConditionInput): Task
   deleteTask(input: DeleteTaskInput!, condition: ModelTaskConditionInput): Task
 }
 
-input ModelTaskConditionInput {
-  title: ModelStringInput
-  body: ModelStringInput
-  state: ModelStringInput
-  and: [ModelTaskConditionInput]
-  or: [ModelTaskConditionInput]
-  not: ModelTaskConditionInput
+input ModelTeamConditionInput {
+  name: ModelStringInput
+  and: [ModelTeamConditionInput]
+  or: [ModelTeamConditionInput]
+  not: ModelTeamConditionInput
 }
 
 enum ModelAttributeTypes {
@@ -150,7 +154,72 @@ enum ModelAttributeTypes {
 }
 
 type Subscription {
+  onCreateTeam: Team @aws_subscribe(mutations: ["createTeam"])
+  onUpdateTeam: Team @aws_subscribe(mutations: ["updateTeam"])
+  onDeleteTeam: Team @aws_subscribe(mutations: ["deleteTeam"])
   onCreateTask: Task @aws_subscribe(mutations: ["createTask"])
   onUpdateTask: Task @aws_subscribe(mutations: ["updateTask"])
   onDeleteTask: Task @aws_subscribe(mutations: ["deleteTask"])
+}
+
+type ModelTaskConnection {
+  items: [Task]
+  nextToken: String
+}
+
+input ModelTaskFilterInput {
+  id: ModelIDInput
+  teamID: ModelIDInput
+  title: ModelStringInput
+  body: ModelStringInput
+  state: ModelStringInput
+  and: [ModelTaskFilterInput]
+  or: [ModelTaskFilterInput]
+  not: ModelTaskFilterInput
+}
+
+input CreateTaskInput {
+  id: ID
+  teamID: ID!
+  title: String!
+  body: String
+  state: String
+}
+
+input UpdateTaskInput {
+  id: ID!
+  teamID: ID
+  title: String
+  body: String
+  state: String
+}
+
+input DeleteTaskInput {
+  id: ID
+}
+
+input ModelTaskConditionInput {
+  teamID: ModelIDInput
+  title: ModelStringInput
+  body: ModelStringInput
+  state: ModelStringInput
+  and: [ModelTaskConditionInput]
+  or: [ModelTaskConditionInput]
+  not: ModelTaskConditionInput
+}
+
+input ModelTaskByTeamCompositeKeyConditionInput {
+  eq: ModelTaskByTeamCompositeKeyInput
+  le: ModelTaskByTeamCompositeKeyInput
+  lt: ModelTaskByTeamCompositeKeyInput
+  ge: ModelTaskByTeamCompositeKeyInput
+  gt: ModelTaskByTeamCompositeKeyInput
+  between: [ModelTaskByTeamCompositeKeyInput]
+  beginsWith: ModelTaskByTeamCompositeKeyInput
+}
+
+input ModelTaskByTeamCompositeKeyInput {
+  title: String
+  body: String
+  state: String
 }

@@ -86,7 +86,7 @@
         }
     },
     "Resources": {
-        "TaskTable": {
+        "TeamTable": {
             "Type": "AWS::DynamoDB::Table",
             "Properties": {
                 "TableName": {
@@ -96,7 +96,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "Task",
+                                    "Team",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
                                     },
@@ -110,7 +110,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "Task",
+                                    "Team",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
                                     }
@@ -128,14 +128,6 @@
                 "AttributeDefinitions": [
                     {
                         "AttributeName": "id",
-                        "AttributeType": "S"
-                    },
-                    {
-                        "AttributeName": "teamID",
-                        "AttributeType": "S"
-                    },
-                    {
-                        "AttributeName": "title#body#state",
                         "AttributeType": "S"
                     }
                 ],
@@ -186,45 +178,11 @@
                             "Ref": "AWS::NoValue"
                         }
                     ]
-                },
-                "GlobalSecondaryIndexes": [
-                    {
-                        "IndexName": "byTeam",
-                        "KeySchema": [
-                            {
-                                "AttributeName": "teamID",
-                                "KeyType": "HASH"
-                            },
-                            {
-                                "AttributeName": "title#body#state",
-                                "KeyType": "RANGE"
-                            }
-                        ],
-                        "Projection": {
-                            "ProjectionType": "ALL"
-                        },
-                        "ProvisionedThroughput": {
-                            "Fn::If": [
-                                "ShouldUsePayPerRequestBilling",
-                                {
-                                    "Ref": "AWS::NoValue"
-                                },
-                                {
-                                    "ReadCapacityUnits": {
-                                        "Ref": "DynamoDBModelTableReadIOPS"
-                                    },
-                                    "WriteCapacityUnits": {
-                                        "Ref": "DynamoDBModelTableWriteIOPS"
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                ]
+                }
             },
             "DeletionPolicy": "Delete"
         },
-        "TaskIAMRole": {
+        "TeamIAMRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "RoleName": {
@@ -234,7 +192,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "Task",
+                                    "Team",
                                     "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
@@ -249,7 +207,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "Task",
+                                    "Team",
                                     "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
@@ -301,7 +259,7 @@
                                                                 "Fn::Join": [
                                                                     "-",
                                                                     [
-                                                                        "Task",
+                                                                        "Team",
                                                                         {
                                                                             "Ref": "GetAttGraphQLAPIApiId"
                                                                         },
@@ -315,7 +273,7 @@
                                                                 "Fn::Join": [
                                                                     "-",
                                                                     [
-                                                                        "Task",
+                                                                        "Team",
                                                                         {
                                                                             "Ref": "GetAttGraphQLAPIApiId"
                                                                         }
@@ -338,7 +296,7 @@
                                                                 "Fn::Join": [
                                                                     "-",
                                                                     [
-                                                                        "Task",
+                                                                        "Team",
                                                                         {
                                                                             "Ref": "GetAttGraphQLAPIApiId"
                                                                         },
@@ -352,7 +310,7 @@
                                                                 "Fn::Join": [
                                                                     "-",
                                                                     [
-                                                                        "Task",
+                                                                        "Team",
                                                                         {
                                                                             "Ref": "GetAttGraphQLAPIApiId"
                                                                         }
@@ -372,17 +330,17 @@
                 ]
             }
         },
-        "TaskDataSource": {
+        "TeamDataSource": {
             "Type": "AWS::AppSync::DataSource",
             "Properties": {
                 "ApiId": {
                     "Ref": "GetAttGraphQLAPIApiId"
                 },
-                "Name": "TaskTable",
+                "Name": "TeamTable",
                 "Type": "AMAZON_DYNAMODB",
                 "ServiceRoleArn": {
                     "Fn::GetAtt": [
-                        "TaskIAMRole",
+                        "TeamIAMRole",
                         "Arn"
                     ]
                 },
@@ -397,7 +355,7 @@
                                 "Fn::Join": [
                                     "-",
                                     [
-                                        "Task",
+                                        "Team",
                                         {
                                             "Ref": "GetAttGraphQLAPIApiId"
                                         },
@@ -411,7 +369,7 @@
                                 "Fn::Join": [
                                     "-",
                                     [
-                                        "Task",
+                                        "Team",
                                         {
                                             "Ref": "GetAttGraphQLAPIApiId"
                                         }
@@ -423,10 +381,10 @@
                 }
             },
             "DependsOn": [
-                "TaskIAMRole"
+                "TeamIAMRole"
             ]
         },
-        "GetTaskResolver": {
+        "GetTeamResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -434,11 +392,11 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "TaskDataSource",
+                        "TeamDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "getTask",
+                "FieldName": "getTeam",
                 "TypeName": "Query",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
@@ -455,7 +413,7 @@
                                     ".",
                                     [
                                         "Query",
-                                        "getTask",
+                                        "getTeam",
                                         "req",
                                         "vtl"
                                     ]
@@ -479,7 +437,7 @@
                                     ".",
                                     [
                                         "Query",
-                                        "getTask",
+                                        "getTeam",
                                         "res",
                                         "vtl"
                                     ]
@@ -490,7 +448,7 @@
                 }
             }
         },
-        "ListTaskResolver": {
+        "ListTeamResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -498,11 +456,11 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "TaskDataSource",
+                        "TeamDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "listTasks",
+                "FieldName": "listTeams",
                 "TypeName": "Query",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
@@ -519,7 +477,7 @@
                                     ".",
                                     [
                                         "Query",
-                                        "listTasks",
+                                        "listTeams",
                                         "req",
                                         "vtl"
                                     ]
@@ -543,7 +501,7 @@
                                     ".",
                                     [
                                         "Query",
-                                        "listTasks",
+                                        "listTeams",
                                         "res",
                                         "vtl"
                                     ]
@@ -554,7 +512,7 @@
                 }
             }
         },
-        "CreateTaskResolver": {
+        "CreateTeamResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -562,11 +520,11 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "TaskDataSource",
+                        "TeamDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "createTask",
+                "FieldName": "createTeam",
                 "TypeName": "Mutation",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
@@ -583,7 +541,7 @@
                                     ".",
                                     [
                                         "Mutation",
-                                        "createTask",
+                                        "createTeam",
                                         "req",
                                         "vtl"
                                     ]
@@ -607,7 +565,7 @@
                                     ".",
                                     [
                                         "Mutation",
-                                        "createTask",
+                                        "createTeam",
                                         "res",
                                         "vtl"
                                     ]
@@ -618,7 +576,7 @@
                 }
             }
         },
-        "UpdateTaskResolver": {
+        "UpdateTeamResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -626,11 +584,11 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "TaskDataSource",
+                        "TeamDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "updateTask",
+                "FieldName": "updateTeam",
                 "TypeName": "Mutation",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
@@ -647,7 +605,7 @@
                                     ".",
                                     [
                                         "Mutation",
-                                        "updateTask",
+                                        "updateTeam",
                                         "req",
                                         "vtl"
                                     ]
@@ -671,7 +629,7 @@
                                     ".",
                                     [
                                         "Mutation",
-                                        "updateTask",
+                                        "updateTeam",
                                         "res",
                                         "vtl"
                                     ]
@@ -682,7 +640,7 @@
                 }
             }
         },
-        "DeleteTaskResolver": {
+        "DeleteTeamResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -690,11 +648,11 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "TaskDataSource",
+                        "TeamDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "deleteTask",
+                "FieldName": "deleteTeam",
                 "TypeName": "Mutation",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
@@ -711,7 +669,7 @@
                                     ".",
                                     [
                                         "Mutation",
-                                        "deleteTask",
+                                        "deleteTeam",
                                         "req",
                                         "vtl"
                                     ]
@@ -735,7 +693,7 @@
                                     ".",
                                     [
                                         "Mutation",
-                                        "deleteTask",
+                                        "deleteTeam",
                                         "res",
                                         "vtl"
                                     ]
@@ -748,11 +706,11 @@
         }
     },
     "Outputs": {
-        "GetAttTaskTableStreamArn": {
+        "GetAttTeamTableStreamArn": {
             "Description": "Your DynamoDB table StreamArn.",
             "Value": {
                 "Fn::GetAtt": [
-                    "TaskTable",
+                    "TeamTable",
                     "StreamArn"
                 ]
             },
@@ -765,18 +723,18 @@
                                 "Ref": "AppSyncApiId"
                             },
                             "GetAtt",
-                            "TaskTable",
+                            "TeamTable",
                             "StreamArn"
                         ]
                     ]
                 }
             }
         },
-        "GetAttTaskDataSourceName": {
+        "GetAttTeamDataSourceName": {
             "Description": "Your model DataSource name.",
             "Value": {
                 "Fn::GetAtt": [
-                    "TaskDataSource",
+                    "TeamDataSource",
                     "Name"
                 ]
             },
@@ -789,17 +747,17 @@
                                 "Ref": "AppSyncApiId"
                             },
                             "GetAtt",
-                            "TaskDataSource",
+                            "TeamDataSource",
                             "Name"
                         ]
                     ]
                 }
             }
         },
-        "GetAttTaskTableName": {
+        "GetAttTeamTableName": {
             "Description": "Your DynamoDB table name.",
             "Value": {
-                "Ref": "TaskTable"
+                "Ref": "TeamTable"
             },
             "Export": {
                 "Name": {
@@ -810,7 +768,7 @@
                                 "Ref": "AppSyncApiId"
                             },
                             "GetAtt",
-                            "TaskTable",
+                            "TeamTable",
                             "Name"
                         ]
                     ]

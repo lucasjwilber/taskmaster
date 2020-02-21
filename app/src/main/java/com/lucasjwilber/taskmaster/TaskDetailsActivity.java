@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.telecom.Call;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -94,20 +96,31 @@ public class TaskDetailsActivity extends AppCompatActivity {
     }
 
     public void stateRadioButtonChanged(View v) {
-        //get selected state
+        Log.i("ljw", "state radio button clicked");
         //TODO: could maybe just use v.getText().toString();
         RadioGroup stateRg = findViewById(R.id.taskStateRadioGroup);
         RadioButton stateRb = findViewById(stateRg.getCheckedRadioButtonId());
-        String state = stateRb.getText().toString();
+        final String newState = stateRb.getText().toString();
 
-//        CreateTaskInput input = CreateTaskInput.builder()
-//                .title(title)
-//                .body(body)
-//                .state("NEW") //default/initial state is "NEW"
-//                .build();
-//        //enqueue the mutation
-//        mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(input).build())
-//                .enqueue(mutationCallback);
+        CreateTaskInput input = CreateTaskInput.builder()
+                .title(sentTitle)
+                .body(sentBody)
+                .id(taskId)
+                .state(newState) //default/initial state is "NEW"
+                .build();
+        //enqueue the mutation
+        mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(input).build())
+                .enqueue(new GraphQLCall.Callback<CreateTaskMutation.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
+                        Log.i("ljw", newState);
+                        Log.i("ljw", response.data().createTask().state());
+                    }
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+                        Log.i("ljw", "failed state update");
+                    }
+                });
     }
 
     public void deleteTaskButtonClicked(View v) {
