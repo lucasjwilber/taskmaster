@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -29,7 +31,6 @@ public class TaskFragment extends Fragment {
 
     //this is what actually handles the connections to aws
     private AWSAppSyncClient mAWSAppSyncClient;
-
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
@@ -55,6 +56,12 @@ public class TaskFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+        mAWSAppSyncClient = AWSAppSyncClient.builder()
+                .context(getContext().getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getContext().getApplicationContext()))
+                .build();
+
     }
 
     @Override
@@ -66,17 +73,20 @@ public class TaskFragment extends Fragment {
                 .enqueue(new GraphQLCall.Callback<ListTasksQuery.Data>() {
                     @Override
                     public void onResponse(@Nonnull final Response<ListTasksQuery.Data> response) {
+                        Log.i("ljw", "entered callback");
                         Handler handler = new Handler(Looper.getMainLooper()){
                             @Override
                             public void handleMessage(Message input) {
-                                recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(response.data().listTasks().items(), null));
+                                recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(response.data().listTasks().items(), mListener));
+                                Log.i("ljw", "what's rendered to recylerview:");
+                                Log.i("ljw", response.data().listTasks().items().toString());
                             }
                         };
                         handler.obtainMessage().sendToTarget();
                     }
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {
-
+                        Log.i("ljw", "failed getting tasks list");
                     }
                 });
     }
@@ -85,6 +95,8 @@ public class TaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Log.i("ljw", "oncreateview start");
 
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
 
@@ -99,10 +111,9 @@ public class TaskFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            mAWSAppSyncClient = AWSAppSyncClient.builder()
-                    .context(view.getContext().getApplicationContext())
-                    .awsConfiguration(new AWSConfiguration(view.getContext().getApplicationContext()))
-                    .build();
+
+            recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(new LinkedList<ListTasksQuery.Item>(), null));
+
         }
         return view;
     }

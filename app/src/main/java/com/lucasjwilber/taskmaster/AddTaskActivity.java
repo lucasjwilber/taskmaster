@@ -34,11 +34,14 @@ import type.CreateTaskInput;
 public class AddTaskActivity extends AppCompatActivity {
 
     private AWSAppSyncClient mAWSAppSyncClient;
+    private String teamID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        teamID = (String) ( (Spinner) findViewById(R.id.addTaskTeamSpinner)).getSelectedItem();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String theme = prefs.getString("theme", "Cafe");
@@ -59,6 +62,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 .awsConfiguration(new AWSConfiguration(getApplicationContext()))
                 .build();
 
+//        spinner for team selection
         mAWSAppSyncClient.query(ListTeamsQuery.builder().build())
                 .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
                 .enqueue(new GraphQLCall.Callback<ListTeamsQuery.Data>() {
@@ -67,9 +71,9 @@ public class AddTaskActivity extends AppCompatActivity {
 
                         //thanks to https://stackoverflow.com/questions/1625249/android-how-to-bind-spinner-to-custom-object-list
                         List<ListTeamsQuery.Item> teams = response.data().listTeams().items();
-                        List<String> teamsList = new ArrayList<>();
+                        List<Team> teamsList = new ArrayList<>();
                         for (int i = 0; i < teams.size(); i++) {
-                            String newTeam = teams.get(i).name();
+                            Team newTeam = new Team(teams.get(i).name());
                             teamsList.add(newTeam);
                         }
 
@@ -112,6 +116,7 @@ public class AddTaskActivity extends AppCompatActivity {
         CreateTaskInput input = CreateTaskInput.builder()
                 .title(title)
                 .body(body)
+                .teamID(teamID)
                 .state("NEW") //default/initial state is "NEW"
                 .build();
         //enqueue the mutation
@@ -158,5 +163,11 @@ public class AddTaskActivity extends AppCompatActivity {
             Log.e("amplify", e.toString());
         }
     };
+
+    public void teamChanged(View v) {
+//        String teamId = (String) ( (Spinner) findViewById(R.id.addTaskTeamSpinner)).getSelectedItem();
+//        Log.i("ljw", "selected id");
+//        Log.i("ljw", teamId);
+    }
 
 }

@@ -45,4 +45,12 @@ public class Task {
     public void setState(String state) {
         this.state = state;
     }
+
+    public String getTeam() {
+        return team;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
+    }
 }
