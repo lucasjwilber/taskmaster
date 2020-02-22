@@ -25,6 +25,7 @@ import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -34,14 +35,11 @@ import type.CreateTaskInput;
 public class AddTaskActivity extends AppCompatActivity {
 
     private AWSAppSyncClient mAWSAppSyncClient;
-    private String teamID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
-
-        teamID = (String) ( (Spinner) findViewById(R.id.addTaskTeamSpinner)).getSelectedItem();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String theme = prefs.getString("theme", "Cafe");
@@ -64,23 +62,24 @@ public class AddTaskActivity extends AppCompatActivity {
 
 //        spinner for team selection
         mAWSAppSyncClient.query(ListTeamsQuery.builder().build())
-                .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
+                //use cache here since teams change infrequently
+                .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
                 .enqueue(new GraphQLCall.Callback<ListTeamsQuery.Data>() {
                     @Override
                     public void onResponse(@Nonnull final Response<ListTeamsQuery.Data> response) {
 
                         //thanks to https://stackoverflow.com/questions/1625249/android-how-to-bind-spinner-to-custom-object-list
                         List<ListTeamsQuery.Item> teams = response.data().listTeams().items();
-                        List<Team> teamsList = new ArrayList<>();
+                        List<String> teamNames = new ArrayList<>();
                         for (int i = 0; i < teams.size(); i++) {
-                            Team newTeam = new Team(teams.get(i).name());
-                            teamsList.add(newTeam);
+                            teamNames.add(teams.get(i).name());
                         }
+                        Log.i("ljw", teamNames.toString());
 
                         //thanks to 'Simplest Solution' @ https://stackoverflow.com/questions/1625249/android-how-to-bind-spinner-to-custom-object-list
-                        final ArrayAdapter teamSpinnerAdapter = new ArrayAdapter(getApplicationContext(),
+                        final ArrayAdapter<String> teamSpinnerAdapter = new ArrayAdapter<>(getApplicationContext(),
                                 android.R.layout.simple_spinner_item,
-                                teamsList);
+                                teamNames);
                         final Spinner teamSpinner = findViewById(R.id.addTaskTeamSpinner);
 
                         //update UI on main thread
@@ -116,7 +115,8 @@ public class AddTaskActivity extends AppCompatActivity {
         CreateTaskInput input = CreateTaskInput.builder()
                 .title(title)
                 .body(body)
-                .teamID(teamID)
+//                .teamID(teamID) hardcoded one below is for testing
+                .teamID("94a9958a-9769-4e05-98a8-58b45f46a2a4")
                 .state("NEW") //default/initial state is "NEW"
                 .build();
         //enqueue the mutation
@@ -124,8 +124,6 @@ public class AddTaskActivity extends AppCompatActivity {
                 .enqueue(mutationCallback);
 
         finish();
-        //RIP for now, custom toast
-
         //display custom toast:
         //thanks to https://stackoverflow.com/questions/11288475/custom-toast-on-android-a-simple-example
         View toastView = toast.getView();

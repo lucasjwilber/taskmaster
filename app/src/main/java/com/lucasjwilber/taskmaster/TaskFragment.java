@@ -6,14 +6,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
+import com.amazonaws.amplify.generated.graphql.ListTeamsQuery;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
@@ -57,10 +57,6 @@ public class TaskFragment extends Fragment {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
 
-        mAWSAppSyncClient = AWSAppSyncClient.builder()
-                .context(getContext().getApplicationContext())
-                .awsConfiguration(new AWSConfiguration(getContext().getApplicationContext()))
-                .build();
 
     }
 
@@ -68,25 +64,29 @@ public class TaskFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        mAWSAppSyncClient = AWSAppSyncClient.builder()
+                .context(getContext())
+                .awsConfiguration(new AWSConfiguration(getContext()))
+                .build();
+
+
         mAWSAppSyncClient.query(ListTasksQuery.builder().build())
                 .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
                 .enqueue(new GraphQLCall.Callback<ListTasksQuery.Data>() {
                     @Override
                     public void onResponse(@Nonnull final Response<ListTasksQuery.Data> response) {
-                        Log.i("ljw", "entered callback");
-                        Handler handler = new Handler(Looper.getMainLooper()){
-                            @Override
-                            public void handleMessage(Message input) {
-                                recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(response.data().listTasks().items(), mListener));
-                                Log.i("ljw", "what's rendered to recylerview:");
-                                Log.i("ljw", response.data().listTasks().items().toString());
-                            }
-                        };
-                        handler.obtainMessage().sendToTarget();
+
+                        //thanks to https://stackoverflow.com/questions/1625249/android-how-to-bind-spinner-to-custom-object-list
+//
+                        //get shared prefs for team
+                        //get that team's tasks
+
+
                     }
+
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {
-                        Log.i("ljw", "failed getting tasks list");
+                        Log.i("ljw", "failed querying tasks list");
                     }
                 });
     }

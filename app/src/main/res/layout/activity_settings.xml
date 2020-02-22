@@ -56,10 +56,10 @@
         android:id="@+id/colorThemeRadioGroup"
         android:layout_width="83dp"
         android:layout_height="166dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="100dp"
         android:checkedButton="@+id/radioButtonCafe"
         app:layout_constraintStart_toStartOf="@+id/usernameInput"
-        app:layout_constraintTop_toBottomOf="@+id/usernameInput">
+        app:layout_constraintTop_toBottomOf="@+id/settingsTeamsSpinner">
 
         <RadioButton
             android:id="@+id/radioButtonCafe"
@@ -97,5 +97,15 @@
         android:text="@string/theme"
         app:layout_constraintBottom_toTopOf="@+id/colorThemeRadioGroup"
         app:layout_constraintStart_toStartOf="@+id/colorThemeRadioGroup" />
+
+    <Spinner
+        android:id="@+id/settingsTeamsSpinner"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintEnd_toEndOf="@+id/usernameInput"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/usernameInput"
+        app:layout_constraintTop_toBottomOf="@+id/usernameInput" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
