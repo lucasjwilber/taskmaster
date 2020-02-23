@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 
 import com.amazonaws.amplify.generated.graphql.GetTeamQuery;
 import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
+import com.amazonaws.amplify.generated.graphql.ListTeamsQuery;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
@@ -27,6 +28,7 @@ import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class TaskFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
+    private Hashtable<String, String> teamNamesToIDs = new Hashtable<>();
 
     //necessary for fragment instantiation
     public TaskFragment() {}
@@ -59,6 +62,31 @@ public class TaskFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+        mAWSAppSyncClient = AWSAppSyncClient.builder()
+                .context(getContext())
+                .awsConfiguration(new AWSConfiguration(getContext()))
+                .build();
+
+        //get all stored teams from aws to populate teamNamesToIds
+        mAWSAppSyncClient.query(ListTeamsQuery.builder().build())
+                .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
+                .enqueue(new GraphQLCall.Callback<ListTeamsQuery.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull final Response<ListTeamsQuery.Data> response) {
+                        List<ListTeamsQuery.Item> teams = response.data().listTeams().items();
+                        for (int i = 0; i < teams.size(); i++) {
+                            teamNamesToIDs.put(teams.get(i).name(), teams.get(i).id());
+                        }
+                        Log.i("ljw", "filled teamNamesToIds hash table");
+                    }
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+                        Log.i("ljw", "failed querying teams list");
+                        Log.e("ljw", e.toString());
+                    }
+                });
+
     }
 
     @Override
@@ -67,13 +95,10 @@ public class TaskFragment extends Fragment {
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
         final String selectedTeam = prefs.getString("selectedTeam", "Operations");
+        //if the hashtable isn't populated yet (done asynchronously in oncreate) use the Operations team id
+        String teamId = teamNamesToIDs.get(selectedTeam) != null ? teamNamesToIDs.get(selectedTeam) : "c3e8900a-5a39-4038-b6f6-64cc9d56cb93";
 
-        mAWSAppSyncClient = AWSAppSyncClient.builder()
-                .context(getContext())
-                .awsConfiguration(new AWSConfiguration(getContext()))
-                .build();
-
-        mAWSAppSyncClient.query(GetTeamQuery.builder().id("94a9958a-9769-4e05-98a8-58b45f46a2a4").build())
+        mAWSAppSyncClient.query(GetTeamQuery.builder().id(teamId).build())
                 .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
                 .enqueue(new GraphQLCall.Callback<GetTeamQuery.Data>() {
                     @Override
@@ -81,7 +106,6 @@ public class TaskFragment extends Fragment {
                         Log.i("ljw", "successful team query");
                         final List<GetTeamQuery.Item> tasks = response.data().getTeam().tasks().items();
                         Log.i("ljw", tasks.toString());
-
 
                         Handler handler = new Handler(Looper.getMainLooper()) {
                             @Override

@@ -121,7 +121,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 .body(body)
 //                TODO: get team name from spinner and insert it below
 //                .teamID(teamName)
-                .teamID("94a9958a-9769-4e05-98a8-58b45f46a2a4")
+                .teamID("c3e8900a-5a39-4038-b6f6-64cc9d56cb93")
                 .state("NEW") //default/initial state is "NEW"
                 .build();
 
