@@ -17,3 +17,5 @@ This Android app helps users create and keep track of tasks they need to do!
 - 2/19/2020: Added the Night theme. The recycler view on the Main activity now only shows task state and title, the task body is visible on the Task Details activity.
 
 - 2/20/2020: Refactored app to use AWS Amplify instead of Room for task storage.
+
+- 2/22/2020: Added Teams, which own Tasks. A user must now specify a team in Settings, and the main activity will display tasks assigned to that team. Added a spinner for team selection in both Settings and in Add Task. Also added task update and delete functionality. The main activity title is now the currently selected team. Adding spinners cause several complications with app styling, so the City and Night themes have been disabled for now.

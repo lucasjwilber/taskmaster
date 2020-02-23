@@ -9,7 +9,6 @@
 
 <!--    TODO: re-add action bar and style it-->
 <!--    TODO: add corner radius to buttons-->
-<!--    TODO: set text color for night theme-->
 
     <style name="CafeTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@color/coffeeDarkest</item>
@@ -20,7 +19,12 @@
         <item name="android:color">@color/coffeeLightest</item>
         <item name="android:textColor">@color/coffeeDarkest</item>
         <item name="android:buttonStyle">@style/CafeButton</item>
+<!--        <item name="android:spinnerItemStyle">@style/CafeSpinnerItems</item>-->
     </style>
+        <style name="CafeSpinnerItems" parent="android:Widget.Material.Light.Spinner">
+            <item name="android:background">@color/coffeeDarkest</item>
+            <item name="android:textColor">@color/coffeeLightest</item>
+        </style>
         <style name="CafeButton" parent="android:Widget.Material.Light.Button">
             <item name="android:background">@color/coffeeDarkest</item>
             <item name="android:textColor">@color/coffeeLightest</item>
