@@ -13,7 +13,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.amazonaws.amplify.generated.graphql.CreateTaskMutation;
+import com.amazonaws.amplify.generated.graphql.DeleteTaskMutation;
 import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
+import com.amazonaws.amplify.generated.graphql.UpdateTaskMutation;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
@@ -27,15 +29,18 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import type.CreateTaskInput;
+import type.DeleteTaskInput;
+import type.UpdateTaskInput;
 
 
 public class TaskDetailsActivity extends AppCompatActivity {
 
 
     private String taskId;
-    private String sentTitle;
-    private String sentBody;
-    private String sentState;
+    private String taskTitle;
+    private String taskBody;
+    private String taskState;
+    private String taskTeamID;
     private AWSAppSyncClient mAWSAppSyncClient;
 
     @Override
@@ -59,9 +64,10 @@ public class TaskDetailsActivity extends AppCompatActivity {
         //this intent comes from onBindViewHolder() in MyTaskRecyclerViewAdapter
         Intent intent = getIntent();
         taskId = intent.getStringExtra("taskId");
-        sentTitle = intent.getStringExtra("taskTitle");
-        sentBody = intent.getStringExtra("taskBody");
-        sentState = intent.getStringExtra("taskState");
+        taskTitle = intent.getStringExtra("taskTitle");
+        taskBody = intent.getStringExtra("taskBody");
+        taskState = intent.getStringExtra("taskState");
+        taskTeamID = intent.getStringExtra("taskTeamID");
 
         mAWSAppSyncClient = AWSAppSyncClient.builder()
                 .context(getApplicationContext())
@@ -75,7 +81,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
         TextView bodyView = findViewById(R.id.taskDetailsBody);
         RadioButton rb;
 
-        switch (sentState) {
+        switch (taskState) {
             case "ASSIGNED":
                 rb = findViewById(R.id.state_rb_assigned);
                 break;
@@ -91,8 +97,8 @@ public class TaskDetailsActivity extends AppCompatActivity {
                 break;
         }
         rb.toggle();
-        titleView.setText(sentTitle);
-        bodyView.setText(sentBody);
+        titleView.setText(taskTitle);
+        bodyView.setText(taskBody);
     }
 
     public void stateRadioButtonChanged(View v) {
@@ -102,19 +108,20 @@ public class TaskDetailsActivity extends AppCompatActivity {
         RadioButton stateRb = findViewById(stateRg.getCheckedRadioButtonId());
         final String newState = stateRb.getText().toString();
 
-        CreateTaskInput input = CreateTaskInput.builder()
-                .title(sentTitle)
-                .body(sentBody)
+        UpdateTaskInput input = UpdateTaskInput.builder()
                 .id(taskId)
-                .state(newState) //default/initial state is "NEW"
+                .teamID(taskTeamID)
+                .title(taskTitle)
+                .body(taskBody)
+                .state(newState)
                 .build();
         //enqueue the mutation
-        mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(input).build())
-                .enqueue(new GraphQLCall.Callback<CreateTaskMutation.Data>() {
+        mAWSAppSyncClient.mutate(UpdateTaskMutation.builder().input(input).build())
+                .enqueue(new GraphQLCall.Callback<UpdateTaskMutation.Data>() {
                     @Override
-                    public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
+                    public void onResponse(@Nonnull Response<UpdateTaskMutation.Data> response) {
                         Log.i("ljw", newState);
-                        Log.i("ljw", response.data().createTask().state());
+                        Log.i("ljw", response.data().updateTask().state());
                     }
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {
@@ -124,13 +131,21 @@ public class TaskDetailsActivity extends AppCompatActivity {
     }
 
     public void deleteTaskButtonClicked(View v) {
-//        TextView titleView = findViewById(R.id.taskDetailsTitle);
-//        String taskTitle = titleView.getText().toString();
-//
-//        CreateTaskInput input = CreateTaskInput.builder()
-//                .title(title)
-//                .body(body)
-//                .build();
+        DeleteTaskInput input = DeleteTaskInput.builder().id(taskId).build();
+        mAWSAppSyncClient.mutate(DeleteTaskMutation.builder().input(input).build())
+                .enqueue(new GraphQLCall.Callback<DeleteTaskMutation.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<DeleteTaskMutation.Data> response) {
+                        Log.i("ljw", "deleted task successfully");
+                        Log.i("ljw", response.data().deleteTask().toString());
+                        finish();
+                    }
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+                        Log.i("ljw", "failed to delete task");
+                        Log.i("ljw", e.toString());
+                    }
+                });
     }
 
 }

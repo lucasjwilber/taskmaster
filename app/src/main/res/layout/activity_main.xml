@@ -116,4 +116,12 @@
         app:layout_constraintTop_toBottomOf="@+id/mainActTitle"
         app:layout_constraintVertical_bias="0.110000014" />
 
+    <TextView
+        android:id="@+id/mainActUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        app:layout_constraintEnd_toEndOf="@+id/settingsgear"
+        app:layout_constraintTop_toBottomOf="@+id/settingsgear" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

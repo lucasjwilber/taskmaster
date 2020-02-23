@@ -26,6 +26,7 @@ import com.apollographql.apollo.exception.ApolloException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -35,11 +36,13 @@ import type.CreateTaskInput;
 public class AddTaskActivity extends AppCompatActivity {
 
     private AWSAppSyncClient mAWSAppSyncClient;
+    private Hashtable<String, String> teamNamesToIDs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+        teamNamesToIDs = new Hashtable<>();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         //apply theme
@@ -72,11 +75,11 @@ public class AddTaskActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(@Nonnull final Response<ListTeamsQuery.Data> response) {
 
-                            //thanks to https://stackoverflow.com/questions/1625249/android-how-to-bind-spinner-to-custom-object-list
                             List<ListTeamsQuery.Item> teams = response.data().listTeams().items();
                             List<String> teamNames = new ArrayList<>();
                             for (int i = 0; i < teams.size(); i++) {
                                 teamNames.add(teams.get(i).name());
+                                teamNamesToIDs.put(teams.get(i).name(), teams.get(i).id());
                             }
 
                             //thanks to 'Simplest Solution' @ https://stackoverflow.com/questions/1625249/android-how-to-bind-spinner-to-custom-object-list
@@ -115,13 +118,13 @@ public class AddTaskActivity extends AppCompatActivity {
         String body = bodyInput.getText().toString();
         Spinner spinner = findViewById(R.id.addTaskTeamSpinner);
         String teamName = spinner.getSelectedItem().toString();
+        String teamID = teamNamesToIDs.get(teamName);
 
         CreateTaskInput input = CreateTaskInput.builder()
                 .title(title)
                 .body(body)
-//                TODO: get team name from spinner and insert it below
-//                .teamID(teamName)
-                .teamID("c3e8900a-5a39-4038-b6f6-64cc9d56cb93")
+                .teamID(teamID)
+//                .teamID("c3e8900a-5a39-4038-b6f6-64cc9d56cb93")
                 .state("NEW") //default/initial state is "NEW"
                 .build();
 

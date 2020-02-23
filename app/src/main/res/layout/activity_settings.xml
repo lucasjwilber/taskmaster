@@ -108,4 +108,12 @@
         app:layout_constraintStart_toStartOf="@+id/usernameInput"
         app:layout_constraintTop_toBottomOf="@+id/usernameInput" />
 
+    <TextView
+        android:id="@+id/settingsTeamLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/team"
+        app:layout_constraintBottom_toTopOf="@+id/settingsTeamsSpinner"
+        app:layout_constraintStart_toStartOf="@+id/settingsTeamsSpinner" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

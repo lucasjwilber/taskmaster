@@ -45,6 +45,7 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         holder.taskStateView.setText(mValues.get(position).state());
         holder.taskBodyView.setText(mValues.get(position).body());
         holder.taskIdView.setText(mValues.get(position).id());
+        holder.taskTeamIDView.setText(mValues.get(position).teamID());
 
         holder.taskView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,10 +56,12 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
                 String taskId = holder.taskIdView.getText().toString();
                 String taskBody = holder.taskBodyView.getText().toString();
                 String taskState = holder.taskStateView.getText().toString();
+                String taskTeamID = holder.taskTeamIDView.getText().toString();
                 intent.putExtra("taskTitle", taskTitle);
                 intent.putExtra("taskBody", taskBody);
                 intent.putExtra("taskId", taskId);
                 intent.putExtra("taskState", taskState);
+                intent.putExtra("taskTeamID", taskTeamID);
 
                 v.getContext().startActivity(intent);
                 if (null != mListener) {
@@ -81,6 +84,8 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         public final TextView taskStateView;
         public final TextView taskBodyView;
         public final TextView taskIdView;
+        public final TextView taskTeamIDView;
+
         public GetTeamQuery.Item mItem;
 
         public ViewHolder(View view) {
@@ -90,6 +95,7 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
             taskStateView = view.findViewById(R.id.taskState);
             taskBodyView = view.findViewById(R.id.taskBody);
             taskIdView = view.findViewById(R.id.taskId);
+            taskTeamIDView = view.findViewById(R.id.taskTeamID);
         }
     }
 }

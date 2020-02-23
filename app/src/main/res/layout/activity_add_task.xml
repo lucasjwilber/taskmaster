@@ -102,9 +102,18 @@
         android:id="@+id/addTaskTeamSpinner"
         android:layout_width="230dp"
         android:layout_height="32dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="56dp"
         app:layout_constraintBottom_toTopOf="@+id/addTask_taskNameInput"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.171"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/addTaskTeamLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/team"
+        app:layout_constraintBottom_toTopOf="@+id/addTaskTeamSpinner"
+        app:layout_constraintStart_toStartOf="@+id/addTaskTeamSpinner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

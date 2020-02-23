@@ -81,7 +81,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String theme = prefs.getString("theme", "Cafe");
         String username = prefs.getString("username", "My ");
-        applyUsername(username);
+        String selectedTeam = prefs.getString("selectedTeam", "Operations");
+        TextView titleView = findViewById(R.id.mainActUsername);
+        titleView.setText(username);
+        TextView mainActTitle = findViewById(R.id.mainActTitle);
+        mainActTitle.setText(selectedTeam);
 
         //apply theme changes that I couldn't set in <style>s
         ImageView logo = findViewById(R.id.mainActLogo);
@@ -108,18 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-    }
-
-    public void applyUsername(String username) {
-        TextView titleView = findViewById(R.id.mainActTitle);
-
-        String titleText;
-        if (username.lastIndexOf("s") == username.length() - 1) {
-            titleText = username + "' Tasks";
-        } else {
-            titleText = username + "'s Tasks";
-        }
-        titleView.setText(titleText);
     }
 
     public void goToAddTasksActivity(View v) {
