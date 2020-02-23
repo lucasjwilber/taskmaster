@@ -106,7 +106,7 @@
 
     <fragment
         android:id="@+id/tasksFragment"
-        android:name="com.lucasjwilber.taskmaster.TaskFragment"
+        android:name="com.lucasjwilber.taskmaster.TeamTasksFragment"
         android:layout_width="338dp"
         android:layout_height="435dp"
         android:layout_marginTop="12dp"

@@ -1,18 +1,9 @@
 package com.lucasjwilber.taskmaster;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.TextView;
 
 public class AllTasksActivity extends AppCompatActivity {
 
