@@ -18,4 +18,6 @@
     <string name="stateAssigned">ASSIGNED</string>
     <string name="stateInProgress">IN PROGRESS</string>
     <string name="stateComplete">COMPLETE</string>
+    <string name="team">Team</string>
+    <string name="empty"> </string>
 </resources>

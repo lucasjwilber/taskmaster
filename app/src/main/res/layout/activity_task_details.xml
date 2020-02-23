@@ -76,4 +76,15 @@
 
     </RadioGroup>
 
+    <Button
+        android:id="@+id/deleteTaskButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="52dp"
+        android:onClick="deleteTaskButtonClicked"
+        android:text="Delete Task"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskDetailsTitle" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

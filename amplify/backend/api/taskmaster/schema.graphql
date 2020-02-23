@@ -1,5 +1,11 @@
-type Task @model {
+type Team @model {
   id: ID!
+  name: String!
+  tasks: [Task] @connection(keyName: "byTeam", fields: ["id"])
+}
+type Task @model @key(name: "byTeam", fields: ["teamID", "title", "body", "state"]) {
+  id: ID!
+  teamID: ID!
   title: String!
   body: String
   state: String

@@ -1,0 +1,107 @@
+#set( $limit = $util.defaultIfNull($context.args.limit, 10) )
+#set( $query = {
+  "expression": "#partitionKey = :partitionKey",
+  "expressionNames": {
+      "#partitionKey": "teamID"
+  },
+  "expressionValues": {
+      ":partitionKey": {
+          "S": "$context.source.id"
+    }
+  }
+} )
+## [Start] Applying Key Condition **
+#set( $sortKeyValue = "" )
+#set( $sortKeyValue2 = "" )
+#if( !$util.isNull($ctx.args.titleBodyState) && !$util.isNull($ctx.args.titleBodyState.beginsWith) )
+#if( !$util.isNull($ctx.args.titleBodyState.beginsWith.title) ) #set( $sortKeyValue = "$ctx.args.titleBodyState.beginsWith.title" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.beginsWith.body) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.titleBodyState.beginsWith.body" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.beginsWith.state) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.titleBodyState.beginsWith.state" ) #end
+  #set( $query.expression = "$query.expression AND begins_with(#sortKey, :sortKey)" )
+  $util.qr($query.expressionNames.put("#sortKey", "title#body#state"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$sortKeyValue" }))
+#end
+#if( !$util.isNull($ctx.args.titleBodyState) && !$util.isNull($ctx.args.titleBodyState.between) )
+  #if( $ctx.args.titleBodyState.between.size() != 2 )
+    $util.error("Argument titleBodyState.between expects exactly 2 elements.")
+  #end
+#if( !$util.isNull($ctx.args.titleBodyState.between[0].title) ) #set( $sortKeyValue = "$ctx.args.titleBodyState.between[0].title" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.between[0].body) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.titleBodyState.between[0].body" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.between[0].state) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.titleBodyState.between[0].state" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.between[1].title) ) #set( $sortKeyValue2 = "$ctx.args.titleBodyState.between[1].title" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.between[1].body) ) #set( $sortKeyValue2 = "$sortKeyValue2#$ctx.args.titleBodyState.between[1].body" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.between[1].state) ) #set( $sortKeyValue2 = "$sortKeyValue2#$ctx.args.titleBodyState.between[1].state" ) #end
+  #set( $query.expression = "$query.expression AND #sortKey BETWEEN :sortKey0 AND :sortKey1" )
+  $util.qr($query.expressionNames.put("#sortKey", "title#body#state"))
+  $util.qr($query.expressionValues.put(":sortKey0", { "S": "$sortKeyValue" }))
+  $util.qr($query.expressionValues.put(":sortKey1", { "S": "$sortKeyValue2" }))
+#end
+#if( !$util.isNull($ctx.args.titleBodyState) && !$util.isNull($ctx.args.titleBodyState.eq) )
+#if( !$util.isNull($ctx.args.titleBodyState.eq.title) ) #set( $sortKeyValue = "$ctx.args.titleBodyState.eq.title" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.eq.body) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.titleBodyState.eq.body" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.eq.state) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.titleBodyState.eq.state" ) #end
+  #set( $query.expression = "$query.expression AND #sortKey = :sortKey" )
+  $util.qr($query.expressionNames.put("#sortKey", "title#body#state"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$sortKeyValue" }))
+#end
+#if( !$util.isNull($ctx.args.titleBodyState) && !$util.isNull($ctx.args.titleBodyState.lt) )
+#if( !$util.isNull($ctx.args.titleBodyState.lt.title) ) #set( $sortKeyValue = "$ctx.args.titleBodyState.lt.title" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.lt.body) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.titleBodyState.lt.body" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.lt.state) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.titleBodyState.lt.state" ) #end
+  #set( $query.expression = "$query.expression AND #sortKey < :sortKey" )
+  $util.qr($query.expressionNames.put("#sortKey", "title#body#state"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$sortKeyValue" }))
+#end
+#if( !$util.isNull($ctx.args.titleBodyState) && !$util.isNull($ctx.args.titleBodyState.le) )
+#if( !$util.isNull($ctx.args.titleBodyState.le.title) ) #set( $sortKeyValue = "$ctx.args.titleBodyState.le.title" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.le.body) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.titleBodyState.le.body" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.le.state) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.titleBodyState.le.state" ) #end
+  #set( $query.expression = "$query.expression AND #sortKey <= :sortKey" )
+  $util.qr($query.expressionNames.put("#sortKey", "title#body#state"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$sortKeyValue" }))
+#end
+#if( !$util.isNull($ctx.args.titleBodyState) && !$util.isNull($ctx.args.titleBodyState.gt) )
+#if( !$util.isNull($ctx.args.titleBodyState.gt.title) ) #set( $sortKeyValue = "$ctx.args.titleBodyState.gt.title" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.gt.body) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.titleBodyState.gt.body" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.gt.state) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.titleBodyState.gt.state" ) #end
+  #set( $query.expression = "$query.expression AND #sortKey > :sortKey" )
+  $util.qr($query.expressionNames.put("#sortKey", "title#body#state"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$sortKeyValue" }))
+#end
+#if( !$util.isNull($ctx.args.titleBodyState) && !$util.isNull($ctx.args.titleBodyState.ge) )
+#if( !$util.isNull($ctx.args.titleBodyState.ge.title) ) #set( $sortKeyValue = "$ctx.args.titleBodyState.ge.title" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.ge.body) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.titleBodyState.ge.body" ) #end
+#if( !$util.isNull($ctx.args.titleBodyState.ge.state) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.titleBodyState.ge.state" ) #end
+  #set( $query.expression = "$query.expression AND #sortKey >= :sortKey" )
+  $util.qr($query.expressionNames.put("#sortKey", "title#body#state"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$sortKeyValue" }))
+#end
+
+
+## [End] Applying Key Condition **
+{
+  "version": "2017-02-28",
+  "operation": "Query",
+  "query":   $util.toJson($query),
+  "scanIndexForward":   #if( $context.args.sortDirection )
+    #if( $context.args.sortDirection == "ASC" )
+true
+    #else
+false
+    #end
+  #else
+true
+  #end,
+  "filter":   #if( $context.args.filter )
+$util.transform.toDynamoDBFilterExpression($ctx.args.filter)
+  #else
+null
+  #end,
+  "limit": $limit,
+  "nextToken":   #if( $context.args.nextToken )
+$util.toJson($context.args.nextToken)
+  #else
+null
+  #end,
+  "index": "byTeam"
+}

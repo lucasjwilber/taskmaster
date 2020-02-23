@@ -1,17 +1,36 @@
 package com.lucasjwilber.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.amazonaws.amplify.generated.graphql.ListTeamsQuery;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
+import com.apollographql.apollo.GraphQLCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
 public class MainActivity extends AppCompatActivity {
+
+    private AWSAppSyncClient mAWSAppSyncClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +50,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
+
+
+
+//        final CreateTeamInput installTeam = CreateTeamInput.builder()
+//                .name("Install")
+//                .build();
+//
+//        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(opsTeam).build())
+//                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
+//                    @Override
+//                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
+//                        Log.i("ljw", response.data().createTeam().toString());
+//                    }
+//
+//                    @Override
+//                    public void onFailure(@Nonnull ApolloException e) {
+//                        Log.i("ljw", "failed adding team" + opsTeam.name());
+//                    }
+//                });
+//
+
+        //delete the preceding:^
     }
 
     @Override
@@ -40,7 +81,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String theme = prefs.getString("theme", "Cafe");
         String username = prefs.getString("username", "My ");
-        applyUsername(username);
+        String selectedTeam = prefs.getString("selectedTeam", "Operations");
+        TextView titleView = findViewById(R.id.mainActUsername);
+        titleView.setText(username);
+        TextView mainActTitle = findViewById(R.id.mainActTitle);
+        mainActTitle.setText(selectedTeam);
 
         //apply theme changes that I couldn't set in <style>s
         ImageView logo = findViewById(R.id.mainActLogo);
@@ -67,20 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-
-
-    }
-
-    public void applyUsername(String username) {
-        TextView titleView = findViewById(R.id.mainActTitle);
-
-        String titleText;
-        if (username.lastIndexOf("s") == username.length() - 1) {
-            titleText = username + "' Tasks";
-        } else {
-            titleText = username + "'s Tasks";
-        }
-        titleView.setText(titleText);
     }
 
     public void goToAddTasksActivity(View v) {
