@@ -40,132 +40,131 @@ public class AddTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String theme = prefs.getString("theme", "Cafe");
-        switch (theme) {
-            case "Cafe":
-                setTheme(R.style.CafeTheme);
-                break;
-            case "City":
-                setTheme(R.style.CityTheme);
-                break;
-            case "Night":
-                setTheme(R.style.NightTheme);
-                break;
+
+        //apply theme
+        {
+            String theme = prefs.getString("theme", "Cafe");
+            switch (theme) {
+                case "Cafe":
+                    setTheme(R.style.CafeTheme);
+                    break;
+                case "City":
+                    setTheme(R.style.CityTheme);
+                    break;
+                case "Night":
+                    setTheme(R.style.NightTheme);
+                    break;
+            }
         }
 
-        mAWSAppSyncClient = AWSAppSyncClient.builder()
-                .context(getApplicationContext())
-                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
-                .build();
+        //query aws for saved teams to populate team select spinner
+        {
+            mAWSAppSyncClient = AWSAppSyncClient.builder()
+                    .context(getApplicationContext())
+                    .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+                    .build();
 
-//        spinner for team selection
-        mAWSAppSyncClient.query(ListTeamsQuery.builder().build())
-                //use cache here since teams change infrequently
-                .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
-                .enqueue(new GraphQLCall.Callback<ListTeamsQuery.Data>() {
-                    @Override
-                    public void onResponse(@Nonnull final Response<ListTeamsQuery.Data> response) {
+            mAWSAppSyncClient.query(ListTeamsQuery.builder().build())
+                    //use cache here since teams change infrequently
+                    .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
+                    .enqueue(new GraphQLCall.Callback<ListTeamsQuery.Data>() {
+                        @Override
+                        public void onResponse(@Nonnull final Response<ListTeamsQuery.Data> response) {
 
-                        //thanks to https://stackoverflow.com/questions/1625249/android-how-to-bind-spinner-to-custom-object-list
-                        List<ListTeamsQuery.Item> teams = response.data().listTeams().items();
-                        List<String> teamNames = new ArrayList<>();
-                        for (int i = 0; i < teams.size(); i++) {
-                            teamNames.add(teams.get(i).name());
+                            //thanks to https://stackoverflow.com/questions/1625249/android-how-to-bind-spinner-to-custom-object-list
+                            List<ListTeamsQuery.Item> teams = response.data().listTeams().items();
+                            List<String> teamNames = new ArrayList<>();
+                            for (int i = 0; i < teams.size(); i++) {
+                                teamNames.add(teams.get(i).name());
+                            }
+
+                            //thanks to 'Simplest Solution' @ https://stackoverflow.com/questions/1625249/android-how-to-bind-spinner-to-custom-object-list
+                            final ArrayAdapter<String> teamSpinnerAdapter = new ArrayAdapter<>(getApplicationContext(),
+                                    android.R.layout.simple_spinner_item,
+                                    teamNames);
+                            final Spinner teamSpinner = findViewById(R.id.addTaskTeamSpinner);
+
+                            //update UI on main thread
+                            Handler handler = new Handler(Looper.getMainLooper()) {
+                                @Override
+                                public void handleMessage(Message input) {
+                                    teamSpinner.setAdapter(teamSpinnerAdapter);
+                                }
+                            };
+                            handler.obtainMessage().sendToTarget();
                         }
-                        Log.i("ljw", teamNames.toString());
-
-                        //thanks to 'Simplest Solution' @ https://stackoverflow.com/questions/1625249/android-how-to-bind-spinner-to-custom-object-list
-                        final ArrayAdapter<String> teamSpinnerAdapter = new ArrayAdapter<>(getApplicationContext(),
-                                android.R.layout.simple_spinner_item,
-                                teamNames);
-                        final Spinner teamSpinner = findViewById(R.id.addTaskTeamSpinner);
-
-                        //update UI on main thread
-                        Handler handler = new Handler(Looper.getMainLooper()){
-                            @Override
-                            public void handleMessage(Message input) {
-                                teamSpinner.setAdapter(teamSpinnerAdapter);                            }
-                        };
-                        handler.obtainMessage().sendToTarget();
-
-                    }
-                    @Override
-                    public void onFailure(@Nonnull ApolloException e) {
-                        Log.i("ljw", "failed querying teams list");
-                    }
-                });
-
+                        @Override
+                        public void onFailure(@Nonnull ApolloException e) {
+                            Log.i("ljw", "failed querying teams list");
+                        }
+                    });
+        }
     }
 
     //thanks to https://developer.android.com/guide/topics/ui/notifiers/toasts
     public void addTaskButtonClicked(View v) {
-        Context context = getApplicationContext();
-        CharSequence text = "Submitted!";
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, text, duration);
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Submitted!",
+                Toast.LENGTH_SHORT);
 
-        //get edittext fields
+        //gather new task data
         TextView titleInput = findViewById(R.id.addTask_taskNameInput);
         String title = titleInput.getText().toString();
         TextView bodyInput = findViewById(R.id.addTask_taskDescInput);
         String body = bodyInput.getText().toString();
-        //create the mutation
+        Spinner spinner = findViewById(R.id.addTaskTeamSpinner);
+        String teamName = spinner.getSelectedItem().toString();
+
         CreateTaskInput input = CreateTaskInput.builder()
                 .title(title)
                 .body(body)
-//                .teamID(teamID) hardcoded one below is for testing
+//                TODO: get team name from spinner and insert it below
+//                .teamID(teamName)
                 .teamID("94a9958a-9769-4e05-98a8-58b45f46a2a4")
                 .state("NEW") //default/initial state is "NEW"
                 .build();
-        //enqueue the mutation
+
         mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(input).build())
-                .enqueue(mutationCallback);
+                .enqueue(new GraphQLCall.Callback<CreateTaskMutation.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
+                        Log.i("ljw", "Added Task with amplify successfully:");
+                        Log.i("ljw", response.toString());
+                    }
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+                        Log.e("ljw", "failed adding task with amplify:");
+                        Log.e("ljw", e.toString());
+                    }
+                });
 
-        finish();
         //display custom toast:
-        //thanks to https://stackoverflow.com/questions/11288475/custom-toast-on-android-a-simple-example
-        View toastView = toast.getView();
-        TextView toastMessage = toastView.findViewById(android.R.id.message);
-        toastMessage.setTextSize(30);
+        {
+            //thanks to https://stackoverflow.com/questions/11288475/custom-toast-on-android-a-simple-example
+            View toastView = toast.getView();
+            TextView toastMessage = toastView.findViewById(android.R.id.message);
+            toastMessage.setTextSize(30);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String theme = prefs.getString("theme", "Cafe");
-        switch (theme) {
-            case "Cafe":
-                toastMessage.setTextColor(getResources().getColor(R.color.coffeeDarkest));
-                toastView.setBackgroundColor(getResources().getColor(R.color.coffeeLight));
-                break;
-            case "City":
-                toastMessage.setTextColor(getResources().getColor(R.color.cityLightGray));
-                toastView.setBackgroundColor(getResources().getColor(R.color.cityMediumGray));
-                break;
-            case "Night":
-                toastMessage.setTextColor(getResources().getColor(R.color.nightLightGray));
-                toastView.setBackgroundColor(getResources().getColor(R.color.nightWhite));
-                break;
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            String theme = prefs.getString("theme", "Cafe");
+            switch (theme) {
+                case "Cafe":
+                    toastMessage.setTextColor(getResources().getColor(R.color.coffeeDarkest));
+                    toastView.setBackgroundColor(getResources().getColor(R.color.coffeeLight));
+                    break;
+                case "City":
+                    toastMessage.setTextColor(getResources().getColor(R.color.cityLightGray));
+                    toastView.setBackgroundColor(getResources().getColor(R.color.cityMediumGray));
+                    break;
+                case "Night":
+                    toastMessage.setTextColor(getResources().getColor(R.color.nightLightGray));
+                    toastView.setBackgroundColor(getResources().getColor(R.color.nightWhite));
+                    break;
+            }
+            toast.setGravity(Gravity.CENTER, 0, -40);
+            toast.show();
         }
-        toast.setGravity(Gravity.CENTER, 0, -40);
-        toast.show();
+        finish();
     }
-
-    private GraphQLCall.Callback<CreateTaskMutation.Data> mutationCallback = new GraphQLCall.Callback<CreateTaskMutation.Data>() {
-        @Override
-        public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
-            Log.i("amplify", "Added Task");
-            Log.i("amplify", response.toString());
-        }
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("amplify", e.toString());
-        }
-    };
-
-    public void teamChanged(View v) {
-//        String teamId = (String) ( (Spinner) findViewById(R.id.addTaskTeamSpinner)).getSelectedItem();
-//        Log.i("ljw", "selected id");
-//        Log.i("ljw", teamId);
-    }
-
 }

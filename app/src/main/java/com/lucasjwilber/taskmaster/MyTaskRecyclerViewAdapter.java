@@ -2,35 +2,25 @@ package com.lucasjwilber.taskmaster;
 
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.amazonaws.amplify.generated.graphql.GetTaskQuery;
+import com.amazonaws.amplify.generated.graphql.GetTeamQuery;
 import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
-import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
-import com.apollographql.apollo.GraphQLCall;
-import com.apollographql.apollo.api.Response;
-import com.apollographql.apollo.exception.ApolloException;
 import com.lucasjwilber.taskmaster.TaskFragment.OnListFragmentInteractionListener;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecyclerViewAdapter.ViewHolder> {
 
-    private final List<ListTasksQuery.Item> mValues;
+    private final List<GetTeamQuery.Item> mValues;
     private final OnListFragmentInteractionListener mListener;
     private AWSAppSyncClient mAWSAppSyncClient;
 
-    public MyTaskRecyclerViewAdapter(List<ListTasksQuery.Item> items, OnListFragmentInteractionListener listener) {
+    public MyTaskRecyclerViewAdapter(List<GetTeamQuery.Item> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -74,7 +64,7 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+//                    mListener.onListFragmentInteraction(holder.mItem);
                 }
             }
         });
@@ -91,7 +81,7 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         public final TextView taskStateView;
         public final TextView taskBodyView;
         public final TextView taskIdView;
-        public ListTasksQuery.Item mItem;
+        public GetTeamQuery.Item mItem;
 
         public ViewHolder(View view) {
             super(view);

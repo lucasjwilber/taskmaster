@@ -125,8 +125,6 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-
-
     //thanks to https://developer.android.com/training/data-storage/shared-preferences
     //and https://stackoverflow.com/questions/18179124/android-getting-value-from-selected-radiobutton
     public void saveSettingsClicked(View v) {

@@ -1,19 +1,24 @@
 package com.lucasjwilber.taskmaster;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.amazonaws.amplify.generated.graphql.GetTeamQuery;
 import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
-import com.amazonaws.amplify.generated.graphql.ListTeamsQuery;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
@@ -29,9 +34,7 @@ import javax.annotation.Nonnull;
 
 public class TaskFragment extends Fragment {
 
-    //this is what actually handles the connections to aws
     private AWSAppSyncClient mAWSAppSyncClient;
-
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
@@ -56,39 +59,45 @@ public class TaskFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
-
-
     }
 
     @Override
     public void onResume() {
+        Log.i("ljw", "onresume start");
         super.onResume();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
+        final String selectedTeam = prefs.getString("selectedTeam", "Operations");
 
         mAWSAppSyncClient = AWSAppSyncClient.builder()
                 .context(getContext())
                 .awsConfiguration(new AWSConfiguration(getContext()))
                 .build();
 
-
-        mAWSAppSyncClient.query(ListTasksQuery.builder().build())
+        mAWSAppSyncClient.query(GetTeamQuery.builder().id("94a9958a-9769-4e05-98a8-58b45f46a2a4").build())
                 .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
-                .enqueue(new GraphQLCall.Callback<ListTasksQuery.Data>() {
+                .enqueue(new GraphQLCall.Callback<GetTeamQuery.Data>() {
                     @Override
-                    public void onResponse(@Nonnull final Response<ListTasksQuery.Data> response) {
-
-                        //thanks to https://stackoverflow.com/questions/1625249/android-how-to-bind-spinner-to-custom-object-list
-//
-                        //get shared prefs for team
-                        //get that team's tasks
+                    public void onResponse(@Nonnull final Response<GetTeamQuery.Data> response) {
+                        Log.i("ljw", "successful team query");
+                        final List<GetTeamQuery.Item> tasks = response.data().getTeam().tasks().items();
+                        Log.i("ljw", tasks.toString());
 
 
+                        Handler handler = new Handler(Looper.getMainLooper()) {
+                            @Override
+                            public void handleMessage(Message input) {
+                                recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(tasks, mListener));
+                            }
+                        };
+                        handler.obtainMessage().sendToTarget();
                     }
 
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {
-                        Log.i("ljw", "failed querying tasks list");
+                        Log.i("ljw", "failed getting team query");
+                        Log.i("ljw", e.toString());
                     }
-                });
+        });
     }
 
 
@@ -111,8 +120,8 @@ public class TaskFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-
-            recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(new LinkedList<ListTasksQuery.Item>(), null));
+            //set empty one as default, then overwrite it when tasks are loaded
+            recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(new ArrayList<GetTeamQuery.Item>(), null));
 
         }
         return view;
