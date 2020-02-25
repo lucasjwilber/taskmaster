@@ -35,8 +35,31 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-taskenv-111814-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"logicalId": "apitaskmaster"
 			},
-			"lastPushTimeStamp": "2020-02-21T18:30:24.224Z",
+			"lastPushTimeStamp": "2020-02-25T18:53:31.881Z",
 			"lastPushDirHash": "hWci+bo4lg2lL2P06Nmw5DL0OJw="
+		}
+	},
+	"auth": {
+		"taskmaster6da1e810": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false,
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-taskenv-111814-deployment/amplify-cfn-templates/auth/taskmaster6da1e810-cloudformation-template.yml",
+				"logicalId": "authtaskmaster6da1e810"
+			},
+			"lastPushTimeStamp": "2020-02-25T18:53:31.910Z",
+			"output": {
+				"AppClientSecret": "kej2s7trle07iakfti5cikmvkjg7ppnrbnqn6l56r9ag35eluq4",
+				"UserPoolId": "us-west-2_RRXfqTz6H",
+				"AppClientIDWeb": "7c3eovak45lerfd8c1uu5vrs9q",
+				"AppClientID": "6p94l81c2nndqg35mm7r7fnif3",
+				"IdentityPoolId": "us-west-2:8d9a42ca-e297-44ca-81c2-9fa7f5fe5c43",
+				"IdentityPoolName": "taskmaster6da1e810_identitypool_6da1e810__taskenv",
+				"UserPoolName": "taskmaster6da1e810_userpool_6da1e810"
+			},
+			"lastPushDirHash": "Ypsz2917WUPDcmmeVwqpyz2kIl8="
 		}
 	}
 }
