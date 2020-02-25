@@ -17,14 +17,18 @@ import com.amazonaws.mobile.client.SignInUIOptions;
 import com.amazonaws.mobile.client.UserState;
 import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.client.UserStateListener;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 
 public class MainActivity extends AppCompatActivity {
     String TAG = "ljw";
+    String username = "Guest";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+
         String theme = prefs.getString("theme", "Cafe");
         switch (theme) {
             case "Cafe":
@@ -55,9 +59,41 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                });
         }
+
+        //instantiate aws mobile
+        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+                    @Override
+                    public void onResult(UserStateDetails userStateDetails) {
+                        Log.i("ljw", "onResult: " + userStateDetails.getUserState());
+                    }
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("ljw", "Initialization error.", e);
+                    }
+                }
+        );
+
+        TextView usernameView = findViewById(R.id.mainActUsername);
+        username = AWSMobileClient.getInstance().getUsername();
+        usernameView.setText(username);
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String theme = prefs.getString("theme", "Cafe");
+        String selectedTeam = prefs.getString("selectedTeam", "Operations");
+        TextView mainActTitle = findViewById(R.id.mainActTitle);
+        mainActTitle.setText(selectedTeam);
+        TextView usernameView = findViewById(R.id.mainActUsername);
+        username = AWSMobileClient.getInstance().getUsername();
+        usernameView.setText(username);
+
         //initialize amplify auth:
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
-
                     @Override
                     public void onResult(UserStateDetails userStateDetails) {
                         Log.i("ljw", "onResult: " + userStateDetails.getUserState());
@@ -71,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 break;
                             case SIGNED_IN:
-                                Log.i("userState", "user is signed in");
+                                Log.i("ljw", "user is signed in");
                                 break;
                             case SIGNED_OUT_USER_POOLS_TOKENS_INVALID:
                                 Log.i("userState", "need to login again");
@@ -90,74 +126,6 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-        //user auth state change listener:
-        AWSMobileClient.getInstance().addUserStateListener(new UserStateListener() {
-            @Override
-            public void onUserStateChanged(UserStateDetails userStateDetails) {
-                switch (userStateDetails.getUserState()){
-                    case GUEST:
-                        Log.i("userState", "user is in guest mode");
-                        break;
-                    case SIGNED_OUT:
-                        Log.i("userState", "user is signed out");
-                        break;
-                    case SIGNED_IN:
-                        Log.i("userState", "user is signed in");
-                        break;
-                    case SIGNED_OUT_USER_POOLS_TOKENS_INVALID:
-                        Log.i("userState", "need to login again");
-                        break;
-                    case SIGNED_OUT_FEDERATED_TOKENS_INVALID:
-                        Log.i("userState", "user logged in via federation, but currently needs new tokens");
-                        break;
-                    default:
-                        Log.e("userState", "unsupported");
-                }
-            }
-        });
-
-        AWSMobileClient.getInstance().showSignIn(
-                this,
-                SignInUIOptions.builder()
-                        .nextActivity(MainActivity.class)
-                        .build(),
-                new Callback<UserStateDetails>() {
-                    @Override
-                    public void onResult(UserStateDetails result) {
-                        Log.d("ljw", "onResult: " + result.getUserState());
-                        switch (result.getUserState()){
-                            case SIGNED_IN:
-                                Log.i("INIT", "logged in!");
-                                break;
-                            case SIGNED_OUT:
-                                Log.i("ljw", "onResult: User did not choose to sign-in");
-                                break;
-                            default:
-                                AWSMobileClient.getInstance().signOut();
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        Log.e(TAG, "onError: ", e);
-                    }
-                }
-        );
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String theme = prefs.getString("theme", "Cafe");
-        String username = prefs.getString("username", "Guest");
-        String selectedTeam = prefs.getString("selectedTeam", "Operations");
-        TextView titleView = findViewById(R.id.mainActUsername);
-        titleView.setText(username);
-        TextView mainActTitle = findViewById(R.id.mainActTitle);
-        mainActTitle.setText(selectedTeam);
 
         //apply theme changes that I couldn't set in <style>s
         {
