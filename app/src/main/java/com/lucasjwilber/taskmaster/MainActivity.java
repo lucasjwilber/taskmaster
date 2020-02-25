@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -72,10 +75,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-
-        TextView usernameView = findViewById(R.id.mainActUsername);
-        username = AWSMobileClient.getInstance().getUsername();
-        usernameView.setText(username);
+        Log.i("ljw", "/////////////////////////");
+        if (AWSMobileClient.getInstance().getUsername() != null) {
+            Log.i("ljw", "signed in ");
+        } else {
+            Log.i("ljw", "NOT signed in ");
+        }
 
     }
 
@@ -88,9 +93,9 @@ public class MainActivity extends AppCompatActivity {
         String selectedTeam = prefs.getString("selectedTeam", "Operations");
         TextView mainActTitle = findViewById(R.id.mainActTitle);
         mainActTitle.setText(selectedTeam);
+        //username view text is Guest by default, but overwritten if user is signed in.
         TextView usernameView = findViewById(R.id.mainActUsername);
-        username = AWSMobileClient.getInstance().getUsername();
-        usernameView.setText(username);
+        usernameView.setText(R.string.guest);
 
         //initialize amplify auth:
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
@@ -108,6 +113,15 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case SIGNED_IN:
                                 Log.i("ljw", "user is signed in");
+                                final TextView usernameView = findViewById(R.id.mainActUsername);
+                                username = AWSMobileClient.getInstance().getUsername();
+                                Handler handler = new Handler(Looper.getMainLooper()) {
+                                    @Override
+                                    public void handleMessage(Message input) {
+                                        usernameView.setText(username);
+                                    }
+                                };
+                                handler.obtainMessage().sendToTarget();
                                 break;
                             case SIGNED_OUT_USER_POOLS_TOKENS_INVALID:
                                 Log.i("userState", "need to login again");
