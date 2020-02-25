@@ -12,5 +12,26 @@
             "ApiKey": "da2-pbthxlnpj5ho5frarcwmfhilf4",
             "ClientDatabasePrefix": "taskmaster_API_KEY"
         }
+    },
+    "CredentialsProvider": {
+        "CognitoIdentity": {
+            "Default": {
+                "PoolId": "us-west-2:8d9a42ca-e297-44ca-81c2-9fa7f5fe5c43",
+                "Region": "us-west-2"
+            }
+        }
+    },
+    "CognitoUserPool": {
+        "Default": {
+            "PoolId": "us-west-2_RRXfqTz6H",
+            "AppClientId": "6p94l81c2nndqg35mm7r7fnif3",
+            "AppClientSecret": "kej2s7trle07iakfti5cikmvkjg7ppnrbnqn6l56r9ag35eluq4",
+            "Region": "us-west-2"
+        }
+    },
+    "Auth": {
+        "Default": {
+            "authenticationFlowType": "USER_SRP_AUTH"
+        }
     }
 }

@@ -54,8 +54,8 @@
 
     <RadioGroup
         android:id="@+id/colorThemeRadioGroup"
-        android:layout_width="83dp"
-        android:layout_height="166dp"
+        android:layout_width="85dp"
+        android:layout_height="93dp"
         android:layout_marginTop="100dp"
         android:checkedButton="@+id/radioButtonCafe"
         app:layout_constraintStart_toStartOf="@+id/usernameInput"
@@ -70,24 +70,24 @@
             app:layout_constraintStart_toStartOf="@+id/usernameInput"
             app:layout_constraintTop_toTopOf="@+id/colorThemeRadioGroup" />
 
-<!--        TODO: re-enable when fixed-->
-<!--        <RadioButton-->
-<!--            android:id="@+id/radioButtonCity"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="24dp"-->
-<!--            android:text="@string/city"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/radioButtonCafe"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/colorThemeRadioGroup" />-->
+        <!--        TODO: re-enable when fixed-->
+        <!--        <RadioButton-->
+        <!--            android:id="@+id/radioButtonCity"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="24dp"-->
+        <!--            android:text="@string/city"-->
+        <!--            app:layout_constraintStart_toEndOf="@+id/radioButtonCafe"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/colorThemeRadioGroup" />-->
 
-<!--        <RadioButton-->
-<!--            android:id="@+id/radioButtonNight"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="24dp"-->
-<!--            android:text="@string/night"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/radioButtonCity"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/colorThemeRadioGroup" />-->
+        <!--        <RadioButton-->
+        <!--            android:id="@+id/radioButtonNight"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="24dp"-->
+        <!--            android:text="@string/night"-->
+        <!--            app:layout_constraintStart_toEndOf="@+id/radioButtonCity"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/colorThemeRadioGroup" />-->
 
     </RadioGroup>
 
@@ -116,5 +116,16 @@
         android:text="@string/team"
         app:layout_constraintBottom_toTopOf="@+id/settingsTeamsSpinner"
         app:layout_constraintStart_toStartOf="@+id/settingsTeamsSpinner" />
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:onClick="logoutClicked"
+        android:text="Log Out"
+        app:layout_constraintEnd_toEndOf="@+id/saveButton"
+        app:layout_constraintStart_toStartOf="@+id/saveButton"
+        app:layout_constraintTop_toBottomOf="@+id/saveButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

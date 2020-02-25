@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.amazonaws.amplify.generated.graphql.ListTeamsQuery;
+import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
@@ -189,5 +190,9 @@ public class SettingsActivity extends AppCompatActivity {
             //go back to main activity
             finish();
         }
+    }
+
+    public void logoutClicked(View v) {
+        AWSMobileClient.getInstance().signOut();
     }
 }

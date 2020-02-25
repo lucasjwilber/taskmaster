@@ -5,17 +5,30 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.SignInUIOptions;
+import com.amazonaws.mobile.client.UserState;
+import com.amazonaws.mobile.client.UserStateDetails;
+import com.amazonaws.mobile.client.UserStateListener;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+
 public class MainActivity extends AppCompatActivity {
+    String TAG = "ljw";
+    String username = "Guest";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+
         String theme = prefs.getString("theme", "Cafe");
         switch (theme) {
             case "Cafe":
@@ -30,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
 //  saved for inevitable 'add team' feature:
+        {
 //        final CreateTeamInput newTeam = CreateTeamInput.builder()
 //                .name("Install")
 //                .build();
@@ -37,27 +51,81 @@ public class MainActivity extends AppCompatActivity {
 //                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
 //                    @Override
 //                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
-//                        Log.i("ljw", response.data().createTeam().toString());
+//                        Log.i(TAG, response.data().createTeam().toString());
 //                    }
 //                    @Override
 //                    public void onFailure(@Nonnull ApolloException e) {
-//                        Log.i("ljw", "failed adding team" + opsTeam.name());
+//                        Log.i(TAG, "failed adding team" + opsTeam.name());
 //                    }
 //                });
+        }
+
+        //instantiate aws mobile
+        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+                    @Override
+                    public void onResult(UserStateDetails userStateDetails) {
+                        Log.i("ljw", "onResult: " + userStateDetails.getUserState());
+                    }
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("ljw", "Initialization error.", e);
+                    }
+                }
+        );
+
+        TextView usernameView = findViewById(R.id.mainActUsername);
+        username = AWSMobileClient.getInstance().getUsername();
+        usernameView.setText(username);
+
     }
 
     @Override
     public void onResume(){
         super.onResume();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String theme = prefs.getString("theme", "Cafe");
-        String username = prefs.getString("username", "My ");
         String selectedTeam = prefs.getString("selectedTeam", "Operations");
-        TextView titleView = findViewById(R.id.mainActUsername);
-        titleView.setText(username);
         TextView mainActTitle = findViewById(R.id.mainActTitle);
         mainActTitle.setText(selectedTeam);
+        TextView usernameView = findViewById(R.id.mainActUsername);
+        username = AWSMobileClient.getInstance().getUsername();
+        usernameView.setText(username);
+
+        //initialize amplify auth:
+        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+                    @Override
+                    public void onResult(UserStateDetails userStateDetails) {
+                        Log.i("ljw", "onResult: " + userStateDetails.getUserState());
+                        switch (userStateDetails.getUserState()) {
+                            case GUEST:
+                                Log.i("userState", "user is in guest mode");
+                                break;
+                            case SIGNED_OUT:
+                                Log.i("userState", "user is signed out");
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(intent);
+                                break;
+                            case SIGNED_IN:
+                                Log.i("ljw", "user is signed in");
+                                break;
+                            case SIGNED_OUT_USER_POOLS_TOKENS_INVALID:
+                                Log.i("userState", "need to login again");
+                                break;
+                            case SIGNED_OUT_FEDERATED_TOKENS_INVALID:
+                                Log.i("userState", "user logged in via federation, but currently needs new tokens");
+                                break;
+                            default:
+                                Log.e("userState", "unsupported");
+                        }
+                    }
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("ljw", "Initialization error.", e);
+                    }
+                }
+        );
+
 
         //apply theme changes that I couldn't set in <style>s
         {
