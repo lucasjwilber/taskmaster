@@ -2,6 +2,7 @@ package com.lucasjwilber.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -194,5 +195,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void logoutClicked(View v) {
         AWSMobileClient.getInstance().signOut();
+//        finish();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }

@@ -19,7 +19,7 @@
         <item name="android:color">@color/coffeeLightest</item>
         <item name="android:textColor">@color/coffeeDarkest</item>
         <item name="android:buttonStyle">@style/CafeButton</item>
-<!--        <item name="android:spinnerItemStyle">@style/CafeSpinnerItems</item>-->
+        <!--        <item name="android:spinnerItemStyle">@style/CafeSpinnerItems</item>-->
     </style>
         <style name="CafeSpinnerItems" parent="android:Widget.Material.Light.Spinner">
             <item name="android:background">@color/coffeeDarkest</item>
