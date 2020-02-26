@@ -21,4 +21,5 @@
     <string name="stateComplete">COMPLETE</string>
     <string name="team">Team</string>
     <string name="empty"> </string>
+    <string name="logOut">Log Out </string>
 </resources>

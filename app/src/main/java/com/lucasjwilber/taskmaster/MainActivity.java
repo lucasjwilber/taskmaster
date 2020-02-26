@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-
         String theme = prefs.getString("theme", "Cafe");
         switch (theme) {
             case "Cafe":
@@ -45,59 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         setContentView(R.layout.activity_main);
-//  saved for inevitable 'add team' feature:
-        {
-//        final CreateTeamInput newTeam = CreateTeamInput.builder()
-//                .name("Install")
-//                .build();
-//        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam).build())
-//                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
-//                    @Override
-//                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
-//                        Log.i(TAG, response.data().createTeam().toString());
-//                    }
-//                    @Override
-//                    public void onFailure(@Nonnull ApolloException e) {
-//                        Log.i(TAG, "failed adding team" + opsTeam.name());
-//                    }
-//                });
-        }
 
-        //instantiate aws mobile
-        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
-                    @Override
-                    public void onResult(UserStateDetails userStateDetails) {
-                        Log.i("ljw", "onResult: " + userStateDetails.getUserState());
-                    }
-                    @Override
-                    public void onError(Exception e) {
-                        Log.e("ljw", "Initialization error.", e);
-                    }
-                }
-        );
-        Log.i("ljw", "/////////////////////////");
-        if (AWSMobileClient.getInstance().getUsername() != null) {
-            Log.i("ljw", "signed in ");
-        } else {
-            Log.i("ljw", "NOT signed in ");
-        }
-
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String theme = prefs.getString("theme", "Cafe");
-        String selectedTeam = prefs.getString("selectedTeam", "Operations");
-        TextView mainActTitle = findViewById(R.id.mainActTitle);
-        mainActTitle.setText(selectedTeam);
-        //username view text is Guest by default, but overwritten if user is signed in.
-        TextView usernameView = findViewById(R.id.mainActUsername);
-        usernameView.setText(R.string.guest);
-
-        //initialize amplify auth:
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
                     @Override
                     public void onResult(UserStateDetails userStateDetails) {
@@ -139,7 +85,48 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+//  saved for inevitable 'add team' feature:
+        {
+//        final CreateTeamInput newTeam = CreateTeamInput.builder()
+//                .name("Install")
+//                .build();
+//        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam).build())
+//                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
+//                    @Override
+//                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
+//                        Log.i(TAG, response.data().createTeam().toString());
+//                    }
+//                    @Override
+//                    public void onFailure(@Nonnull ApolloException e) {
+//                        Log.i(TAG, "failed adding team" + opsTeam.name());
+//                    }
+//                });
+        }
 
+    }
+
+    @Override
+    public void onResume(){
+        //TODO: fix flash of Main before login redirect
+        super.onResume();
+
+        final TextView usernameView = findViewById(R.id.mainActUsername);
+        username = AWSMobileClient.getInstance().getUsername();
+        Handler handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message input) {
+                usernameView.setText(username);
+            }
+        };
+        handler.obtainMessage().sendToTarget();
+
+
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String theme = prefs.getString("theme", "Cafe");
+        String selectedTeam = prefs.getString("selectedTeam", "Operations");
+        TextView mainActTitle = findViewById(R.id.mainActTitle);
+        mainActTitle.setText(selectedTeam);
 
         //apply theme changes that I couldn't set in <style>s
         {
