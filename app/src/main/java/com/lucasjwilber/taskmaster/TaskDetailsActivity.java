@@ -52,6 +52,8 @@ public class TaskDetailsActivity extends AppCompatActivity {
         //this intent comes from onBindViewHolder() in MyTaskRecyclerViewAdapter
         Intent intent = getIntent();
         taskId = intent.getStringExtra("taskId");
+        //TODO: replace with an amplify call to get task by id
+        //TODO: add a task image field
         taskTitle = intent.getStringExtra("taskTitle");
         taskBody = intent.getStringExtra("taskBody");
         taskState = intent.getStringExtra("taskState");

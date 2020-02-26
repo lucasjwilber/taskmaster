@@ -21,6 +21,8 @@ import com.amazonaws.mobile.client.UserState;
 import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.client.UserStateListener;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
 public class MainActivity extends AppCompatActivity {
     String TAG = "ljw";
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResult(UserStateDetails userStateDetails) {
                         Log.i("ljw", "onResult: " + userStateDetails.getUserState());
+
+                        //auth
                         switch (userStateDetails.getUserState()) {
                             case GUEST:
                                 Log.i("userState", "user is in guest mode");
@@ -78,10 +82,20 @@ public class MainActivity extends AppCompatActivity {
                             default:
                                 Log.e("userState", "unsupported");
                         }
+
+                        //storage
+                        try {
+                            Amplify.addPlugin(new AWSS3StoragePlugin());
+                            Amplify.configure(getApplicationContext());
+                            Log.i("StorageQuickstart", "All set and ready to go!");
+                        } catch (Exception e) {
+                            Log.e("StorageQuickstart", e.getMessage());
+                        }
                     }
                     @Override
                     public void onError(Exception e) {
                         Log.e("ljw", "Initialization error.", e);
+                        Log.e("StorageQuickstart", "Initialization error.", e);
                     }
                 }
         );

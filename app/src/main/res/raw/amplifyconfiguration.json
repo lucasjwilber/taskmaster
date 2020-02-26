@@ -13,5 +13,14 @@
                 }
             }
         }
+    },
+    "storage": {
+        "plugins": {
+            "awsS3StoragePlugin": {
+                "bucket": "taskmasterstoragebucket111814-taskenv",
+                "region": "us-west-2",
+                "defaultAccessLevel": "guest"
+            }
+        }
     }
 }
