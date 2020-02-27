@@ -6,26 +6,26 @@
     },
     "AppSync": {
         "Default": {
-            "ApiUrl": "https://fr2afm5pxfh6lbsfevbbsbespy.appsync-api.us-west-2.amazonaws.com/graphql",
+            "ApiUrl": "https://gdgjbgaacjc5hnz5hj5mp3wgzu.appsync-api.us-west-2.amazonaws.com/graphql",
             "Region": "us-west-2",
             "AuthMode": "API_KEY",
-            "ApiKey": "da2-pbthxlnpj5ho5frarcwmfhilf4",
-            "ClientDatabasePrefix": "taskmaster_API_KEY"
+            "ApiKey": "da2-pamtojyegfdh3bducskxzl4fwa",
+            "ClientDatabasePrefix": "taskmasterapi_API_KEY"
         }
     },
     "CredentialsProvider": {
         "CognitoIdentity": {
             "Default": {
-                "PoolId": "us-west-2:8d9a42ca-e297-44ca-81c2-9fa7f5fe5c43",
+                "PoolId": "us-west-2:f642af3b-0264-456c-813f-ea2ba98337f5",
                 "Region": "us-west-2"
             }
         }
     },
     "CognitoUserPool": {
         "Default": {
-            "PoolId": "us-west-2_RRXfqTz6H",
-            "AppClientId": "6p94l81c2nndqg35mm7r7fnif3",
-            "AppClientSecret": "kej2s7trle07iakfti5cikmvkjg7ppnrbnqn6l56r9ag35eluq4",
+            "PoolId": "us-west-2_UTWwCk6QG",
+            "AppClientId": "dctkei5g773j63g7d39r7pogt",
+            "AppClientSecret": "11sf4e9spsun41d47ht82jvmhnpa90b0a8fpke8ac28teeck873a",
             "Region": "us-west-2"
         }
     },
@@ -36,7 +36,7 @@
     },
     "S3TransferUtility": {
         "Default": {
-            "Bucket": "taskmasterstoragebucket111814-taskenv",
+            "Bucket": "taskmaster051aa0abefd549098490fff78b5fc983130221-tmenv",
             "Region": "us-west-2"
         }
     }

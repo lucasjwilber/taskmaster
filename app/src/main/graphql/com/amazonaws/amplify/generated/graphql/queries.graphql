@@ -10,6 +10,7 @@ query GetTeam($id: ID!) {
         title
         body
         state
+        imagePath
       }
       nextToken
     }
@@ -38,6 +39,7 @@ query GetTask($id: ID!) {
     title
     body
     state
+    imagePath
   }
 }
 query ListTasks(
@@ -52,6 +54,7 @@ query ListTasks(
       title
       body
       state
+      imagePath
     }
     nextToken
   }

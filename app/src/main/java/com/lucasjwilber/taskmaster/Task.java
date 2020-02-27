@@ -1,35 +1,48 @@
 package com.lucasjwilber.taskmaster;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tasks")
 public class Task {
 
-    @PrimaryKey(autoGenerate = true)
-    private int id;
-
+    @PrimaryKey
+    @NonNull
+    private String id;
     private String team;
     private String title;
     private String body;
     private String state;
     private String imagePath;
+    private String teamID;
 
-    public Task(String title, String body, String team){
+    @Ignore
+    public Task(String title, String body, String team, String teamID){
         this.title = title;
         this.body = body;
+        this.teamID = teamID;
         this.team = team;
         this.state = "NEW";
     }
 
-    public Task(String title, String body, String team, String imagePath){
+    public Task(String title, String body, String team, String teamID, String imagePath){
         this.title = title;
         this.body = body;
+        this.teamID = teamID;
         this.team = team;
         this.state = "NEW";
         this.imagePath = imagePath;
     }
 
+    public String getTeamID() {
+        return teamID;
+    }
+
+    public void setTeamID(String teamID) {
+        this.teamID = teamID;
+    }
 
     public String getTitle() {
         return title;
@@ -63,8 +76,12 @@ public class Task {
         this.team = team;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getImagePath() {

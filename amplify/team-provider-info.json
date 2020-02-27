@@ -1,32 +1,19 @@
 {
     "tmenv": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-taskmaster-tmenv-94450-authRole",
-            "UnauthRoleArn": "arn:aws:iam::272195865811:role/amplify-taskmaster-tmenv-94450-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::272195865811:role/amplify-taskmaster-tmenv-94450-authRole",
+            "AuthRoleName": "amplify-taskmaster-tmenv-130221-authRole",
+            "UnauthRoleArn": "arn:aws:iam::272195865811:role/amplify-taskmaster-tmenv-130221-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::272195865811:role/amplify-taskmaster-tmenv-130221-authRole",
             "Region": "us-west-2",
-            "DeploymentBucketName": "amplify-taskmaster-tmenv-94450-deployment",
-            "UnauthRoleName": "amplify-taskmaster-tmenv-94450-unauthRole",
-            "StackName": "amplify-taskmaster-tmenv-94450",
-            "StackId": "arn:aws:cloudformation:us-west-2:272195865811:stack/amplify-taskmaster-tmenv-94450/b32a5930-5408-11ea-8161-06c2ee48308c",
-            "AmplifyAppId": "d31mzx8nmsomvn"
-        }
-    },
-    "taskenv": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-taskmaster-taskenv-111814-authRole",
-            "UnauthRoleArn": "arn:aws:iam::272195865811:role/amplify-taskmaster-taskenv-111814-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::272195865811:role/amplify-taskmaster-taskenv-111814-authRole",
-            "Region": "us-west-2",
-            "DeploymentBucketName": "amplify-taskmaster-taskenv-111814-deployment",
-            "UnauthRoleName": "amplify-taskmaster-taskenv-111814-unauthRole",
-            "StackName": "amplify-taskmaster-taskenv-111814",
-            "StackId": "arn:aws:cloudformation:us-west-2:272195865811:stack/amplify-taskmaster-taskenv-111814/bf20b6a0-5415-11ea-bfbc-066798daf74a",
-            "AmplifyAppId": "d31mzx8nmsomvn"
+            "DeploymentBucketName": "amplify-taskmaster-tmenv-130221-deployment",
+            "UnauthRoleName": "amplify-taskmaster-tmenv-130221-unauthRole",
+            "StackName": "amplify-taskmaster-tmenv-130221",
+            "StackId": "arn:aws:cloudformation:us-west-2:272195865811:stack/amplify-taskmaster-tmenv-130221/745e30e0-59a4-11ea-b856-0ab88639bbc6",
+            "AmplifyAppId": "d2n4l7xcny8ddk"
         },
         "categories": {
             "auth": {
-                "taskmaster6da1e810": {}
+                "taskmaster5c5238d9": {}
             }
         }
     }

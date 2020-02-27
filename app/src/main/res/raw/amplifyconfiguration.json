@@ -4,12 +4,12 @@
     "api": {
         "plugins": {
             "awsAPIPlugin": {
-                "taskmaster": {
+                "taskmasterapi": {
                     "endpointType": "GraphQL",
-                    "endpoint": "https://fr2afm5pxfh6lbsfevbbsbespy.appsync-api.us-west-2.amazonaws.com/graphql",
+                    "endpoint": "https://gdgjbgaacjc5hnz5hj5mp3wgzu.appsync-api.us-west-2.amazonaws.com/graphql",
                     "region": "us-west-2",
                     "authorizationType": "API_KEY",
-                    "apiKey": "da2-pbthxlnpj5ho5frarcwmfhilf4"
+                    "apiKey": "da2-pamtojyegfdh3bducskxzl4fwa"
                 }
             }
         }
@@ -17,7 +17,7 @@
     "storage": {
         "plugins": {
             "awsS3StoragePlugin": {
-                "bucket": "taskmasterstoragebucket111814-taskenv",
+                "bucket": "taskmaster051aa0abefd549098490fff78b5fc983130221-tmenv",
                 "region": "us-west-2",
                 "defaultAccessLevel": "guest"
             }

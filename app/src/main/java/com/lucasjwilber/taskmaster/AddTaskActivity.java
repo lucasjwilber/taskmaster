@@ -53,6 +53,9 @@ public class AddTaskActivity extends AppCompatActivity {
     private static volatile TransferUtility transferUtility;
     private static int RESULT_LOAD_IMAGE = 1;
     private String photoPath;
+    TextView titleInput = findViewById(R.id.addTask_taskNameInput);
+    TextView bodyInput = findViewById(R.id.addTask_taskDescInput);
+    Spinner spinner = findViewById(R.id.addTaskTeamSpinner);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,29 +124,39 @@ public class AddTaskActivity extends AppCompatActivity {
         }
     }
 
+
+    private CreateTaskInput getCreateTaskInput() {
+        String title = titleInput.getText().toString();
+        String body = bodyInput.getText().toString();
+        String teamName = spinner.getSelectedItem().toString();
+        String teamID = teamNamesToIDs.get(teamName);
+
+        if (photoPath != null && !photoPath.isEmpty()){
+            return CreateTaskInput.builder()
+                    .title(title)
+                    .body(body)
+                    .teamID(teamID)
+                    .state("NEW") //default/initial state is "NEW"
+                    .build();
+        } else {
+            return CreateTaskInput.builder()
+                    .title(title)
+                    .body(body)
+                    .teamID(teamID)
+                    .state("NEW") //default/initial state is "NEW"
+//                    .image(getS3Key(photoPath))
+                    .build();
+        }
+    }
+
+
     //thanks to https://developer.android.com/guide/topics/ui/notifiers/toasts
     public void addTaskButtonClicked(View v) {
         Toast toast = Toast.makeText(getApplicationContext(),
                 "Submitted!",
                 Toast.LENGTH_SHORT);
 
-        //gather new task data
-        TextView titleInput = findViewById(R.id.addTask_taskNameInput);
-        String title = titleInput.getText().toString();
-        TextView bodyInput = findViewById(R.id.addTask_taskDescInput);
-        String body = bodyInput.getText().toString();
-        Spinner spinner = findViewById(R.id.addTaskTeamSpinner);
-        String teamName = spinner.getSelectedItem().toString();
-        String teamID = teamNamesToIDs.get(teamName);
-
-        CreateTaskInput input = CreateTaskInput.builder()
-                .title(title)
-                .body(body)
-                .teamID(teamID)
-//                .teamID("c3e8900a-5a39-4038-b6f6-64cc9d56cb93")
-                .state("NEW") //default/initial state is "NEW"
-                //.image(photoPath)
-                .build();
+        CreateTaskInput input = getCreateTaskInput();
 
         mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(input).build())
                 .enqueue(new GraphQLCall.Callback<CreateTaskMutation.Data>() {
@@ -221,7 +234,6 @@ public class AddTaskActivity extends AppCompatActivity {
         //We have read and write ability under the public folder
         return "public/" + new File(localPath).getName();
     }
-
 
 
 //    public void uploadWithTransferUtility(String localPath) {

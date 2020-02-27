@@ -3,7 +3,7 @@ package com.lucasjwilber.taskmaster;
 import java.util.List;
 
 public class Team {
-    public int id;
+    public String id;
     private String name;
     private List<Task> tasks;
 
@@ -11,11 +11,11 @@ public class Team {
         this.name = name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

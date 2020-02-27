@@ -98,16 +98,16 @@ public class TeamTasksFragment extends Fragment {
                     @Override
                     public void onResponse(@Nonnull final Response<GetTeamQuery.Data> response) {
                         Log.i("ljw", "successful team query");
-                        final List<GetTeamQuery.Item> tasks = response.data().getTeam().tasks().items();
-                        Log.i("ljw", tasks.toString());
-
-                        Handler handler = new Handler(Looper.getMainLooper()) {
-                            @Override
-                            public void handleMessage(Message input) {
-                                recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(tasks, mListener));
-                            }
-                        };
-                        handler.obtainMessage().sendToTarget();
+//                        final List<GetTeamQuery.Item> tasks = response.data().getTeam().tasks().items();
+////                        Log.i("ljw", tasks.toString());
+////
+////                        Handler handler = new Handler(Looper.getMainLooper()) {
+////                            @Override
+////                            public void handleMessage(Message input) {
+////                                recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(tasks, mListener));
+////                            }
+////                        };
+////                        handler.obtainMessage().sendToTarget();
                     }
 
                     @Override
