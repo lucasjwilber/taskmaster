@@ -7,18 +7,27 @@ import androidx.room.PrimaryKey;
 public class Task {
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    private int id;
 
-    public String team;
-    public String title;
-    public String body;
-    public String state;
+    private String team;
+    private String title;
+    private String body;
+    private String state;
+    private String imagePath;
 
     public Task(String title, String body, String team){
         this.title = title;
         this.body = body;
         this.team = team;
         this.state = "NEW";
+    }
+
+    public Task(String title, String body, String team, String imagePath){
+        this.title = title;
+        this.body = body;
+        this.team = team;
+        this.state = "NEW";
+        this.imagePath = imagePath;
     }
 
 
@@ -52,5 +61,17 @@ public class Task {
 
     public void setTeam(String team) {
         this.team = team;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

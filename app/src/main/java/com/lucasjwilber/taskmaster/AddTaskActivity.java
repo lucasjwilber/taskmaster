@@ -1,12 +1,17 @@
 package com.lucasjwilber.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -16,9 +21,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.amazonaws.amplify.generated.graphql.CreateTaskMutation;
 import com.amazonaws.amplify.generated.graphql.ListTeamsQuery;
+import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.core.ResultListener;
 import com.amplifyframework.storage.result.StorageUploadFileResult;
@@ -39,6 +50,9 @@ public class AddTaskActivity extends AppCompatActivity {
 
     private AWSAppSyncClient mAWSAppSyncClient;
     private Hashtable<String, String> teamNamesToIDs;
+    private static volatile TransferUtility transferUtility;
+    private static int RESULT_LOAD_IMAGE = 1;
+    private String photoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +142,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 .teamID(teamID)
 //                .teamID("c3e8900a-5a39-4038-b6f6-64cc9d56cb93")
                 .state("NEW") //default/initial state is "NEW"
+                //.image(photoPath)
                 .build();
 
         mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(input).build())
@@ -173,31 +188,139 @@ public class AddTaskActivity extends AppCompatActivity {
         finish();
     }
 
+
+    /////////photo upload
+    // Photo selector application code.
+    // Thanks to https://aws.amazon.com/blogs/mobile/building-an-android-app-with-aws-amplify-part-2/
+    public void choosePhoto() {
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, RESULT_LOAD_IMAGE);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+            // String picturePath contains the path of selected Image
+            photoPath = picturePath;
+        }
+    }
+
+    public static synchronized TransferUtility transferUtility() {
+        return transferUtility;
+    }
+
+    private String getS3Key(String localPath) {
+        //We have read and write ability under the public folder
+        return "public/" + new File(localPath).getName();
+    }
+
+
+
+//    public void uploadWithTransferUtility(String localPath) {
+//        String key = getS3Key(localPath);
+//
+//        Log.d("ljw", "Uploading file from " + localPath + " to " + key);
+//
+//        TransferObserver uploadObserver =
+//                ClientFactory.transferUtility().upload(
+//                        key,
+//                        new File(localPath));
+//
+//        // Attach a listener to the observer to get state update and progress notifications
+//        uploadObserver.setTransferListener(new TransferListener() {
+//
+//            @Override
+//            public void onStateChanged(int id, TransferState state) {
+//                if (TransferState.COMPLETED == state) {
+//                    // Handle a completed upload.
+//                    Log.d("ljw", "Upload is completed. ");
+//
+//                    // Upload is successful. Save the rest and send the mutation to server.
+//                    save();
+//                }
+//            }
+//
+//            @Override
+//            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+//                float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
+//                int percentDone = (int)percentDonef;
+//
+//                Log.d("ljw", "ID:" + id + " bytesCurrent: " + bytesCurrent
+//                        + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
+//            }
+//
+//            @Override
+//            public void onError(int id, Exception ex) {
+//                // Handle errors
+//                Log.e("ljw", "Failed to upload photo. ", ex);
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(AddTaskActivity.this, "Failed to upload photo", Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//            }
+//
+//        });
+//    }
+
     public void uploadImageClicked(View v) {
-        File sampleFile = new File(getApplicationContext().getFilesDir(), "sample.txt");
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(sampleFile));
-            writer.append("Howdy World!");
-            writer.close();
-        }
-        catch(Exception e) {
-            Log.e("StorageQuickstart", e.getMessage());
+
+        //set photoPath to path of selected image file
+        choosePhoto();
+        System.out.println(photoPath);
+
+        if (transferUtility == null) {
+            transferUtility = TransferUtility.builder()
+                    .context(getApplicationContext())
+                    .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
+                    .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
+                    .build();
+
         }
 
-        Amplify.Storage.uploadFile(
-                "uploadFileTest.txt",
-                sampleFile.getAbsolutePath(),
-                new ResultListener<StorageUploadFileResult>() {
-                    @Override
-                    public void onResult(StorageUploadFileResult result) {
-                        Log.i("StorageQuickStart", "Successfully uploaded: " + result.getKey());
-                    }
 
-                    @Override
-                    public void onError(Throwable error) {
-                        Log.e("StorageQuickstart", "Upload error.", error);
-                    }
-                }
-        );
+
+//        File sampleFile = new File(getApplicationContext().getFilesDir(), "sample.txt");
+//        try {
+//            BufferedWriter writer = new BufferedWriter(new FileWriter(sampleFile));
+//            writer.append("Howdy World!");
+//            writer.close();
+//        }
+//        catch(Exception e) {
+//            Log.e("StorageQuickstart", e.getMessage());
+//        }
+
+/////////////////////doesn't work yet, continue at https://aws.amazon.com/blogs/mobile/building-an-android-app-with-aws-amplify-part-2/
+        // at ctrl f: Next, let’s add code to upload the photo by using the TransferUtility in our AddPetActi
+
+
+        //this will probably not be used anymore:
+
+//        Amplify.Storage.uploadFile(
+//                "uploadFileTest.txt",
+////                sampleFile.getAbsolutePath(),
+//                photoPath,
+//                new ResultListener<StorageUploadFileResult>() {
+//                    @Override
+//                    public void onResult(StorageUploadFileResult result) {
+//                        Log.i("StorageQuickStart", "Successfully uploaded: " + result.getKey());
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable error) {
+//                        Log.e("StorageQuickstart", "Upload error.", error);
+//                    }
+//                }
+//        );
     }
 }
