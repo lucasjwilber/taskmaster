@@ -48,48 +48,51 @@ public class MainActivity extends AppCompatActivity {
                 .awsConfiguration(new AWSConfiguration(getApplicationContext()))
                 .build();
 ////////////
-        final CreateTeamInput newTeam = CreateTeamInput.builder()
-                .name("Install")
-                .build();
-        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam).build())
-                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
-                    @Override
-                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
-                        Log.i(TAG, response.data().createTeam().toString());
-                    }
-                    @Override
-                    public void onFailure(@Nonnull ApolloException e) {
-                        Log.i(TAG, "failed adding team" + newTeam.name());
-                    }
-                });final CreateTeamInput newTeam = CreateTeamInput.builder()
-                .name("Install")
-                .build();
-
-        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam).build())
-                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
-                    @Override
-                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
-                        Log.i(TAG, response.data().createTeam().toString());
-                    }
-                    @Override
-                    public void onFailure(@Nonnull ApolloException e) {
-                        Log.i(TAG, "failed adding team" + newTeam.name());
-                    }
-                });final CreateTeamInput newTeam = CreateTeamInput.builder()
-                .name("Install")
-                .build();
-
-        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam).build())
-                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
-                    @Override
-                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
-                        Log.i(TAG, response.data().createTeam().toString());
-                    }
-                    @Override
-                    public void onFailure(@Nonnull ApolloException e) {
-                        Log.i(TAG, "failed adding team" + newTeam.name());
-                    }
-                });
+//        final CreateTeamInput newTeam = CreateTeamInput.builder()
+//                .name("Install")
+//                .build();
+//        final CreateTeamInput newTeam2 = CreateTeamInput.builder()
+//                .name("Operations")
+//                .build();
+//        final CreateTeamInput newTeam3 = CreateTeamInput.builder()
+//                .name("Engineering")
+//                .build();
+//
+//        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam).build())
+//                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
+//                    @Override
+//                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
+//                        Log.i(TAG, response.data().createTeam().toString());
+//                    }
+//                    @Override
+//                    public void onFailure(@Nonnull ApolloException e) {
+//                        Log.i(TAG, "failed adding team" + newTeam.name());
+//                    }
+//                });
+//
+//        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam2).build())
+//                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
+//                    @Override
+//                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
+//                        Log.i(TAG, response.data().createTeam().toString());
+//                    }
+//                    @Override
+//                    public void onFailure(@Nonnull ApolloException e) {
+//                        Log.i(TAG, "failed adding team" + newTeam2.name());
+//                    }
+//                });
+//
+//        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam3).build())
+//                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
+//                    @Override
+//                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
+//                        Log.i(TAG, response.data().createTeam().toString());
+//                    }
+//                    @Override
+//                    public void onFailure(@Nonnull ApolloException e) {
+//                        Log.i(TAG, "failed adding team" + newTeam3.name());
+//                    }
+//                });
 
 
 

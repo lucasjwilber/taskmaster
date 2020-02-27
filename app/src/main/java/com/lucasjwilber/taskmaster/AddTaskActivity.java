@@ -53,14 +53,19 @@ public class AddTaskActivity extends AppCompatActivity {
     private static volatile TransferUtility transferUtility;
     private static int RESULT_LOAD_IMAGE = 1;
     private String photoPath;
-    TextView titleInput = findViewById(R.id.addTask_taskNameInput);
-    TextView bodyInput = findViewById(R.id.addTask_taskDescInput);
-    Spinner spinner = findViewById(R.id.addTaskTeamSpinner);
+    TextView titleInput;
+    TextView bodyInput;
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        titleInput = findViewById(R.id.addTask_taskNameInput);
+        bodyInput = findViewById(R.id.addTask_taskDescInput);
+        spinner = findViewById(R.id.addTaskTeamSpinner);
+
         teamNamesToIDs = new Hashtable<>();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
@@ -87,9 +92,23 @@ public class AddTaskActivity extends AppCompatActivity {
                     .awsConfiguration(new AWSConfiguration(getApplicationContext()))
                     .build();
 
+//            mAWSAppSyncClient.query(ListTeamsQuery.builder().build())
+//                    .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
+//                    .enqueue(new GraphQLCall.Callback<ListTeamsQuery.Data>() {
+//                        @Override
+//                        public void onResponse(@Nonnull Response<ListTeamsQuery.Data> response) {
+//                            Log.i("ljw", response.data().listTeams().toString());
+//                        }
+//
+//                        @Override
+//                        public void onFailure(@Nonnull ApolloException e) {
+//                            Log.i("ljw", "failed fetching teams");
+//                        }
+//                    });
+
             mAWSAppSyncClient.query(ListTeamsQuery.builder().build())
                     //use cache here since teams change infrequently
-                    .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
+                    .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
                     .enqueue(new GraphQLCall.Callback<ListTeamsQuery.Data>() {
                         @Override
                         public void onResponse(@Nonnull final Response<ListTeamsQuery.Data> response) {
@@ -125,29 +144,6 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
 
-    private CreateTaskInput getCreateTaskInput() {
-        String title = titleInput.getText().toString();
-        String body = bodyInput.getText().toString();
-        String teamName = spinner.getSelectedItem().toString();
-        String teamID = teamNamesToIDs.get(teamName);
-
-        if (photoPath != null && !photoPath.isEmpty()){
-            return CreateTaskInput.builder()
-                    .title(title)
-                    .body(body)
-                    .teamID(teamID)
-                    .state("NEW") //default/initial state is "NEW"
-                    .build();
-        } else {
-            return CreateTaskInput.builder()
-                    .title(title)
-                    .body(body)
-                    .teamID(teamID)
-                    .state("NEW") //default/initial state is "NEW"
-//                    .image(getS3Key(photoPath))
-                    .build();
-        }
-    }
 
 
     //thanks to https://developer.android.com/guide/topics/ui/notifiers/toasts
@@ -155,8 +151,18 @@ public class AddTaskActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(getApplicationContext(),
                 "Submitted!",
                 Toast.LENGTH_SHORT);
-
-        CreateTaskInput input = getCreateTaskInput();
+//replace all of below with this when starting storage later
+//        CreateTaskInput input = getCreateTaskInput();
+        String title = titleInput.getText().toString();
+        String body = bodyInput.getText().toString();
+        String teamName = spinner.getSelectedItem().toString();
+        String teamID = teamNamesToIDs.get(teamName);
+        CreateTaskInput input = CreateTaskInput.builder()
+                .title(title)
+                .body(body)
+                .teamID(teamID)
+                .state("NEW") //default/initial state is "NEW"
+                .build();
 
         mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(input).build())
                 .enqueue(new GraphQLCall.Callback<CreateTaskMutation.Data>() {
@@ -205,134 +211,10 @@ public class AddTaskActivity extends AppCompatActivity {
     /////////photo upload
     // Photo selector application code.
     // Thanks to https://aws.amazon.com/blogs/mobile/building-an-android-app-with-aws-amplify-part-2/
-    public void choosePhoto() {
-        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, RESULT_LOAD_IMAGE);
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-            // String picturePath contains the path of selected Image
-            photoPath = picturePath;
-        }
-    }
-
-    public static synchronized TransferUtility transferUtility() {
-        return transferUtility;
-    }
-
-    private String getS3Key(String localPath) {
-        //We have read and write ability under the public folder
-        return "public/" + new File(localPath).getName();
-    }
 
 
-//    public void uploadWithTransferUtility(String localPath) {
-//        String key = getS3Key(localPath);
-//
-//        Log.d("ljw", "Uploading file from " + localPath + " to " + key);
-//
-//        TransferObserver uploadObserver =
-//                ClientFactory.transferUtility().upload(
-//                        key,
-//                        new File(localPath));
-//
-//        // Attach a listener to the observer to get state update and progress notifications
-//        uploadObserver.setTransferListener(new TransferListener() {
-//
-//            @Override
-//            public void onStateChanged(int id, TransferState state) {
-//                if (TransferState.COMPLETED == state) {
-//                    // Handle a completed upload.
-//                    Log.d("ljw", "Upload is completed. ");
-//
-//                    // Upload is successful. Save the rest and send the mutation to server.
-//                    save();
-//                }
-//            }
-//
-//            @Override
-//            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-//                float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
-//                int percentDone = (int)percentDonef;
-//
-//                Log.d("ljw", "ID:" + id + " bytesCurrent: " + bytesCurrent
-//                        + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
-//            }
-//
-//            @Override
-//            public void onError(int id, Exception ex) {
-//                // Handle errors
-//                Log.e("ljw", "Failed to upload photo. ", ex);
-//
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(AddTaskActivity.this, "Failed to upload photo", Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//            }
-//
-//        });
-//    }
 
     public void uploadImageClicked(View v) {
 
-        //set photoPath to path of selected image file
-        choosePhoto();
-        System.out.println(photoPath);
-
-        if (transferUtility == null) {
-            transferUtility = TransferUtility.builder()
-                    .context(getApplicationContext())
-                    .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
-                    .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
-                    .build();
-
-        }
-
-
-
-//        File sampleFile = new File(getApplicationContext().getFilesDir(), "sample.txt");
-//        try {
-//            BufferedWriter writer = new BufferedWriter(new FileWriter(sampleFile));
-//            writer.append("Howdy World!");
-//            writer.close();
-//        }
-//        catch(Exception e) {
-//            Log.e("StorageQuickstart", e.getMessage());
-//        }
-
-/////////////////////doesn't work yet, continue at https://aws.amazon.com/blogs/mobile/building-an-android-app-with-aws-amplify-part-2/
-        // at ctrl f: Next, let’s add code to upload the photo by using the TransferUtility in our AddPetActi
-
-
-        //this will probably not be used anymore:
-
-//        Amplify.Storage.uploadFile(
-//                "uploadFileTest.txt",
-////                sampleFile.getAbsolutePath(),
-//                photoPath,
-//                new ResultListener<StorageUploadFileResult>() {
-//                    @Override
-//                    public void onResult(StorageUploadFileResult result) {
-//                        Log.i("StorageQuickStart", "Successfully uploaded: " + result.getKey());
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable error) {
-//                        Log.e("StorageQuickstart", "Upload error.", error);
-//                    }
-//                }
-//        );
     }
 }
