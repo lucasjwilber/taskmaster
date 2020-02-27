@@ -213,11 +213,11 @@
                         "description": null,
                         "args": [
                             {
-                                "name": "titleBodyState",
+                                "name": "titleBodyStateImagePath",
                                 "description": null,
                                 "type": {
                                     "kind": "INPUT_OBJECT",
-                                    "name": "ModelTaskByTeamCompositeKeyConditionInput",
+                                    "name": "ModelTaskTasksByIDCompositeKeyConditionInput",
                                     "ofType": null
                                 },
                                 "defaultValue": null
@@ -289,7 +289,7 @@
             },
             {
                 "kind": "INPUT_OBJECT",
-                "name": "ModelTaskByTeamCompositeKeyConditionInput",
+                "name": "ModelTaskTasksByIDCompositeKeyConditionInput",
                 "description": null,
                 "fields": null,
                 "inputFields": [
@@ -298,7 +298,7 @@
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModelTaskByTeamCompositeKeyInput",
+                            "name": "ModelTaskTasksByIDCompositeKeyInput",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -308,7 +308,7 @@
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModelTaskByTeamCompositeKeyInput",
+                            "name": "ModelTaskTasksByIDCompositeKeyInput",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -318,7 +318,7 @@
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModelTaskByTeamCompositeKeyInput",
+                            "name": "ModelTaskTasksByIDCompositeKeyInput",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -328,7 +328,7 @@
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModelTaskByTeamCompositeKeyInput",
+                            "name": "ModelTaskTasksByIDCompositeKeyInput",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -338,7 +338,7 @@
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModelTaskByTeamCompositeKeyInput",
+                            "name": "ModelTaskTasksByIDCompositeKeyInput",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -351,7 +351,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "INPUT_OBJECT",
-                                "name": "ModelTaskByTeamCompositeKeyInput",
+                                "name": "ModelTaskTasksByIDCompositeKeyInput",
                                 "ofType": null
                             }
                         },
@@ -362,7 +362,7 @@
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModelTaskByTeamCompositeKeyInput",
+                            "name": "ModelTaskTasksByIDCompositeKeyInput",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -374,7 +374,7 @@
             },
             {
                 "kind": "INPUT_OBJECT",
-                "name": "ModelTaskByTeamCompositeKeyInput",
+                "name": "ModelTaskTasksByIDCompositeKeyInput",
                 "description": null,
                 "fields": null,
                 "inputFields": [
@@ -400,6 +400,16 @@
                     },
                     {
                         "name": "state",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "imagePath",
                         "description": null,
                         "type": {
                             "kind": "SCALAR",
@@ -461,6 +471,16 @@
                     },
                     {
                         "name": "state",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "imagePath",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -1116,6 +1136,18 @@
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
+                    },
+                    {
+                        "name": "imagePath",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     }
                 ],
                 "inputFields": null,
@@ -1677,6 +1709,16 @@
                             "ofType": null
                         },
                         "defaultValue": null
+                    },
+                    {
+                        "name": "imagePath",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
                     }
                 ],
                 "interfaces": null,
@@ -1721,6 +1763,16 @@
                     },
                     {
                         "name": "state",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "imagePath",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -1824,6 +1876,16 @@
                     },
                     {
                         "name": "state",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "imagePath",
                         "description": null,
                         "type": {
                             "kind": "SCALAR",

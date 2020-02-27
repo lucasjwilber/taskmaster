@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 //amplify
@@ -48,4 +52,9 @@ dependencies {
     //For the drop-in UI also:
     implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.15.+'
     implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.15.+'
+
+    //amplify storage
+    implementation 'com.amplifyframework:core:0.9.1'
+    implementation 'com.amplifyframework:aws-storage-s3:0.9.1'
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.+'
 }

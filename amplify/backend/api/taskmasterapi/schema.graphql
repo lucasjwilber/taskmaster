@@ -1,0 +1,19 @@
+type Team
+  @model
+  {
+  id: ID!
+  name: String!
+  tasks: [Task] @connection(keyName: "tasksByID", fields: ["id"])
+}
+
+type Task
+  @model
+  @key(name: "tasksByID", fields: ["teamID", "title", "body", "state", "imagePath"])
+  {
+  id: ID!
+  teamID: ID!
+  title: String!
+  body: String
+  state: String
+  imagePath: String
+}

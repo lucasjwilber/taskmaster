@@ -3,10 +3,5 @@
         "configLevel": "project",
         "useProfile": true,
         "profileName": "lwilber"
-    },
-    "taskenv": {
-        "configLevel": "project",
-        "useProfile": true,
-        "profileName": "lwilber"
     }
 }

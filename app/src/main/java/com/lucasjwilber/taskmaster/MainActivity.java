@@ -14,13 +14,24 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amazonaws.amplify.generated.graphql.CreateTeamMutation;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.Callback;
 import com.amazonaws.mobile.client.SignInUIOptions;
 import com.amazonaws.mobile.client.UserState;
 import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.client.UserStateListener;
+import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.apollographql.apollo.GraphQLCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+
+import javax.annotation.Nonnull;
+
+import type.CreateTeamInput;
 
 public class MainActivity extends AppCompatActivity {
     String TAG = "ljw";
@@ -31,6 +42,57 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String theme = prefs.getString("theme", "Cafe");
+
+        AWSAppSyncClient mAWSAppSyncClient = mAWSAppSyncClient = AWSAppSyncClient.builder()
+                .context(getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+                .build();
+////////////
+        final CreateTeamInput newTeam = CreateTeamInput.builder()
+                .name("Install")
+                .build();
+        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam).build())
+                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
+                        Log.i(TAG, response.data().createTeam().toString());
+                    }
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+                        Log.i(TAG, "failed adding team" + newTeam.name());
+                    }
+                });final CreateTeamInput newTeam = CreateTeamInput.builder()
+                .name("Install")
+                .build();
+
+        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam).build())
+                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
+                        Log.i(TAG, response.data().createTeam().toString());
+                    }
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+                        Log.i(TAG, "failed adding team" + newTeam.name());
+                    }
+                });final CreateTeamInput newTeam = CreateTeamInput.builder()
+                .name("Install")
+                .build();
+
+        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam).build())
+                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
+                        Log.i(TAG, response.data().createTeam().toString());
+                    }
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+                        Log.i(TAG, "failed adding team" + newTeam.name());
+                    }
+                });
+
+
+
         switch (theme) {
             case "Cafe":
                 setTheme(R.style.CafeTheme);
@@ -42,12 +104,15 @@ public class MainActivity extends AppCompatActivity {
                 setTheme(R.style.NightTheme);
                 break;
         }
+
         setContentView(R.layout.activity_main);
 
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
                     @Override
                     public void onResult(UserStateDetails userStateDetails) {
                         Log.i("ljw", "onResult: " + userStateDetails.getUserState());
+
+                        //auth
                         switch (userStateDetails.getUserState()) {
                             case GUEST:
                                 Log.i("userState", "user is in guest mode");
@@ -78,10 +143,20 @@ public class MainActivity extends AppCompatActivity {
                             default:
                                 Log.e("userState", "unsupported");
                         }
+
+                        //storage
+                        try {
+                            Amplify.addPlugin(new AWSS3StoragePlugin());
+                            Amplify.configure(getApplicationContext());
+                            Log.i("StorageQuickstart", "All set and ready to go!");
+                        } catch (Exception e) {
+                            Log.e("StorageQuickstart", e.getMessage());
+                        }
                     }
                     @Override
                     public void onError(Exception e) {
                         Log.e("ljw", "Initialization error.", e);
+                        Log.e("StorageQuickstart", "Initialization error.", e);
                     }
                 }
         );

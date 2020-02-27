@@ -1,6 +1,6 @@
 {
 	"api": {
-		"taskmaster": {
+		"taskmasterapi": {
 			"service": "AppSync",
 			"providerPlugin": "awscloudformation",
 			"output": {
@@ -9,7 +9,7 @@
 					"defaultAuthentication": {
 						"authenticationType": "API_KEY",
 						"apiKeyConfig": {
-							"description": "tm api key",
+							"description": "taskmasterapikey",
 							"apiKeyExpirationDays": 7
 						}
 					}
@@ -18,11 +18,17 @@
 		}
 	},
 	"auth": {
-		"taskmaster6da1e810": {
+		"taskmaster5c5238d9": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [],
 			"customAuth": false
+		}
+	},
+	"storage": {
+		"taskmasterstorage": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
 		}
 	}
 }
