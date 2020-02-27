@@ -65,7 +65,7 @@ public class TeamTasksFragment extends Fragment {
 
         //get all stored teams from aws to populate teamNamesToIds
         mAWSAppSyncClient.query(ListTeamsQuery.builder().build())
-                .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
+                .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
                 .enqueue(new GraphQLCall.Callback<ListTeamsQuery.Data>() {
                     @Override
                     public void onResponse(@Nonnull final Response<ListTeamsQuery.Data> response) {
@@ -90,7 +90,7 @@ public class TeamTasksFragment extends Fragment {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
         final String selectedTeam = prefs.getString("selectedTeam", "Operations");
         //if the hashtable isn't populated yet (done asynchronously in oncreate) use the Operations team id as default
-        String teamId = teamNamesToIDs.get(selectedTeam) != null ? teamNamesToIDs.get(selectedTeam) : "c3e8900a-5a39-4038-b6f6-64cc9d56cb93";
+        String teamId = teamNamesToIDs.get(selectedTeam) != null ? teamNamesToIDs.get(selectedTeam) : "d316e3df-c7ab-4a61-9b8e-12c489b97eeb";
 
         mAWSAppSyncClient.query(GetTeamQuery.builder().id(teamId).build())
                 .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
@@ -98,16 +98,16 @@ public class TeamTasksFragment extends Fragment {
                     @Override
                     public void onResponse(@Nonnull final Response<GetTeamQuery.Data> response) {
                         Log.i("ljw", "successful team query");
-//                        final List<GetTeamQuery.Item> tasks = response.data().getTeam().tasks().items();
-////                        Log.i("ljw", tasks.toString());
-////
-////                        Handler handler = new Handler(Looper.getMainLooper()) {
-////                            @Override
-////                            public void handleMessage(Message input) {
-////                                recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(tasks, mListener));
-////                            }
-////                        };
-////                        handler.obtainMessage().sendToTarget();
+                        final List<GetTeamQuery.Item> tasks = response.data().getTeam().tasks().items();
+                        Log.i("ljw", tasks.toString());
+
+                        Handler handler = new Handler(Looper.getMainLooper()) {
+                            @Override
+                            public void handleMessage(Message input) {
+                                recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(tasks, mListener));
+                            }
+                        };
+                        handler.obtainMessage().sendToTarget();
                     }
 
                     @Override
