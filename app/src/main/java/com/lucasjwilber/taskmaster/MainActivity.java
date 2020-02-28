@@ -13,28 +13,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.amazonaws.amplify.generated.graphql.CreateTeamMutation;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.Callback;
-import com.amazonaws.mobile.client.SignInUIOptions;
-import com.amazonaws.mobile.client.UserState;
 import com.amazonaws.mobile.client.UserStateDetails;
-import com.amazonaws.mobile.client.UserStateListener;
-import com.amazonaws.mobile.config.AWSConfiguration;
-import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
-import com.apollographql.apollo.GraphQLCall;
-import com.apollographql.apollo.api.Response;
-import com.apollographql.apollo.exception.ApolloException;
-
-import javax.annotation.Nonnull;
-
-import type.CreateTeamInput;
 
 public class MainActivity extends AppCompatActivity {
-    String TAG = "ljw";
     String username = "Guest";
 
     @Override
@@ -42,59 +27,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String theme = prefs.getString("theme", "Cafe");
-
-        AWSAppSyncClient mAWSAppSyncClient = mAWSAppSyncClient = AWSAppSyncClient.builder()
-                .context(getApplicationContext())
-                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
-                .build();
-////////////
-//        final CreateTeamInput newTeam = CreateTeamInput.builder()
-//                .name("Install")
-//                .build();
-//        final CreateTeamInput newTeam2 = CreateTeamInput.builder()
-//                .name("Operations")
-//                .build();
-//        final CreateTeamInput newTeam3 = CreateTeamInput.builder()
-//                .name("Engineering")
-//                .build();
-//
-//        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam).build())
-//                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
-//                    @Override
-//                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
-//                        Log.i(TAG, response.data().createTeam().toString());
-//                    }
-//                    @Override
-//                    public void onFailure(@Nonnull ApolloException e) {
-//                        Log.i(TAG, "failed adding team" + newTeam.name());
-//                    }
-//                });
-//
-//        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam2).build())
-//                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
-//                    @Override
-//                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
-//                        Log.i(TAG, response.data().createTeam().toString());
-//                    }
-//                    @Override
-//                    public void onFailure(@Nonnull ApolloException e) {
-//                        Log.i(TAG, "failed adding team" + newTeam2.name());
-//                    }
-//                });
-//
-//        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam3).build())
-//                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
-//                    @Override
-//                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
-//                        Log.i(TAG, response.data().createTeam().toString());
-//                    }
-//                    @Override
-//                    public void onFailure(@Nonnull ApolloException e) {
-//                        Log.i(TAG, "failed adding team" + newTeam3.name());
-//                    }
-//                });
-
-
 
         switch (theme) {
             case "Cafe":
@@ -163,29 +95,27 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-//  saved for inevitable 'add team' feature:
+        //  saved for inevitable 'add team' feature:
         {
-//        final CreateTeamInput newTeam = CreateTeamInput.builder()
-//                .name("Install")
-//                .build();
-//        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam).build())
-//                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
-//                    @Override
-//                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
-//                        Log.i(TAG, response.data().createTeam().toString());
-//                    }
-//                    @Override
-//                    public void onFailure(@Nonnull ApolloException e) {
-//                        Log.i(TAG, "failed adding team" + opsTeam.name());
-//                    }
-//                });
+        //        final CreateTeamInput newTeam = CreateTeamInput.builder()
+        //                .name("Install")
+        //                .build();
+        //        mAWSAppSyncClient.mutate(CreateTeamMutation.builder().input(newTeam).build())
+        //                .enqueue(new GraphQLCall.Callback<CreateTeamMutation.Data>() {
+        //                    @Override
+        //                    public void onResponse(@Nonnull Response<CreateTeamMutation.Data> response) {
+        //                        Log.i(TAG, response.data().createTeam().toString());
+        //                    }
+        //                    @Override
+        //                    public void onFailure(@Nonnull ApolloException e) {
+        //                        Log.i(TAG, "failed adding team" + opsTeam.name());
+        //                    }
+        //                });
         }
-
     }
 
     @Override
     public void onResume(){
-        //TODO: fix flash of Main before login redirect
         super.onResume();
 
         final TextView usernameView = findViewById(R.id.mainActUsername);
@@ -197,8 +127,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.obtainMessage().sendToTarget();
-
-
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String theme = prefs.getString("theme", "Cafe");
@@ -232,19 +160,16 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
-
     }
 
     public void goToAddTasksActivity(View v) {
         Intent intent = new Intent(this, AddTaskActivity.class);
         startActivity(intent);
     }
-
     public void goToAllTasksActivity(View v) {
         Intent intent = new Intent(this, AllTasksActivity.class);
         startActivity(intent);
     }
-
     public void goToSettingsActivity(View v) {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);

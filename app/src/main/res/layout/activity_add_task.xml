@@ -9,8 +9,8 @@
 
     <TextView
         android:id="@+id/addTaskActTitle"
-        android:layout_width="115dp"
-        android:layout_height="41dp"
+        android:layout_width="177dp"
+        android:layout_height="48dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="40dp"
         android:text="@string/add_task"
@@ -24,26 +24,24 @@
         android:id="@+id/addTask_taskNameInput"
         android:layout_width="350dp"
         android:layout_height="50dp"
+        android:layout_marginTop="60dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/addTask_taskDescInput"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.831" />
+        app:layout_constraintStart_toStartOf="@+id/addTaskTeamSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/addTaskTeamSpinner" />
 
     <EditText
         android:id="@+id/addTask_taskDescInput"
         android:layout_width="350dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="356dp"
+        android:layout_marginTop="30dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:textSize="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/addTask_taskNameInput"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/addTask_taskNameInput"
+        app:layout_constraintTop_toBottomOf="@+id/addTask_taskNameInput" />
 
     <Button
         android:id="@+id/submitTaskButton"
@@ -97,13 +95,13 @@
 
     <Spinner
         android:id="@+id/addTaskTeamSpinner"
-        android:layout_width="230dp"
-        android:layout_height="32dp"
-        android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/addTask_taskNameInput"
+        android:layout_width="165dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="156dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.198"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.165"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/addTaskTeamLabel"

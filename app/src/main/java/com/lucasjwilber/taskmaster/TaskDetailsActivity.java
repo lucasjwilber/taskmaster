@@ -15,13 +15,13 @@ import com.amazonaws.amplify.generated.graphql.GetTaskQuery;
 import com.amazonaws.amplify.generated.graphql.UpdateTaskMutation;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 import javax.annotation.Nonnull;
 import type.DeleteTaskInput;
 import type.UpdateTaskInput;
-
 
 public class TaskDetailsActivity extends AppCompatActivity {
 
@@ -59,6 +59,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
                 .awsConfiguration(new AWSConfiguration(getApplicationContext()))
                 .build();
         mAWSAppSyncClient.query(GetTaskQuery.builder().id(taskId).build())
+                .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
                 .enqueue(new GraphQLCall.Callback<GetTaskQuery.Data>() {
                     @Override
                     public void onResponse(@Nonnull Response<GetTaskQuery.Data> response) {
@@ -110,12 +111,12 @@ public class TaskDetailsActivity extends AppCompatActivity {
         Log.i("ljw", "state: " + newState);
 
         UpdateTaskInput input = UpdateTaskInput.builder()
+                //if these aren't ALL defined it crashes
                 .id(taskId)
                 .teamID(taskTeamID)
                 .title(taskTitle)
                 .body(taskBody)
                 .state(newState)
-                // imagePath is required even if there is none...
                 .imagePath("none")
                 .build();
 
@@ -135,6 +136,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
     }
 
     public void deleteTaskButtonClicked(View v) {
+        Log.i("ljw", "delete task button clicked");
         DeleteTaskInput input = DeleteTaskInput.builder().id(taskId).build();
         mAWSAppSyncClient.mutate(DeleteTaskMutation.builder().input(input).build())
                 .enqueue(new GraphQLCall.Callback<DeleteTaskMutation.Data>() {
