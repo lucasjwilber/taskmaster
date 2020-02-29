@@ -154,28 +154,31 @@ public class AddTaskActivity extends AppCompatActivity {
                 "Submitted!",
                 Toast.LENGTH_SHORT);
 
-        String title = titleInput.getText().toString();
-        String body = bodyInput.getText().toString();
-        String teamName = spinner.getSelectedItem().toString();
-        String teamID = teamNamesToIDs.get(teamName);
-        CreateTaskInput input = CreateTaskInput.builder()
-                .title(title)
-                .body(body)
-                .teamID(teamID)
-                .state("NEW") //default/initial state is "NEW"
-                .build();
+//        String title = titleInput.getText().toString();
+//        String body = bodyInput.getText().toString();
+//        String teamName = spinner.getSelectedItem().toString();
+//        String teamID = teamNamesToIDs.get(teamName);
+//        CreateTaskInput input = CreateTaskInput.builder()
+//                .title(title)
+//                .body(body)
+//                .teamID(teamID)
+//                .state("NEW") //default/initial state is "NEW"
+//                .build();
+//
+//        mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(input).build())
+//                .enqueue(new GraphQLCall.Callback<CreateTaskMutation.Data>() {
+//                    @Override
+//                    public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
+//                        Log.i("ljw", "Added Task with amplify successfully:\n" + response.data().createTask().toString());
+//                    }
+//                    @Override
+//                    public void onFailure(@Nonnull ApolloException e) {
+//                        Log.e("ljw", "failed adding task with amplify:\n" + e.toString());
+//                    }
+//                });
 
-        mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(input).build())
-                .enqueue(new GraphQLCall.Callback<CreateTaskMutation.Data>() {
-                    @Override
-                    public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
-                        Log.i("ljw", "Added Task with amplify successfully:\n" + response.data().createTask().toString());
-                    }
-                    @Override
-                    public void onFailure(@Nonnull ApolloException e) {
-                        Log.e("ljw", "failed adding task with amplify:\n" + e.toString());
-                    }
-                });
+
+        uploadAndSave();
 
         //display custom toast:
         {
@@ -209,9 +212,9 @@ public class AddTaskActivity extends AppCompatActivity {
     // Photo selector application code.
     // Thanks to https://aws.amazon.com/blogs/mobile/building-an-android-app-with-aws-amplify-part-2/
     public void uploadImageClicked(View v) {
-        choosePhoto();
+//        choosePhoto();
 //        uploadAndSave();
-//        uploadFile();
+        uploadFile();
     }
 
     private void save() {
@@ -227,11 +230,12 @@ public class AddTaskActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
                         Log.i(TAG, "successfully uploaded image:\n" + response.data());
-                        Log.i(TAG, "photopath is now " + photoPath);
+                        Log.i(TAG, "photopath is " + photoPath);
                     }
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {
                         Log.i(TAG, "failed to upload image:\n" + e.toString());
+                        Log.i(TAG, "photopath is " + photoPath);
                     }
                 });
     }
@@ -256,7 +260,7 @@ public class AddTaskActivity extends AppCompatActivity {
             // String picturePath contains the path of selected Image
             photoPath = picturePath;
 
-            uploadAndSave();
+//            uploadAndSave();
         }
     }
 
@@ -288,7 +292,6 @@ public class AddTaskActivity extends AppCompatActivity {
                     save();
                 }
             }
-
             @Override
             public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
                 float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
@@ -352,6 +355,8 @@ public class AddTaskActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         1);
+            } else {
+                Log.d(TAG, "READ_EXTERNAL_STORAGE permission is granted.");
             }
 
             // Upload a photo first. We will only call save on its successful callback.
@@ -361,7 +366,7 @@ public class AddTaskActivity extends AppCompatActivity {
         }
     }
 
-
+    //this is just a test for the s3 bucket
     private void uploadFile() {
         File sampleFile = new File(getApplicationContext().getFilesDir(), "sample.txt");
         try {
@@ -374,7 +379,7 @@ public class AddTaskActivity extends AppCompatActivity {
         }
 
         Amplify.Storage.uploadFile(
-                "myUploadedFileName.txt",
+                "uploadTest.txt",
                 "public/" + sampleFile.getAbsolutePath(),
                 new ResultListener<StorageUploadFileResult>() {
                     @Override

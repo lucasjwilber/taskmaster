@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -90,9 +92,15 @@ public class TaskDetailsActivity extends AppCompatActivity {
                                 rb = findViewById(R.id.state_rb_new);
                                 break;
                         }
-                        rb.toggle();
-                        titleView.setText(taskTitle);
-                        bodyView.setText(taskBody);
+                        Handler handler = new Handler(getMainLooper()) {
+                            @Override
+                            public void handleMessage(Message input) {
+                                rb.toggle();
+                                titleView.setText(taskTitle);
+                                bodyView.setText(taskBody);
+                            }
+                        };
+                        handler.obtainMessage().sendToTarget();
                     }
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {
