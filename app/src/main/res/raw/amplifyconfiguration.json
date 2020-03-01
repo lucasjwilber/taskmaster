@@ -17,7 +17,7 @@
     "storage": {
         "plugins": {
             "awsS3StoragePlugin": {
-                "bucket": "taskmaster051aa0abefd549098490fff78b5fc983130221-tmenv",
+                "bucket": "taskmasterstoragebucket130221-tmenv",
                 "region": "us-west-2",
                 "defaultAccessLevel": "guest"
             }
