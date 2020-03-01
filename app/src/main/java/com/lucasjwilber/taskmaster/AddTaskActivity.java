@@ -36,6 +36,9 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.S3ClientOptions;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.core.ResultListener;
 import com.amplifyframework.storage.result.StorageUploadFileResult;
@@ -45,7 +48,10 @@ import com.apollographql.apollo.exception.ApolloException;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -143,7 +149,8 @@ public class AddTaskActivity extends AppCompatActivity {
                         .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
                         .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
                         .build();
-
+                Log.i("Storage", "transferUtil initiated");
+                Log.i("Storage", transferUtility().toString());
             }
         }
     }
@@ -178,7 +185,9 @@ public class AddTaskActivity extends AppCompatActivity {
 //                });
 
 
-        uploadAndSave();
+//        uploadAndSave();
+
+        uploadFile();
 
         //display custom toast:
         {
@@ -212,9 +221,9 @@ public class AddTaskActivity extends AppCompatActivity {
     // Photo selector application code.
     // Thanks to https://aws.amazon.com/blogs/mobile/building-an-android-app-with-aws-amplify-part-2/
     public void uploadImageClicked(View v) {
-//        choosePhoto();
+        choosePhoto();
 //        uploadAndSave();
-        uploadFile();
+//        uploadFile();
     }
 
     private void save() {
@@ -241,9 +250,22 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     public void choosePhoto() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            Log.d(TAG, "WRITE_EXTERNAL_STORAGE permission not granted! Requesting...");
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    0);
+        } else {
+            Log.d(TAG, "WRITE_EXTERNAL_STORAGE permission is granted.");
+        }
+
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, RESULT_LOAD_IMAGE);
+//        startActivityForResult(i, RESULT_LOAD_IMAGE);
+        startActivityForResult(i, 777);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -260,6 +282,8 @@ public class AddTaskActivity extends AppCompatActivity {
             // String picturePath contains the path of selected Image
             photoPath = picturePath;
 
+
+            Log.i("ljw", "staged photo for upload:\n" + photoPath);
 //            uploadAndSave();
         }
     }
@@ -277,6 +301,11 @@ public class AddTaskActivity extends AppCompatActivity {
         String key = getS3Key(localPath);
 
         Log.d(TAG, "Uploading file from " + localPath + " to " + key);
+
+//
+//        File photoFile = new File(photoPath);
+//        InputStream is = new FileInputStream(photoFile);
+//        por = new PutObjectRequest("bucket name", key, is, new ObjectMetadata());
 
         TransferObserver uploadObserver = transferUtility().upload(key, new File(localPath));
 
@@ -306,12 +335,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 // Handle errors
                 Log.e(TAG, "Failed to upload photo. ", ex);
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(AddTaskActivity.this, "Failed to upload photo", Toast.LENGTH_LONG).show();
-                    }
-                });
+                runOnUiThread(() -> Toast.makeText(AddTaskActivity.this, "Failed to upload photo", Toast.LENGTH_LONG).show());
             }
 
         });
@@ -348,6 +372,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private void uploadAndSave(){
         if (photoPath != null) {
             // For higher Android levels, we need to check permission at runtime
+            //TODO: this has been moved to choosePhoto(), test if this can be safely removed here
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
                 // Permission is not granted
@@ -380,7 +405,8 @@ public class AddTaskActivity extends AppCompatActivity {
 
         Amplify.Storage.uploadFile(
                 "uploadTest.txt",
-                "public/" + sampleFile.getAbsolutePath(),
+//                sampleFile.getAbsolutePath(),
+                photoPath,
                 new ResultListener<StorageUploadFileResult>() {
                     @Override
                     public void onResult(StorageUploadFileResult result) {
@@ -390,6 +416,14 @@ public class AddTaskActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable error) {
                         Log.i("StorageQuickstart", "Upload error.", error);
+                        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            // Permission is not granted
+                            Log.d(TAG, "WRITE_EXTERNAL_STORAGE permission not granted!");
+                        } else {
+                            Log.d(TAG, "WRITE_EXTERNAL_STORAGE permission is granted.");
+                        }
+
                     }
                 }
         );
