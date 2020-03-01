@@ -33,9 +33,7 @@ import com.amplifyframework.storage.result.StorageUploadFileResult;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -52,7 +50,6 @@ public class AddTaskActivity extends AppCompatActivity {
     TextView titleInput;
     TextView bodyInput;
     Spinner spinner;
-    String TAG = "ljw";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +78,6 @@ public class AddTaskActivity extends AppCompatActivity {
                     break;
             }
         }
-
 
         //query aws for saved teams to populate team select spinner
         {
@@ -130,86 +126,113 @@ public class AddTaskActivity extends AppCompatActivity {
 
 
     public void addTaskButtonClicked(View v) {
-        Toast toast = Toast.makeText(getApplicationContext(),
-                "Submitted!",
+        if (photoPath != null) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                "Uploading image...",
                 Toast.LENGTH_SHORT);
+            //customize toast:
+            {
+                //thanks to https://stackoverflow.com/questions/11288475/custom-toast-on-android-a-simple-example
+                View toastView = toast.getView();
+                TextView toastMessage = toastView.findViewById(android.R.id.message);
+                toastMessage.setTextSize(30);
 
-//        String title = titleInput.getText().toString();
-//        String body = bodyInput.getText().toString();
-//        String teamName = spinner.getSelectedItem().toString();
-//        String teamID = teamNamesToIDs.get(teamName);
-//        CreateTaskInput input = CreateTaskInput.builder()
-//                .title(title)
-//                .body(body)
-//                .teamID(teamID != null ? teamID : "no-team")
-//                .state("NEW") //default/initial state is "NEW"
-//                .build();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                String theme = prefs.getString("theme", "Cafe");
+                switch (theme) {
+                    case "Cafe":
+                        toastMessage.setTextColor(getResources().getColor(R.color.coffeeDarkest));
+                        toastView.setBackgroundColor(getResources().getColor(R.color.coffeeLight));
+                        break;
+                    case "City":
+                        toastMessage.setTextColor(getResources().getColor(R.color.cityLightGray));
+                        toastView.setBackgroundColor(getResources().getColor(R.color.cityMediumGray));
+                        break;
+                    case "Night":
+                        toastMessage.setTextColor(getResources().getColor(R.color.nightLightGray));
+                        toastView.setBackgroundColor(getResources().getColor(R.color.nightWhite));
+                        break;
+                }
+                toast.setGravity(Gravity.CENTER, 0, -40);
+                toast.show();
+            }
 
-        Amplify.Storage.uploadFile(
-                uuid,
-                new File(photoPath).getAbsolutePath(),
-                new ResultListener<StorageUploadFileResult>() {
-                    @Override
-                    public void onResult(StorageUploadFileResult result) {
-                        Log.i("ljw", "Successfully uploaded: " + result.getKey());
-                        Log.i("ljw", "creating and uploading task...");
+            Amplify.Storage.uploadFile(
+                    uuid,
+                    new File(photoPath).getAbsolutePath(),
+                    new ResultListener<StorageUploadFileResult>() {
+                        @Override
+                        public void onResult(StorageUploadFileResult result) {
+                            Log.i("ljw", "Successfully uploaded: " + result.getKey());
+                            Log.i("ljw", "creating and uploading task...");
 
-                        mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(getCreateTaskInput()).build())
-                                .enqueue(new GraphQLCall.Callback<CreateTaskMutation.Data>() {
-                                    @Override
-                                    public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
-                                        Log.i("ljw", "Added Task with amplify successfully:\n" + response.data().createTask().toString());
-                                    }
-                                    @Override
-                                    public void onFailure(@Nonnull ApolloException e) {
-                                        Log.e("ljw", "failed adding task with amplify:\n" + e.toString());
-                                    }
-                                });
-                        //display custom toast:
-                        {
-                            //thanks to https://stackoverflow.com/questions/11288475/custom-toast-on-android-a-simple-example
-                            View toastView = toast.getView();
-                            TextView toastMessage = toastView.findViewById(android.R.id.message);
-                            toastMessage.setTextSize(30);
-
-                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                            String theme = prefs.getString("theme", "Cafe");
-                            switch (theme) {
-                                case "Cafe":
-                                    toastMessage.setTextColor(getResources().getColor(R.color.coffeeDarkest));
-                                    toastView.setBackgroundColor(getResources().getColor(R.color.coffeeLight));
-                                    break;
-                                case "City":
-                                    toastMessage.setTextColor(getResources().getColor(R.color.cityLightGray));
-                                    toastView.setBackgroundColor(getResources().getColor(R.color.cityMediumGray));
-                                    break;
-                                case "Night":
-                                    toastMessage.setTextColor(getResources().getColor(R.color.nightLightGray));
-                                    toastView.setBackgroundColor(getResources().getColor(R.color.nightWhite));
-                                    break;
-                            }
+                            uploadTask();
+                        }
+                        @Override
+                        public void onError(Throwable error) {
+                            Log.i("ljw", "Upload error.", error);
+                            Toast toast = Toast.makeText(getApplicationContext(),
+                                    "Error uploading image.",
+                                    Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER, 0, -40);
                             toast.show();
                         }
-                        finish();
                     }
-
-                    @Override
-                    public void onError(Throwable error) {
-                        Log.i("ljw", "Upload error.", error);
-                        //toast  "error creating new task"
-
-                    }
-                }
-        );
-//
-
+            );
+        } else {
+            uploadTask();
+        }
     }
 
 
     public void uploadImageClicked(View v) {
         choosePhoto();
+    }
 
+    public void uploadTask() {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Submitted!",
+                Toast.LENGTH_SHORT);
+
+        mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(getCreateTaskInput()).build())
+                .enqueue(new GraphQLCall.Callback<CreateTaskMutation.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
+                        Log.i("ljw", "Added Task with amplify successfully:\n" + response.data().createTask().toString());
+                    }
+
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+                        Log.e("ljw", "failed adding task with amplify:\n" + e.toString());
+                    }
+                });
+        // customize toast:
+        {
+            //thanks to https://stackoverflow.com/questions/11288475/custom-toast-on-android-a-simple-example
+            View toastView = toast.getView();
+            TextView toastMessage = toastView.findViewById(android.R.id.message);
+            toastMessage.setTextSize(30);
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            String theme = prefs.getString("theme", "Cafe");
+            switch (theme) {
+                case "Cafe":
+                    toastMessage.setTextColor(getResources().getColor(R.color.coffeeDarkest));
+                    toastView.setBackgroundColor(getResources().getColor(R.color.coffeeLight));
+                    break;
+                case "City":
+                    toastMessage.setTextColor(getResources().getColor(R.color.cityLightGray));
+                    toastView.setBackgroundColor(getResources().getColor(R.color.cityMediumGray));
+                    break;
+                case "Night":
+                    toastMessage.setTextColor(getResources().getColor(R.color.nightLightGray));
+                    toastView.setBackgroundColor(getResources().getColor(R.color.nightWhite));
+                    break;
+            }
+            toast.setGravity(Gravity.CENTER, 0, -40);
+            toast.show();
+        }
+        finish();
     }
 
     public void choosePhoto() {
@@ -217,7 +240,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            Log.i("ljw", "requesting permissions");
+            Log.i("ljw", "requesting WRITE_EXTERNAL_STORAGE permission");
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         } else {
             Log.i("ljw", "permission granted, proceeding");
@@ -258,6 +281,7 @@ public class AddTaskActivity extends AppCompatActivity {
         }
     }
 
+    //create task with or without image property based on status of photoPath
     private CreateTaskInput getCreateTaskInput() {
         String title = titleInput.getText().toString();
         String body = bodyInput.getText().toString();
@@ -296,92 +320,6 @@ public class AddTaskActivity extends AppCompatActivity {
         cursor.close();
 
         uuid = UUID.randomUUID().toString();
-
-
-
-        ////////////////////////////////////////
-
-//        AmazonS3Client s3Client = new AmazonS3Client(AWSMobileClient.getInstance());
-//        // String picturePath contains the path of selected Image
-//        TransferUtility transferUtility =
-//                TransferUtility.builder()
-//                        .context(getApplicationContext())
-//                        .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
-//                        .s3Client(s3Client)
-//                        .build();
-//
-//        Log.i("ljw", "picture path = " + picturePath);
-//
-//        String uuid = UUID.randomUUID().toString();
-//
-//        Log.i("ljw", "storage write permission:\n" + ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE));
-//
-//        TransferObserver uploadObserver =
-//                transferUtility.upload(
-//                        "public/" + uuid,
-//                        new File(picturePath),
-//                        CannedAccessControlList.PublicRead);
-//
-//        // Attach a listener to the observer to get state update and progress notifications
-//        uploadObserver.setTransferListener(new TransferListener() {
-//
-//            @Override
-//            public void onStateChanged(int id, TransferState state) {
-//                if (TransferState.COMPLETED == state) {
-//                    String title = titleInput.getText().toString();
-//                    String body = bodyInput.getText().toString();
-//                    String teamName = spinner.getSelectedItem().toString();
-//                    String teamID = teamNamesToIDs.get(teamName);
-//
-//
-//                    UpdateTaskInput input = UpdateTaskInput.builder()
-//                            .title(title)
-//                            .body(body)
-//                            .teamID(teamID)
-//                            .state("NEW") //default/initial state is "NEW"
-//                            .imagePath(uuid)
-//                            .build();
-//                    mAWSAppSyncClient.mutate(UpdateTaskMutation.builder().input(input).build())
-//                            .enqueue(new GraphQLCall.Callback<UpdateTaskMutation.Data>() {
-//                                @Override
-//                                public void onResponse(@Nonnull Response<UpdateTaskMutation.Data> response) {
-//                                    Log.i("ljw", "updated the task");
-//                                    Log.i("ljw", response.data().updateTask().toString());
-//                                }
-//
-//                                @Override
-//                                public void onFailure(@Nonnull ApolloException e) {
-//                                    Log.i("ljw", "failed updating task:\n" + e.toString());
-//                                }
-//                            });
-//                }
-//            }
-//
-//            @Override
-//            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-//                float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
-//                int percentDone = (int)percentDonef;
-//
-//                Log.i(TAG, "ID:" + id + " bytesCurrent: " + bytesCurrent
-//                        + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
-//            }
-//
-//            @Override
-//            public void onError(int id, Exception ex) {
-//                Log.i("ljw", "onError:\n" + ex.toString());
-//            }
-//
-//        });
-//
-//        // If you prefer to poll for the data, instead of attaching a
-//        // listener, check for the state and progress in the observer.
-//        if (TransferState.COMPLETED == uploadObserver.getState()) {
-//            // Handle a completed upload.
-//            Log.i("ljw", "upload observer says that it was complete");
-//        }
-//
-//        Log.i(TAG, "Bytes Transferred: " + uploadObserver.getBytesTransferred());
-//        Log.i(TAG, "Bytes Total: " + uploadObserver.getBytesTotal());
     }
 
 }

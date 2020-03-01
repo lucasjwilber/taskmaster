@@ -9,6 +9,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -18,9 +19,14 @@ import com.amazonaws.amplify.generated.graphql.UpdateTaskMutation;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.ResultListener;
+import com.amplifyframework.storage.result.StorageDownloadFileResult;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
+import com.squareup.picasso.Picasso;
+
 import javax.annotation.Nonnull;
 import type.DeleteTaskInput;
 import type.UpdateTaskInput;
@@ -32,6 +38,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
     private String taskBody;
     private String taskState;
     private String taskTeamID;
+    private String taskImageUUID;
     private AWSAppSyncClient mAWSAppSyncClient;
 
     @Override
@@ -72,9 +79,11 @@ public class TaskDetailsActivity extends AppCompatActivity {
                         taskBody = task.body();
                         taskState = task.state();
                         taskTeamID = task.teamID();
+                        taskImageUUID = task.imagePath();
 
                         TextView titleView = findViewById(R.id.taskDetailsTitle);
                         TextView bodyView = findViewById(R.id.taskDetailsBody);
+                        ImageView taskImage = findViewById(R.id.taskDetailsImage);
                         RadioButton rb;
 
                         switch (taskState) {
@@ -98,6 +107,10 @@ public class TaskDetailsActivity extends AppCompatActivity {
                                 rb.toggle();
                                 titleView.setText(taskTitle);
                                 bodyView.setText(taskBody);
+                                Log.i("ljw", "loading image from https://taskmasterstoragebucket130221-tmenv.s3-us-west-2.amazonaws.com/public/"+taskImageUUID);
+                                if (taskImageUUID != null) {
+                                    Picasso.get().load("https://taskmasterstoragebucket130221-tmenv.s3-us-west-2.amazonaws.com/public/"+taskImageUUID).into(taskImage);
+                                }
                             }
                         };
                         handler.obtainMessage().sendToTarget();
@@ -125,7 +138,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
                 .title(taskTitle)
                 .body(taskBody)
                 .state(newState)
-                .imagePath("none")
+                .imagePath(taskImageUUID)
                 .build();
 
         //enqueue the mutation
