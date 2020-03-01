@@ -15,7 +15,7 @@ public class Task {
     private String title;
     private String body;
     private String state;
-    private String imagePath;
+    private String imagePath; //name of file in s3 bucket's public folder
     private String teamID;
 
     @Ignore
@@ -33,7 +33,7 @@ public class Task {
         this.teamID = teamID;
         this.team = team;
         this.state = "NEW";
-        this.imagePath = imagePath;
+        this.imagePath = imagePath; //name of file in s3 bucket's public folder
     }
 
     public String getTeamID() {

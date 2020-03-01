@@ -83,15 +83,15 @@
 				}
 			}
 		},
-		"authtaskmaster5c5238d9": {
+		"authtaskmasterd5e9c521": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-tmenv-130221-deployment/amplify-cfn-templates/auth/taskmaster5c5238d9-cloudformation-template.yml",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-tmenv-130221-deployment/amplify-cfn-templates/auth/taskmasterd5e9c521-cloudformation-template.yml",
 				"Parameters": {
-					"identityPoolName": "taskmaster5c5238d9_identitypool_5c5238d9",
+					"identityPoolName": "taskmasterd5e9c521_identitypool_d5e9c521",
 					"allowUnauthenticatedIdentities": false,
-					"resourceNameTruncated": "taskma5c5238d9",
-					"userPoolName": "taskmaster5c5238d9_userpool_5c5238d9",
+					"resourceNameTruncated": "taskmad5e9c521",
+					"userPoolName": "taskmasterd5e9c521_userpool_d5e9c521",
 					"autoVerifiedAttributes": "email",
 					"mfaConfiguration": "OFF",
 					"mfaTypes": "SMS Text Message",
@@ -107,9 +107,9 @@
 					"userpoolClientRefreshTokenValidity": 30,
 					"userpoolClientWriteAttributes": "email",
 					"userpoolClientReadAttributes": "email",
-					"userpoolClientLambdaRole": "taskma5c5238d9_userpoolclient_lambda_role",
+					"userpoolClientLambdaRole": "taskmad5e9c521_userpoolclient_lambda_role",
 					"userpoolClientSetAttributes": false,
-					"resourceName": "taskmaster5c5238d9",
+					"resourceName": "taskmasterd5e9c521",
 					"authSelections": "identityPoolAndUserPool",
 					"authRoleArn": {
 						"Fn::GetAtt": [
@@ -124,8 +124,53 @@
 						]
 					},
 					"useDefault": "default",
-					"userPoolGroupList": "",
+					"userPoolGroupList": "taskmasteruserpool",
 					"dependsOn": "",
+					"env": "tmenv"
+				}
+			}
+		},
+		"authuserPoolGroups": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-tmenv-130221-deployment/amplify-cfn-templates/auth/template.json",
+				"Parameters": {
+					"AuthRoleArn": {
+						"Fn::GetAtt": [
+							"AuthRole",
+							"Arn"
+						]
+					},
+					"UnauthRoleArn": {
+						"Fn::GetAtt": [
+							"UnauthRole",
+							"Arn"
+						]
+					},
+					"authtaskmasterd5e9c521UserPoolId": {
+						"Fn::GetAtt": [
+							"authtaskmasterd5e9c521",
+							"Outputs.UserPoolId"
+						]
+					},
+					"authtaskmasterd5e9c521AppClientIDWeb": {
+						"Fn::GetAtt": [
+							"authtaskmasterd5e9c521",
+							"Outputs.AppClientIDWeb"
+						]
+					},
+					"authtaskmasterd5e9c521AppClientID": {
+						"Fn::GetAtt": [
+							"authtaskmasterd5e9c521",
+							"Outputs.AppClientID"
+						]
+					},
+					"authtaskmasterd5e9c521IdentityPoolId": {
+						"Fn::GetAtt": [
+							"authtaskmasterd5e9c521",
+							"Outputs.IdentityPoolId"
+						]
+					},
 					"env": "tmenv"
 				}
 			}
@@ -135,9 +180,9 @@
 			"Properties": {
 				"TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-tmenv-130221-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"Parameters": {
-					"bucketName": "taskmaster051aa0abefd549098490fff78b5fc983",
-					"authPolicyName": "s3_amplify_a30d490c",
-					"unauthPolicyName": "s3_amplify_a30d490c",
+					"bucketName": "taskmasterstoragebucket",
+					"authPolicyName": "s3_amplify_7c73f5d7",
+					"unauthPolicyName": "s3_amplify_7c73f5d7",
 					"authRoleName": {
 						"Ref": "AuthRoleName"
 					},
@@ -147,15 +192,15 @@
 					"selectedGuestPermissions": "s3:GetObject,s3:ListBucket",
 					"selectedAuthenticatedPermissions": "s3:PutObject,s3:GetObject,s3:ListBucket,s3:DeleteObject",
 					"s3PermissionsAuthenticatedPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
-					"s3PublicPolicy": "Public_policy_f98d02d7",
+					"s3PublicPolicy": "Public_policy_0fbe544d",
 					"s3PermissionsAuthenticatedUploads": "s3:PutObject",
-					"s3UploadsPolicy": "Uploads_policy_f98d02d7",
+					"s3UploadsPolicy": "Uploads_policy_0fbe544d",
 					"s3PermissionsAuthenticatedProtected": "s3:PutObject,s3:GetObject,s3:DeleteObject",
-					"s3ProtectedPolicy": "Protected_policy_f98d02d7",
+					"s3ProtectedPolicy": "Protected_policy_0fbe544d",
 					"s3PermissionsAuthenticatedPrivate": "s3:PutObject,s3:GetObject,s3:DeleteObject",
-					"s3PrivatePolicy": "Private_policy_f98d02d7",
+					"s3PrivatePolicy": "Private_policy_0fbe544d",
 					"AuthenticatedAllowList": "ALLOW",
-					"s3ReadPolicy": "read_policy_f98d02d7",
+					"s3ReadPolicy": "read_policy_0fbe544d",
 					"s3PermissionsGuestPublic": "DISALLOW",
 					"s3PermissionsGuestUploads": "DISALLOW",
 					"GuestAllowList": "DISALLOW",
@@ -168,7 +213,7 @@
 			"DependsOn": [
 				"AuthRole",
 				"UnauthRole",
-				"authtaskmaster5c5238d9"
+				"authtaskmasterd5e9c521"
 			],
 			"Type": "AWS::Lambda::Function",
 			"Properties": {
@@ -251,7 +296,7 @@
 				},
 				"idpId": {
 					"Fn::GetAtt": [
-						"authtaskmaster5c5238d9",
+						"authtaskmasterd5e9c521",
 						"Outputs.IdentityPoolId"
 					]
 				},
