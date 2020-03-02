@@ -45,5 +45,13 @@
             "service": "S3",
             "providerPlugin": "awscloudformation"
         }
+    },
+    "notifications": {
+        "taskmasterpinpoint": {
+            "service": "Pinpoint",
+            "channels": [
+                "FCM"
+            ]
+        }
     }
 }

@@ -102,5 +102,29 @@
 			},
 			"lastPushDirHash": "ZXCJXOuSLYv85gfS/1XVRukPzvM="
 		}
+	},
+	"notifications": {
+		"taskmasterpinpoint": {
+			"service": "Pinpoint",
+			"output": {
+				"Arn": "arn:aws:mobiletargeting:us-west-2:272195865811:apps/4af469ad125a486db7274d62ee0da635",
+				"Id": "4af469ad125a486db7274d62ee0da635",
+				"Name": "taskmasterpinpoint-tmenv",
+				"tags": {},
+				"Region": "us-west-2",
+				"FCM": {
+					"ApplicationId": "4af469ad125a486db7274d62ee0da635",
+					"CreationDate": "2020-03-02T18:13:17.615Z",
+					"Enabled": true,
+					"HasCredential": true,
+					"Id": "gcm",
+					"IsArchived": false,
+					"LastModifiedDate": "2020-03-02T18:13:17.615Z",
+					"Platform": "GCM",
+					"Version": 1
+				}
+			},
+			"lastPushTimeStamp": "2020-03-02T18:12:50.372Z"
+		}
 	}
 }
