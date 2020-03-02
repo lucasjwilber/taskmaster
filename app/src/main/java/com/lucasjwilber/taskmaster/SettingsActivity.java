@@ -64,12 +64,12 @@ public class SettingsActivity extends AppCompatActivity {
             RadioGroup themeRg = findViewById(R.id.colorThemeRadioGroup);
             switch (theme) {
 //                TODO: re-enable when fixed
-//                case "City":
-//                    themeRg.check(R.id.radioButtonCity);
-//                    break;
-//                case "Night":
-//                    themeRg.check(R.id.radioButtonNight);
-//                    break;
+                case "City":
+                    themeRg.check(R.id.radioButtonCity);
+                    break;
+                case "Night":
+                    themeRg.check(R.id.radioButtonNight);
+                    break;
                 case "Cafe":
                 default:
                     themeRg.check(R.id.radioButtonCafe);

@@ -24,12 +24,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.amazonaws.amplify.generated.graphql.CreateTaskMutation;
 import com.amazonaws.amplify.generated.graphql.ListTeamsQuery;
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.core.ResultListener;
 import com.amplifyframework.storage.result.StorageUploadFileResult;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
@@ -122,8 +126,8 @@ public class AddTaskActivity extends AppCompatActivity {
                     });
 
         }
-    }
 
+    }
 
     public void addTaskButtonClicked(View v) {
         if (photoPath != null) {
@@ -184,7 +188,6 @@ public class AddTaskActivity extends AppCompatActivity {
         }
     }
 
-
     public void uploadImageClicked(View v) {
         choosePhoto();
     }
@@ -194,6 +197,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 "Submitted!",
                 Toast.LENGTH_SHORT);
 
+        //creates an imageless task if photoPath is null, vice versa
         mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(getCreateTaskInput()).build())
                 .enqueue(new GraphQLCall.Callback<CreateTaskMutation.Data>() {
                     @Override
@@ -236,8 +240,6 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     public void choosePhoto() {
-        Log.i("ljw", "choosePhoto clicked");
-
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.i("ljw", "requesting WRITE_EXTERNAL_STORAGE permission");
@@ -273,9 +275,8 @@ public class AddTaskActivity extends AppCompatActivity {
 
         if (requestCode == 0 && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            // try to upload that image
-            Log.i("ljw", "attempting to upload photo...");
             stageImageForUpload(selectedImage);
+            Log.i("ljw", "photo is ready for upload");
         } else {
             Log.i("ljw", "error with photo selection:\n" + requestCode + "\n" + resultCode + "\n" + data);
         }

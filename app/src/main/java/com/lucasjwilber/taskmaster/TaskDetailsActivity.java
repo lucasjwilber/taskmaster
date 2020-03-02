@@ -19,14 +19,10 @@ import com.amazonaws.amplify.generated.graphql.UpdateTaskMutation;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
-import com.amplifyframework.core.Amplify;
-import com.amplifyframework.core.ResultListener;
-import com.amplifyframework.storage.result.StorageDownloadFileResult;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 import com.squareup.picasso.Picasso;
-
 import javax.annotation.Nonnull;
 import type.DeleteTaskInput;
 import type.UpdateTaskInput;

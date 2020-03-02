@@ -9,33 +9,36 @@
 
     <TextView
         android:id="@+id/taskDetailsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="303dp"
+        android:layout_height="47dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="52dp"
         android:text="@string/task_details"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/task_details" />
 
     <TextView
         android:id="@+id/taskDetailsBody"
-        android:layout_width="268dp"
-        android:layout_height="167dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="293dp"
+        android:layout_height="195dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="52dp"
         android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.857"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.56" />
+        app:layout_constraintTop_toBottomOf="@+id/taskDetailsImage" />
 
     <RadioGroup
         android:id="@+id/taskStateRadioGroup"
-        android:layout_width="144dp"
-        android:layout_height="130dp"
+        android:layout_width="155dp"
+        android:layout_height="133dp"
         android:layout_marginTop="40dp"
         app:layout_constraintStart_toStartOf="@+id/taskDetailsTitle"
         app:layout_constraintTop_toBottomOf="@+id/taskDetailsTitle">
@@ -78,21 +81,22 @@
 
     <Button
         android:id="@+id/deleteTaskButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="52dp"
+        android:layout_width="110dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="32dp"
         android:onClick="deleteTaskButtonClicked"
         android:text="Delete Task"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskDetailsTitle" />
+        app:layout_constraintEnd_toEndOf="@+id/taskDetailsTitle"
+        app:layout_constraintTop_toTopOf="@+id/taskStateRadioGroup" />
 
     <ImageView
         android:id="@+id/taskDetailsImage"
-        android:layout_width="166dp"
-        android:layout_height="168dp"
-        app:layout_constraintStart_toStartOf="@+id/taskDetailsBody"
-        app:layout_constraintTop_toBottomOf="@+id/taskDetailsBody"
+        android:layout_width="163dp"
+        android:layout_height="192dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskStateRadioGroup"
         app:srcCompat="@drawable/notepadlogocafe" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
