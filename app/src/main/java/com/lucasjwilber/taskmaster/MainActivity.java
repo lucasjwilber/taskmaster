@@ -83,20 +83,21 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             Amplify.addPlugin(new AWSS3StoragePlugin());
                             Amplify.configure(getApplicationContext());
-                            Log.i("StorageQuickstart", "All set and ready to go!");
+                            Log.i("ljw", "All set and ready to go!");
                         } catch (Exception e) {
-                            Log.e("StorageQuickstart", e.getMessage());
+                            Log.i("ljw", e.getMessage());
                         }
                     }
                     @Override
                     public void onError(Exception e) {
-                        Log.e("ljw", "Initialization error.", e);
-                        Log.e("StorageQuickstart", "Initialization error.", e);
+                        Log.i("ljw", "Initialization error.", e);
+                        Log.i("ljw", "Initialization error.", e);
                     }
                 }
         );
-        //  saved for inevitable 'add team' feature:
-        {
+
+
+        { //  saved for inevitable 'add team' feature:
         //        final CreateTeamInput newTeam = CreateTeamInput.builder()
         //                .name("Install")
         //                .build();

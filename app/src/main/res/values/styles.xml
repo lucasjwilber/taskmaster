@@ -9,6 +9,7 @@
 
 <!--    TODO: re-add action bar and style it-->
 <!--    TODO: add corner radius to buttons-->
+<!--    TODO: on pages with spinners, the spinners selfishly take all the styling for themselves. fix this issue and re-implement theme selection-->
 
     <style name="CafeTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@color/coffeeDarkest</item>
