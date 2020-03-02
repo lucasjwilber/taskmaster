@@ -21,3 +21,5 @@ This Android app helps users create and keep track of tasks they need to do!
 - 2/22/2020: Added Teams, which own Tasks. A user must now specify a team in Settings, and the main activity will display tasks assigned to that team. Added a spinner for team selection in both Settings and in Add Task. Also added task update and delete functionality. The main activity title is now the currently selected team. Adding spinners cause several complications with app styling, so the City and Night themes have been disabled for now.
 
 - 2/25/2020: Added Amplify authentication. Signed-out users are now redirected to a Login activity on app start. Added a log out button to the Settings activity.
+
+-3/01/2020: Added Amplify storage. Users can now attach an image to a task. Re-enabled theme selection, although theme styling is still broken on pages which contain spinners.
