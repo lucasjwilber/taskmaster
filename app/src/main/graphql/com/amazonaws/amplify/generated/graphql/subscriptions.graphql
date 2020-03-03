@@ -80,3 +80,24 @@ subscription OnDeleteTask {
     imagePath
   }
 }
+subscription OnCreateTaskmasterUser {
+  onCreateTaskmasterUser {
+    id
+    username
+    teamID
+  }
+}
+subscription OnUpdateTaskmasterUser {
+  onUpdateTaskmasterUser {
+    id
+    username
+    teamID
+  }
+}
+subscription OnDeleteTaskmasterUser {
+  onDeleteTaskmasterUser {
+    id
+    username
+    teamID
+  }
+}

@@ -17,3 +17,11 @@ type Task
   state: String
   imagePath: String
 }
+
+type TaskmasterUser
+  @model
+  {
+  id: ID!
+  username: String
+  teamID: ID
+}

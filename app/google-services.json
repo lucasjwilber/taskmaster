@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "708481516864",
+    "firebase_url": "https://taskmaster-b5982.firebaseio.com",
+    "project_id": "taskmaster-b5982",
+    "storage_bucket": "taskmaster-b5982.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:708481516864:android:f31817ed281b3bf8dea6a5",
+        "android_client_info": {
+          "package_name": "com.lucasjwilber.taskmaster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "708481516864-jr1c35sr4gbs91gu1u6s2mqhdo3lu106.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA27gMSWKY_Z8DmEZ4nsDDSmph4WnYi45E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "708481516864-jr1c35sr4gbs91gu1u6s2mqhdo3lu106.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

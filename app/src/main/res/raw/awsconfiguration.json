@@ -39,5 +39,16 @@
             "Bucket": "taskmasterstoragebucket130221-tmenv",
             "Region": "us-west-2"
         }
+    },
+    "PinpointAnalytics": {
+        "Default": {
+            "AppId": "4af469ad125a486db7274d62ee0da635",
+            "Region": "us-west-2"
+        }
+    },
+    "PinpointTargeting": {
+        "Default": {
+            "Region": "us-west-2"
+        }
     }
 }
