@@ -98,3 +98,33 @@ mutation DeleteTask(
     imagePath
   }
 }
+mutation CreateTaskmasterUser(
+  $input: CreateTaskmasterUserInput!
+  $condition: ModelTaskmasterUserConditionInput
+) {
+  createTaskmasterUser(input: $input, condition: $condition) {
+    id
+    username
+    teamID
+  }
+}
+mutation UpdateTaskmasterUser(
+  $input: UpdateTaskmasterUserInput!
+  $condition: ModelTaskmasterUserConditionInput
+) {
+  updateTaskmasterUser(input: $input, condition: $condition) {
+    id
+    username
+    teamID
+  }
+}
+mutation DeleteTaskmasterUser(
+  $input: DeleteTaskmasterUserInput!
+  $condition: ModelTaskmasterUserConditionInput
+) {
+  deleteTaskmasterUser(input: $input, condition: $condition) {
+    id
+    username
+    teamID
+  }
+}

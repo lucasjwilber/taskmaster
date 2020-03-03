@@ -19,7 +19,12 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.amazonaws.amplify.generated.graphql.CreateTaskmasterUserMutation;
+import com.amazonaws.amplify.generated.graphql.ListTaskmasterUsersQuery;
 import com.amazonaws.amplify.generated.graphql.ListTeamsQuery;
+import com.amazonaws.amplify.generated.graphql.UpdateTaskMutation;
+import com.amazonaws.amplify.generated.graphql.UpdateTaskmasterUserMutation;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
@@ -29,9 +34,16 @@ import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import javax.annotation.Nonnull;
 
+import type.CreateTaskmasterUserInput;
+import type.UpdateTaskmasterUserInput;
+
 public class SettingsActivity extends AppCompatActivity {
+
+    AWSAppSyncClient mAWSAppSyncClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
         //query aws for team names to populate team selection spinner
         {
-            AWSAppSyncClient mAWSAppSyncClient = AWSAppSyncClient.builder()
+            mAWSAppSyncClient = AWSAppSyncClient.builder()
                     .context(getApplicationContext())
                     .awsConfiguration(new AWSConfiguration(getApplicationContext()))
                     .build();
@@ -131,7 +143,9 @@ public class SettingsActivity extends AppCompatActivity {
     //thanks to https://developer.android.com/training/data-storage/shared-preferences
     //and https://stackoverflow.com/questions/18179124/android-getting-value-from-selected-radiobutton
     public void saveSettingsClicked(View v) {
-        //get and save username
+
+        //get and save username in users table
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPref.edit();
         TextView usernameInput = findViewById(R.id.usernameInput);
@@ -188,6 +202,54 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putString("selectedTeam", selectedTeam);
             }
             editor.apply();
+
+            //look through all users to find signed in user's object (very inefficient i know)
+            String signedInUsername = AWSMobileClient.getInstance().getUsername();
+            mAWSAppSyncClient.query(ListTaskmasterUsersQuery.builder().build())
+                    .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
+                    .enqueue(new GraphQLCall.Callback<ListTaskmasterUsersQuery.Data>() {
+                        @Override
+                        public void onResponse(@Nonnull Response<ListTaskmasterUsersQuery.Data> response) {
+                            Log.i("ljw", "user query successful...");
+                            assert response.data() != null;
+                            List<ListTaskmasterUsersQuery.Item> allUsers = response.data().listTaskmasterUsers().items();
+                            Log.i("ljw", "users: \n" + allUsers.toString());
+
+                            //when the signed in user's object is found, update their team.
+                            for (ListTaskmasterUsersQuery.Item user : allUsers) {
+                                if (Objects.equals(user.username(), signedInUsername)) {
+                                    Spinner teamSpinner = findViewById(R.id.settingsTeamsSpinner);
+                                    //update user, set team to teamSpinner.getSelectedItem().toString()
+                                    UpdateTaskmasterUserInput input = UpdateTaskmasterUserInput.builder()
+                                            .id(user.id())
+                                            .username(signedInUsername)
+                                            .teamID(teamSpinner.getSelectedItem().toString())
+                                            .build();
+
+                                    //enqueue the updated user
+                                    mAWSAppSyncClient.mutate(UpdateTaskmasterUserMutation.builder().input(input).build())
+                                            .enqueue(new GraphQLCall.Callback<UpdateTaskmasterUserMutation.Data>() {
+                                                @Override
+                                                public void onResponse(@Nonnull Response<UpdateTaskmasterUserMutation.Data> response) {
+                                                    assert response.data() != null;
+                                                    Log.i("ljw", "update user: " + response.data().toString());
+                                                    Log.i("ljw", Objects.requireNonNull(Objects.requireNonNull(response.data().updateTaskmasterUser()).teamID()));
+                                                }
+                                                @Override
+                                                public void onFailure(@Nonnull ApolloException e) {
+                                                    Log.i("ljw", "failed to update user's team");
+                                                }
+                                            });
+                                    Log.i("ljw", "updated current users team");
+                                }
+                            }
+                            //enqueue the updated user
+                        }
+                        @Override
+                        public void onFailure(@Nonnull ApolloException e) {
+                            Log.i("ljw", "failed querying all users from users table");
+                        }
+                    });
             //go back to main activity
             finish();
         }

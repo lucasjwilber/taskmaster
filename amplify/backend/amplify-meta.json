@@ -35,8 +35,8 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-tmenv-130221-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"logicalId": "apitaskmasterapi"
 			},
-			"lastPushTimeStamp": "2020-03-01T21:36:38.979Z",
-			"lastPushDirHash": "2PO0TYByMrxAT+n0S4yJ7YGbwkM="
+			"lastPushTimeStamp": "2020-03-02T21:59:33.534Z",
+			"lastPushDirHash": "U1v6OKfA+U6fYLMXYR7Ddj47dlw="
 		}
 	},
 	"auth": {
@@ -48,7 +48,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-tmenv-130221-deployment/amplify-cfn-templates/auth/taskmasterd5e9c521-cloudformation-template.yml",
 				"logicalId": "authtaskmasterd5e9c521"
 			},
-			"lastPushTimeStamp": "2020-03-01T21:36:39.002Z",
+			"lastPushTimeStamp": "2020-03-02T21:59:33.534Z",
 			"output": {
 				"AppClientSecret": "tju819bnhat27c2on8gpdik13tcie44f6ijf0ul2cdkpg3ppvpk",
 				"UserPoolId": "us-west-2_y38BZJGSM",
@@ -58,7 +58,7 @@
 				"IdentityPoolName": "taskmasterd5e9c521_identitypool_d5e9c521__tmenv",
 				"UserPoolName": "taskmasterd5e9c521_userpool_d5e9c521"
 			},
-			"lastPushDirHash": "wWVaQtjzwdCn0nzW9UnxSeYmy1Q=",
+			"lastPushDirHash": "wZ/yESSs/J2nZTGOFho5D/6m4S0=",
 			"customAuth": false
 		},
 		"userPoolGroups": {
@@ -80,7 +80,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-tmenv-130221-deployment/amplify-cfn-templates/auth/template.json",
 				"logicalId": "authuserPoolGroups"
 			},
-			"lastPushTimeStamp": "2020-03-01T21:36:39.017Z",
+			"lastPushTimeStamp": "2020-03-02T21:59:31.902Z",
 			"output": {
 				"taskmasteruserpoolGroupRole": "arn:aws:iam::272195865811:role/us-west-2_y38BZJGSM-taskmasteruserpoolGroupRole"
 			},
@@ -95,7 +95,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmaster-tmenv-130221-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"logicalId": "storagetaskmasterstorage"
 			},
-			"lastPushTimeStamp": "2020-03-01T21:36:39.046Z",
+			"lastPushTimeStamp": "2020-03-02T21:59:31.913Z",
 			"output": {
 				"BucketName": "taskmasterstoragebucket130221-tmenv",
 				"Region": "us-west-2"

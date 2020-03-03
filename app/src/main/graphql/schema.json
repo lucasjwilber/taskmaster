@@ -154,6 +154,76 @@
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
+                    },
+                    {
+                        "name": "getTaskmasterUser",
+                        "description": null,
+                        "args": [
+                            {
+                                "name": "id",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "ID",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "TaskmasterUser",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "listTaskmasterUsers",
+                        "description": null,
+                        "args": [
+                            {
+                                "name": "filter",
+                                "description": null,
+                                "type": {
+                                    "kind": "INPUT_OBJECT",
+                                    "name": "ModelTaskmasterUserFilterInput",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "limit",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "nextToken",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "ModelTaskmasterUserConnection",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     }
                 ],
                 "inputFields": null,
@@ -1265,6 +1335,175 @@
             },
             {
                 "kind": "OBJECT",
+                "name": "TaskmasterUser",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "id",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "ID",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "username",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "teamID",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "ID",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "INPUT_OBJECT",
+                "name": "ModelTaskmasterUserFilterInput",
+                "description": null,
+                "fields": null,
+                "inputFields": [
+                    {
+                        "name": "id",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelIDInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "username",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "teamID",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelIDInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "and",
+                        "description": null,
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "INPUT_OBJECT",
+                                "name": "ModelTaskmasterUserFilterInput",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "or",
+                        "description": null,
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "INPUT_OBJECT",
+                                "name": "ModelTaskmasterUserFilterInput",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "not",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelTaskmasterUserFilterInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    }
+                ],
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "ModelTaskmasterUserConnection",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "items",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "TaskmasterUser",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "nextToken",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
                 "name": "Mutation",
                 "description": null,
                 "fields": [
@@ -1485,6 +1724,117 @@
                         "type": {
                             "kind": "OBJECT",
                             "name": "Task",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "createTaskmasterUser",
+                        "description": null,
+                        "args": [
+                            {
+                                "name": "input",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "INPUT_OBJECT",
+                                        "name": "CreateTaskmasterUserInput",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "condition",
+                                "description": null,
+                                "type": {
+                                    "kind": "INPUT_OBJECT",
+                                    "name": "ModelTaskmasterUserConditionInput",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "TaskmasterUser",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "updateTaskmasterUser",
+                        "description": null,
+                        "args": [
+                            {
+                                "name": "input",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "INPUT_OBJECT",
+                                        "name": "UpdateTaskmasterUserInput",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "condition",
+                                "description": null,
+                                "type": {
+                                    "kind": "INPUT_OBJECT",
+                                    "name": "ModelTaskmasterUserConditionInput",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "TaskmasterUser",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "deleteTaskmasterUser",
+                        "description": null,
+                        "args": [
+                            {
+                                "name": "input",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "INPUT_OBJECT",
+                                        "name": "DeleteTaskmasterUserInput",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "condition",
+                                "description": null,
+                                "type": {
+                                    "kind": "INPUT_OBJECT",
+                                    "name": "ModelTaskmasterUserConditionInput",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "TaskmasterUser",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -1921,6 +2271,182 @@
                 "possibleTypes": null
             },
             {
+                "kind": "INPUT_OBJECT",
+                "name": "CreateTaskmasterUserInput",
+                "description": null,
+                "fields": null,
+                "inputFields": [
+                    {
+                        "name": "id",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "ID",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "username",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "teamID",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "ID",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    }
+                ],
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "INPUT_OBJECT",
+                "name": "ModelTaskmasterUserConditionInput",
+                "description": null,
+                "fields": null,
+                "inputFields": [
+                    {
+                        "name": "username",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "teamID",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelIDInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "and",
+                        "description": null,
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "INPUT_OBJECT",
+                                "name": "ModelTaskmasterUserConditionInput",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "or",
+                        "description": null,
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "INPUT_OBJECT",
+                                "name": "ModelTaskmasterUserConditionInput",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "not",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelTaskmasterUserConditionInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    }
+                ],
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "INPUT_OBJECT",
+                "name": "UpdateTaskmasterUserInput",
+                "description": null,
+                "fields": null,
+                "inputFields": [
+                    {
+                        "name": "id",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "ID",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "username",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "teamID",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "ID",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    }
+                ],
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "INPUT_OBJECT",
+                "name": "DeleteTaskmasterUserInput",
+                "description": null,
+                "fields": null,
+                "inputFields": [
+                    {
+                        "name": "id",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "ID",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    }
+                ],
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
                 "kind": "OBJECT",
                 "name": "Subscription",
                 "description": null,
@@ -1992,6 +2518,42 @@
                         "type": {
                             "kind": "OBJECT",
                             "name": "Task",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "onCreateTaskmasterUser",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "TaskmasterUser",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "onUpdateTaskmasterUser",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "TaskmasterUser",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "onDeleteTaskmasterUser",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "TaskmasterUser",
                             "ofType": null
                         },
                         "isDeprecated": false,

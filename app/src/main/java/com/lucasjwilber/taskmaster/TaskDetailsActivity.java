@@ -118,7 +118,6 @@ public class TaskDetailsActivity extends AppCompatActivity {
                 });
     }
 
-
     public void stateRadioButtonChanged(View v) {
         Log.i("ljw", "state radio button clicked");
         // TODO: could maybe just use v.getText().toString() ?

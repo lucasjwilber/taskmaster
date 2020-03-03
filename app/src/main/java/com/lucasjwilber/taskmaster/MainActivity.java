@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                             case GUEST:
                                 Log.i("userState", "user is in guest mode");
                                 break;
+                            case SIGNED_OUT_USER_POOLS_TOKENS_INVALID:
                             case SIGNED_OUT:
                                 Log.i("userState", "user is signed out");
                                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -79,9 +80,9 @@ public class MainActivity extends AppCompatActivity {
                                 };
                                 handler.obtainMessage().sendToTarget();
                                 break;
-                            case SIGNED_OUT_USER_POOLS_TOKENS_INVALID:
-                                Log.i("userState", "need to login again");
-                                break;
+//                            case SIGNED_OUT_USER_POOLS_TOKENS_INVALID:
+//                                Log.i("userState", "need to login again");
+//                                break;
                             case SIGNED_OUT_FEDERATED_TOKENS_INVALID:
                                 Log.i("userState", "user logged in via federation, but currently needs new tokens");
                                 break;
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
         // Initialize PinpointManager
-        getPinpointManager(getApplicationContext());
+        pinpointManager = getPinpointManager(getApplicationContext());
 
         //  saved for potential 'add team' feature:
         {
