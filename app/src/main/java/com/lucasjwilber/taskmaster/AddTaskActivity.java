@@ -37,6 +37,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import javax.annotation.Nonnull;
 import type.CreateTaskInput;
@@ -50,6 +51,7 @@ public class AddTaskActivity extends AppCompatActivity {
     TextView titleInput;
     TextView bodyInput;
     Spinner spinner;
+    Intent shareIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +123,15 @@ public class AddTaskActivity extends AppCompatActivity {
                         }
                     });
 
+        }
+
+        shareIntent = getIntent();
+        String action = shareIntent.getAction();
+        String type = shareIntent.getType();
+        if (Intent.ACTION_SEND.equals(action) && type != null && type.startsWith("image/")) {
+            Log.i("ljw", "shared uri:\n" + shareIntent.getParcelableExtra(Intent.EXTRA_STREAM).toString());
+            photoPath = Objects.requireNonNull(shareIntent.getParcelableExtra(Intent.EXTRA_STREAM)).toString();
+            Log.i("ljw", "photopath updated with shared image");
         }
 
     }
