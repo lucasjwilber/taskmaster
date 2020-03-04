@@ -35,6 +35,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
     private String taskState;
     private String taskTeamID;
     private String taskImageUUID;
+    String taskLocation;
     private AWSAppSyncClient mAWSAppSyncClient;
 
     @Override
@@ -76,10 +77,13 @@ public class TaskDetailsActivity extends AppCompatActivity {
                         taskState = task.state();
                         taskTeamID = task.teamID();
                         taskImageUUID = task.imagePath();
+                        taskLocation = task.location();
 
                         TextView titleView = findViewById(R.id.taskDetailsTitle);
                         TextView bodyView = findViewById(R.id.taskDetailsBody);
                         ImageView taskImage = findViewById(R.id.taskDetailsImage);
+                        TextView locationLabelView = findViewById(R.id.locationLabel);
+                        TextView locationView = findViewById(R.id.location);
                         RadioButton rb;
 
                         switch (taskState) {
@@ -106,6 +110,11 @@ public class TaskDetailsActivity extends AppCompatActivity {
                                 Log.i("ljw", "loading image from https://taskmasterstoragebucket130221-tmenv.s3-us-west-2.amazonaws.com/public/"+taskImageUUID);
                                 if (taskImageUUID != null) {
                                     Picasso.get().load("https://taskmasterstoragebucket130221-tmenv.s3-us-west-2.amazonaws.com/public/"+taskImageUUID).into(taskImage);
+                                }
+                                if (taskLocation != null) {
+                                    String locationString = "Task created at:";
+                                    locationLabelView.setText(locationString);
+                                    locationView.setText(taskLocation);
                                 }
                             }
                         };

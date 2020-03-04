@@ -24,8 +24,8 @@
 
     <TextView
         android:id="@+id/taskDetailsBody"
-        android:layout_width="293dp"
-        android:layout_height="195dp"
+        android:layout_width="290dp"
+        android:layout_height="89dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="52dp"
@@ -98,5 +98,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskStateRadioGroup"
         app:srcCompat="@drawable/notepadlogocafe" />
+
+    <TextView
+        android:id="@+id/locationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="@+id/taskDetailsBody"
+        app:layout_constraintTop_toBottomOf="@+id/taskDetailsBody"
+        tools:text="created at" />
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/locationLabel"
+        app:layout_constraintTop_toBottomOf="@+id/locationLabel"
+        tools:text="location" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

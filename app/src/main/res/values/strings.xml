@@ -23,4 +23,5 @@
     <string name="empty"> </string>
     <string name="logOut">Log Out</string>
     <string name="addLocation">Add my location to tasks I create</string>
+    <string name="locationLabel">Task created in </string>
 </resources>

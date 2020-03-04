@@ -443,7 +443,7 @@ public class AddTaskActivity extends AppCompatActivity {
                             AsyncTask.execute(() -> {
 
                                 try {
-                                    URL url = new URL("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latLong + "FAKE KEY FOR GITHUB");
+                                    URL url = new URL("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latLong + "&key=");
                                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                                     con.setRequestMethod("GET");
                                     Log.i("ljw", "called api, reading response...");

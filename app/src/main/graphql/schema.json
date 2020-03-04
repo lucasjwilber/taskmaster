@@ -283,7 +283,7 @@
                         "description": null,
                         "args": [
                             {
-                                "name": "titleBodyStateImagePath",
+                                "name": "titleBodyStateImagePathLocation",
                                 "description": null,
                                 "type": {
                                     "kind": "INPUT_OBJECT",
@@ -480,6 +480,16 @@
                     },
                     {
                         "name": "imagePath",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "location",
                         "description": null,
                         "type": {
                             "kind": "SCALAR",

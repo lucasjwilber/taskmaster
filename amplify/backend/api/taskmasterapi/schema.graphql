@@ -8,7 +8,7 @@ type Team
 
 type Task
   @model
-  @key(name: "tasksByID", fields: ["teamID", "title", "body", "state", "imagePath"])
+  @key(name: "tasksByID", fields: ["teamID", "title", "body", "state", "imagePath", "location"])
   {
   id: ID!
   teamID: ID!
