@@ -22,4 +22,8 @@ This Android app helps users create and keep track of tasks they need to do!
 
 - 2/25/2020: Added Amplify authentication. Signed-out users are now redirected to a Login activity on app start. Added a log out button to the Settings activity.
 
--3/01/2020: Added Amplify storage. Users can now attach an image to a task. Re-enabled theme selection, although theme styling is still broken on pages which contain spinners.
+- 3/01/2020: Added Amplify storage. Users can now attach an image to a task. Re-enabled theme selection, although theme styling is still broken on pages which contain spinners.
+
+- 3/02/2020: Set up notifications with AWS Pinpoint. An AWS Lambda function that sends users notifications when their team has a new task is under development.
+
+- 3/03/2020: Added an intent filter so users can share images directly with Taskmaster. Doing so brings them to the Add Task activity, with the shared image ready to be uploaded.

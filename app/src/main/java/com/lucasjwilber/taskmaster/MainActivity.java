@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,8 +29,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
     String username = "Guest";
+    Intent shareIntent;
     private static PinpointManager pinpointManager;
 
     @Override
@@ -70,6 +74,24 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case SIGNED_IN:
                                 Log.i("ljw", "user is signed in");
+
+                                //if taskmaster was opened in order to share an image redirect to AddTask
+                                shareIntent = getIntent();
+                                String action = shareIntent.getAction();
+                                String type = shareIntent.getType();
+                                if (Intent.ACTION_SEND.equals(action) && type != null && type.startsWith("image/")) {
+
+                                    Log.i("ljw", "opened Main with shared intent");
+                                    Intent addTaskIntent = new Intent(getApplicationContext(), AddTaskActivity.class);
+                                    String imagePath = Objects.requireNonNull(shareIntent.getParcelableExtra(Intent.EXTRA_STREAM)).toString();
+                                    String parsedImagePath = "com.google.android.apps.photos%2Fcache%2Fshare-cache%2Fmedia.tmp%3Ffilename%3DLnRrYf6e-3.jpg";
+                                    Log.i("ljw", "shared image is on path " + imagePath);
+                                    Log.i("ljw", "parsed image path is " + parsedImagePath);
+//                                    /content:/com.google.android.apps.photos.contentprovider/-1/1/file%3A%2F%2F%2Fdata%2Fuser%2F0%2Fcom.google.android.apps.photos%2Fcache%2Fshare-cache%2Fmedia.tmp%3Ffilename%3DLnRrYf6e-3.jpg/ORIGINAL/NONE/146970106
+                                    addTaskIntent.putExtra("sharedImageURI", parsedImagePath);
+                                    startActivity(addTaskIntent);
+                                }
+
                                 final TextView usernameView = findViewById(R.id.mainActUsername);
                                 username = AWSMobileClient.getInstance().getUsername();
                                 Handler handler = new Handler(Looper.getMainLooper()) {

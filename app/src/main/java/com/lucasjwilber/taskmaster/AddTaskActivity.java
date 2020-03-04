@@ -24,6 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.amazonaws.amplify.generated.graphql.CreateTaskMutation;
 import com.amazonaws.amplify.generated.graphql.ListTeamsQuery;
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
@@ -51,7 +54,6 @@ public class AddTaskActivity extends AppCompatActivity {
     TextView titleInput;
     TextView bodyInput;
     Spinner spinner;
-    Intent shareIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,29 @@ public class AddTaskActivity extends AppCompatActivity {
                     break;
             }
         }
+
+        //init awsMobileClient
+        AWSConfiguration awsConfig = new AWSConfiguration(getApplicationContext());
+        AWSMobileClient.getInstance().initialize(getApplicationContext(), awsConfig, new Callback<UserStateDetails>() {
+            @Override
+            public void onResult(UserStateDetails userStateDetails) {
+                Log.i("INIT", userStateDetails.getUserState().toString());
+                Log.i("ljw", "user is logged in, username is " + AWSMobileClient.getInstance().getUsername());
+
+                //if we got here via a share image intent...
+//                shareIntent = getIntent();
+//                sharedImage = shareIntent.getStringExtra("sharedImageURI");
+//                if (sharedImage != null && sharedImage.length() > 0) {
+//                    uuid = UUID.randomUUID().toString();
+//                    photoPath = sharedImage;
+//                    Log.i("ljw", "photopath updated with shared image:\n" + photoPath);
+//                }
+            }
+            @Override
+            public void onError(Exception e) {
+                Log.e("INIT", "Initialization error.", e);
+            }
+        });
 
         //query aws for saved teams to populate team select spinner
         {
@@ -124,16 +149,6 @@ public class AddTaskActivity extends AppCompatActivity {
                     });
 
         }
-
-        shareIntent = getIntent();
-        String action = shareIntent.getAction();
-        String type = shareIntent.getType();
-        if (Intent.ACTION_SEND.equals(action) && type != null && type.startsWith("image/")) {
-            Log.i("ljw", "shared uri:\n" + shareIntent.getParcelableExtra(Intent.EXTRA_STREAM).toString());
-            photoPath = Objects.requireNonNull(shareIntent.getParcelableExtra(Intent.EXTRA_STREAM)).toString();
-            Log.i("ljw", "photopath updated with shared image");
-        }
-
     }
 
     public void addTaskButtonClicked(View v) {
@@ -204,7 +219,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 "Submitted!",
                 Toast.LENGTH_SHORT);
 
-        //creates an imageless task if photoPath is null, vice versa
+        //getCreateTaskInput() creates an imageless task if photoPath is null, vice versa
         mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(getCreateTaskInput()).build())
                 .enqueue(new GraphQLCall.Callback<CreateTaskMutation.Data>() {
                     @Override
