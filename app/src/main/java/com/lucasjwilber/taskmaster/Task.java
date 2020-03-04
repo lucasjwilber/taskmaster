@@ -17,23 +17,34 @@ public class Task {
     private String state;
     private String imagePath; //name of file in s3 bucket's public folder
     private String teamID;
+    private String location;
 
     @Ignore
-    public Task(String title, String body, String team, String teamID){
+    public Task(String title, String body, String team, String teamID, String location){
         this.title = title;
         this.body = body;
         this.teamID = teamID;
         this.team = team;
         this.state = "NEW";
+        this.location = location;
     }
 
-    public Task(String title, String body, String team, String teamID, String imagePath){
+    public Task(String title, String body, String team, String teamID, String imagePath, String location){
         this.title = title;
         this.body = body;
         this.teamID = teamID;
         this.team = team;
         this.state = "NEW";
         this.imagePath = imagePath; //name of file in s3 bucket's public folder
+        this.location = location;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getTeamID() {
