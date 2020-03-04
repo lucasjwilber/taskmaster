@@ -27,3 +27,5 @@ This Android app helps users create and keep track of tasks they need to do!
 - 3/02/2020: Set up notifications with AWS Pinpoint. An AWS Lambda function that sends users notifications when their team has a new task is under development.
 
 - 3/03/2020: Added an intent filter so users can share images directly with Taskmaster. Doing so brings them to the Add Task activity, with the shared image ready to be uploaded.
+
+- 3/04/2020: Added a task location feature which displays the location of the device that created the task at the time of creation. An option to disable this in Settings is in progress.

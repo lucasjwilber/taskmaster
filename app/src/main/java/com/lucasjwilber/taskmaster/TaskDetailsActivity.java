@@ -143,6 +143,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
                 .body(taskBody)
                 .state(newState)
                 .imagePath(taskImageUUID)
+                .location(taskLocation)
                 .build();
 
         //enqueue the mutation
