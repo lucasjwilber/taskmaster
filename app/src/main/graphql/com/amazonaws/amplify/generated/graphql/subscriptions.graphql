@@ -11,6 +11,7 @@ subscription OnCreateTeam {
         body
         state
         imagePath
+        location
       }
       nextToken
     }
@@ -28,6 +29,7 @@ subscription OnUpdateTeam {
         body
         state
         imagePath
+        location
       }
       nextToken
     }
@@ -45,6 +47,7 @@ subscription OnDeleteTeam {
         body
         state
         imagePath
+        location
       }
       nextToken
     }
@@ -58,6 +61,7 @@ subscription OnCreateTask {
     body
     state
     imagePath
+    location
   }
 }
 subscription OnUpdateTask {
@@ -68,6 +72,7 @@ subscription OnUpdateTask {
     body
     state
     imagePath
+    location
   }
 }
 subscription OnDeleteTask {
@@ -78,6 +83,7 @@ subscription OnDeleteTask {
     body
     state
     imagePath
+    location
   }
 }
 subscription OnCreateTaskmasterUser {

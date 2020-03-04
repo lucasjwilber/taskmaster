@@ -11,6 +11,7 @@ query GetTeam($id: ID!) {
         body
         state
         imagePath
+        location
       }
       nextToken
     }
@@ -40,6 +41,7 @@ query GetTask($id: ID!) {
     body
     state
     imagePath
+    location
   }
 }
 query ListTasks(
@@ -55,6 +57,7 @@ query ListTasks(
       body
       state
       imagePath
+      location
     }
     nextToken
   }

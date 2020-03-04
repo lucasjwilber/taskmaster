@@ -54,17 +54,25 @@
         app:layout_constraintTop_toBottomOf="@+id/addTask_taskDescInput"
         tools:text="@string/add_task" />
 
-    <TextView
-        android:id="@+id/addTaskAct_totalLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="50dp"
-        android:text="Total tasks: "
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/submitTaskButton"
-        tools:text="Total tasks: " />
+<!--    <TextView-->
+<!--        android:id="@+id/addTaskAct_totalLabel"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="52dp"-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        android:text="Total tasks: "-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Body2"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/submitTaskButton"-->
+<!--        tools:text="Total tasks: " />-->
+<!--    <TextView-->
+<!--        android:id="@+id/addTaskAct_totalCount"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="0"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/addTaskAct_totalLabel"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/addTaskAct_totalLabel"-->
+<!--        tools:text="0" />-->
 
     <TextView
         android:id="@+id/addTask_taskNameLabel"
@@ -84,14 +92,6 @@
         app:layout_constraintStart_toStartOf="@+id/addTask_taskDescInput"
         tools:text="Task Description" />
 
-    <TextView
-        android:id="@+id/addTaskAct_totalCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        app:layout_constraintStart_toEndOf="@+id/addTaskAct_totalLabel"
-        app:layout_constraintTop_toTopOf="@+id/addTaskAct_totalLabel"
-        tools:text="0" />
 
     <Spinner
         android:id="@+id/addTaskTeamSpinner"
@@ -119,5 +119,6 @@
         android:text="upload image"
         app:layout_constraintStart_toStartOf="@+id/addTask_taskDescInput"
         app:layout_constraintTop_toTopOf="@+id/submitTaskButton" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

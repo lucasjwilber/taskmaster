@@ -14,6 +14,7 @@ mutation CreateTeam(
         body
         state
         imagePath
+        location
       }
       nextToken
     }
@@ -34,6 +35,7 @@ mutation UpdateTeam(
         body
         state
         imagePath
+        location
       }
       nextToken
     }
@@ -54,6 +56,7 @@ mutation DeleteTeam(
         body
         state
         imagePath
+        location
       }
       nextToken
     }
@@ -70,6 +73,7 @@ mutation CreateTask(
     body
     state
     imagePath
+    location
   }
 }
 mutation UpdateTask(
@@ -83,6 +87,7 @@ mutation UpdateTask(
     body
     state
     imagePath
+    location
   }
 }
 mutation DeleteTask(
@@ -96,6 +101,7 @@ mutation DeleteTask(
     body
     state
     imagePath
+    location
   }
 }
 mutation CreateTaskmasterUser(

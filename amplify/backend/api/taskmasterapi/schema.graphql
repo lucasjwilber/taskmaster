@@ -16,6 +16,7 @@ type Task
   body: String
   state: String
   imagePath: String
+  location: String
 }
 
 type TaskmasterUser

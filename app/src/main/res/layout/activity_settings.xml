@@ -45,11 +45,10 @@
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:onClick="saveSettingsClicked"
         android:text="@string/save"
         app:layout_constraintEnd_toEndOf="@+id/settingsTeamsSpinner"
-        app:layout_constraintTop_toBottomOf="@+id/colorThemeRadioGroup"
+        app:layout_constraintTop_toTopOf="@+id/logoutButton"
         tools:text="@string/save" />
 
     <RadioGroup
@@ -117,15 +116,27 @@
         app:layout_constraintBottom_toTopOf="@+id/settingsTeamsSpinner"
         app:layout_constraintStart_toStartOf="@+id/settingsTeamsSpinner" />
 
+
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="12dp"
         android:onClick="logoutClicked"
         android:text="@string/logOut"
         app:layout_constraintEnd_toStartOf="@+id/saveButton"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="@+id/colorThemeRadioGroup"
-        app:layout_constraintTop_toTopOf="@+id/saveButton" />
+        app:layout_constraintTop_toBottomOf="@+id/locationCheckBox" />
+
+    <CheckBox
+        android:id="@+id/locationCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/addLocation"
+        app:layout_constraintStart_toStartOf="@+id/colorThemeRadioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/colorThemeRadioGroup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
